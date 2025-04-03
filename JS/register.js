@@ -77,7 +77,6 @@ form.addEventListener("submit", function (event) {
         };
         users.push(newUser);
         localStorage.setItem("user", JSON.stringify(users));
-
         //  Xóa dữ liệu trong các ô input sau khi đăng ký thành công
         form.reset();
         return;

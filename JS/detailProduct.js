@@ -18,7 +18,7 @@ let tasks = [
         asignDate: "2025-03-24", 
         dueDate: "2025-03-26",
         priority: "Cao",
-        progress: "Đúng tiến độ",
+        progress: "Trễ hạn",
         status: "Pending"
     }, 
     {
@@ -29,7 +29,7 @@ let tasks = [
         asignDate: "2025-03-24", 
         dueDate: "2025-03-26",
         priority: "Thấp",
-        progress: "Đúng tiến độ",
+        progress: "Có rủi ro",
         status: "Progress"
     }, 
     {
@@ -59,14 +59,24 @@ let user = JSON.parse(localStorage.getItem("user")) || [];
 let taskLocal = JSON.parse(localStorage.getItem("tasks")) || [];
 let projectLocal = JSON.parse(localStorage.getItem("projects")) || [];
 
-let out = document.querySelector("#out").addEventListener("click",function(){
-  user[0].statur = false;
-  localStorage.setItem("user",JSON.stringify(user));
-})
-// Tìm kiếm xem có đang ở trạng thái đăng nhập hay không
-if (!user || user[0].statur == false) {
+/// Xác định người dùng đang đăng nhập
+let currentUser = user.find(u => u.statur === true);
+
+// Kiểm tra nếu không có ai đăng nhập thì chuyển hướng về trang đăng nhập
+if (!currentUser) {
   window.location.href = "signIn.html";
 }
+
+// Đăng xuất người dùng
+document.querySelector("#out").addEventListener("click", function () {
+  let index = user.findIndex(u => u.statur === true);
+  if (index !== -1) {
+    user[index].statur = false;
+    localStorage.setItem("user", JSON.stringify(user));
+    window.location.href = "signIn.html";
+  }
+});
+
 
 console.log(projectLocal);
 
@@ -74,21 +84,26 @@ const taskId = window.location.href.split("?task=")[1];// lấy địa chỉ c�
 
 console.log(tasks[taskId]);
 
-
+// lưu task lên liocal
 localStorage.setItem("tasks", JSON.stringify(tasks));
 renderHeader();
+renderDone();
+renderProgress();
+renderPending();
+renderToDo();
 
 function renderHeader(){
-    let nameProject = document.querySelector("#item-contents");
-    let describe = document.querySelector("#describe");
-    let projectOwner = document.querySelector("#name");
-   nameProject.textContent = `${projectLocal[taskId].projectName}`
-   describe.textContent = `${projectLocal[taskId].describe}`
-   projectOwner.textContent = `${user[taskId].fullname}`
+  let nameProject = document.querySelector("#item-contents");
+  let describe = document.querySelector("#describe");
+  let projectOwner = document.querySelector("#name");
+  nameProject.textContent = `${projectLocal[taskId].projectName}`
+  describe.textContent = `${projectLocal[taskId].describe}`
+  projectOwner.textContent = `${user[taskId].fullname}`
+  
+  console.log(projectOwner);
 }  
 
 let links = document.querySelectorAll(".link");
-console.log(links);
 
 links.forEach(link => {
     link.addEventListener("click", function() {
@@ -96,10 +111,7 @@ links.forEach(link => {
     });
 });
 
-renderDone();
-renderProgress();
-renderPending();
-renderToDo();
+
 function renderToDo() {
     let toDo = document.querySelector("#toDo");
     let toDolist = document.querySelector(".listToDo");
@@ -112,9 +124,9 @@ function renderToDo() {
             .map(element => `
                <div class="task-row">
               <div class="cell task-name">${element.taskName}</div>
-              <div class="cell person">${users[taskId].fullname}</div>
+              <div class="cell person">${user[taskId].fullname}</div>
               <div class="cell priority">
-                <span class="${element.priority === "Thấp" ? ".priority-badge.low" : element.priority === "Trung bình" ? ".priority-badge.medium" : element.priority === "Cao" ? ".priority-badge.high" : ""}">${element.priority}</span>
+                <span class="${element.priority === "Thấp" ? "priority-badge low" : element.priority === "Trung bình" ? "priority-badge medium" : element.priority === "Cao" ? "priority-badge high" : ""}">${element.priority}</span>
               </div>
               <div class="cell start-date">${element.asignDate}</div>
               <div class="cell deadline">${element.dueDate}</div>
@@ -141,14 +153,14 @@ function renderProgress() {
             .map(element => `
                <div class="task-row">
               <div class="cell task-name">${element.taskName}</div>
-              <div class="cell person">${users[taskId].fullname}</div>
+              <div class="cell person">${user[taskId].fullname}</div>
               <div class="cell priority">
-                <span  class="${element.priority === "Thấp" ? ".priority-badge.low" : element.priority === "Trung bình" ? ".priority-badge.medium" : element.priority === "Cao" ? ".priority-badge.high" : ""}">${element.priority}</span>
+                <span  class="${element.priority === "Thấp" ? "priority-badge low" : element.priority === "Trung bình" ? "priority-badge medium" : element.priority === "Cao" ? "priority-badge high" : ""}">${element.priority}</span>
               </div>
               <div class="cell start-date">${element.asignDate}</div>
               <div class="cell deadline">${element.dueDate}</div>
               <div class="cell progress">
-                <span class="progress-badge in-progress">${element.progress}</span>
+                <span class="${element.progress === "Đúng tiến độ" ? "progress-badge in-progress" : element.progress === "Có rủi ro" ? "progress-badge on-time" : element.progress === "Trễ hạn" ? "progress-badge late" : ""}">${element.progress}</span>
               </div>
               <div class="cell actions">
                 <button class="edit-btn">Sửa</button>
@@ -171,14 +183,14 @@ function renderPending() {
             .map(element => `
                <div class="task-row">
               <div class="cell task-name">${element.taskName}</div>
-              <div class="cell person">${users[taskId].fullname}</div>
+              <div class="cell person">${user[taskId].fullname}</div>
               <div class="cell priority">
-                <span  class="${element.priority === "Thấp" ? ".priority-badge.low" : element.priority === "Trung bình" ? ".priority-badge.medium" : element.priority === "Cao" ? ".priority-badge.high" : ""}">${element.priority}</span>
+                <span  class="${element.priority === "Thấp" ? "priority-badge low" : element.priority === "Trung bình" ? "priority-badge medium" : element.priority === "Cao" ? "priority-badge high" : ""}">${element.priority}</span>
               </div>
               <div class="cell start-date">${element.asignDate}</div>
               <div class="cell deadline">${element.dueDate}</div>
               <div class="cell progress">
-                <span class="progress-badge in-progress">${element.progress}</span>
+                <span class="${element.progress === "Đúng tiến độ" ? "progress-badge in-progress" : element.progress=== "Có rủi ro" ? "progress-badge on-time" : element.progress === "Trễ hạn" ? "progress-badge late" : ""}">${element.progress}</span>
               </div>
               <div class="cell actions">
                 <button class="edit-btn">Sửa</button>
@@ -200,14 +212,14 @@ function renderDone() {
             .map(element => `
                <div class="task-row">
               <div class="cell task-name">${element.taskName}</div>
-              <div class="cell person">${users[taskId].fullname}</div>
+              <div class="cell person">${user[taskId].fullname}</div>
               <div class="cell priority">
-                <span  class="${element.priority === "Thấp" ? ".priority-badge.low" : element.priority === "Trung bình" ? ".priority-badge.medium" : element.priority === "Cao" ? ".priority-badge.high" : ""}">${element.priority}</span>
+                <span  class="${element.priority === "Thấp" ? "priority-badge low" : element.priority === "Trung bình" ? "priority-badge medium" : element.priority === "Cao" ? "priority-badge high" : ""}">${element.priority}</span>
               </div>
               <div class="cell start-date">${element.asignDate}</div>
               <div class="cell deadline">${element.dueDate}</div>
               <div class="cell progress">
-                <span class="progress-badge in-progress">${element.progress}</span>
+                <span class="${element.progress === "Đúng tiến độ" ? "progress-badge in-progress" : element.progress === "Có rủi ro" ? "progress-badge on-time" : element.progress === "Trễ hạn" ? "progress-badge late" : ""}">${element.progress}</span>
               </div>
               <div class="cell actions">
                 <button class="edit-btn">Sửa</button>
@@ -217,3 +229,44 @@ function renderDone() {
             `).join("");
     });
 }
+
+function addEmployee(){
+  let btnAddemployee = document.querySelector("#btnAddEmployee");
+  let modal = document.querySelector("#modalAddContainer");
+  let out = document.querySelector("#closeAddProject");
+  let btnCancel = document.querySelector("#btnCancel");
+  let save = document.querySelector("#btnSave");
+  let error = document.querySelector("#error");
+  btnAddemployee.addEventListener("click",function(){
+    modal.style.display = "block";
+  });
+  out.addEventListener("click",function(){
+    modal.style.display = "none";
+  });
+
+  btnCancel.addEventListener("click",function(){
+    modal.style.display = "none";
+  });
+  save.addEventListener("click", function () {
+    let email = document.querySelector("#emailEmployee").value.trim();
+    let role = document.querySelector("#selectRole").value; // Lấy giá trị của select
+
+    // Tìm user có email khớp
+    let foundUser = user.find(u => u.email === email);
+
+    if (foundUser) {
+        foundUser.role = role; // Cập nhật role cho user
+        localStorage.setItem("user", JSON.stringify(user)); // Lưu lại vào localStorage
+        error.textContent = "Cập nhật vai trò thành công!";
+        error.style.color = "green";
+
+        setTimeout(() => {
+            modal.style.display = "none"; // Đóng modal sau khi cập nhật thành công
+        }, 1000);
+    } else {
+        error.textContent = "Thành viên không tồn tại";
+        error.style.color = "red";
+    }
+});
+}
+addEmployee();

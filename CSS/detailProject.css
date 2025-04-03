@@ -4,9 +4,8 @@
   align-items: center;
   justify-content: space-between;
   color: #ffffff;
-  padding: 13px;
   height: 40px;
-  padding: 0 100px;
+  padding: 28px 100px;
 }
 a {
   color: #ffff;
@@ -68,7 +67,7 @@ footer {
 }
 .main-container {
   width: 100%;
-  height: calc(100vh - 96px);
+  height: calc(100vh - 112px);
   padding-top: 24px;
   padding-left: 200px;
   padding-right: 312px;
@@ -102,13 +101,16 @@ footer {
   line-height: 24px;
   padding-top: 16px;
 }
-#addEmploye {
-  padding: 9px;
-  width: 132px;
-  height: 31px;
+.btnAddEmployee {
+  width: 132;
+  height: 31;
   border-radius: 4px;
   border-width: 1px;
-  border: 1px solid #6c757d;
+  border: 1px solid #6C757D;
+  color: #6C757D;
+  background-color: #ffff;
+  text-align: center;
+  vertical-align: middle;
 }
 .logoName {
   color: #ffff;
@@ -172,7 +174,7 @@ span {
   flex-direction: column;
   gap: 16px;
 }
-select {
+.select{
   width: 150px;
   height: 38px;
   border-radius: 6px;
@@ -380,7 +382,7 @@ select {
   display: flex;
   justify-content: space-between;
 }
-#closeProject {
+#closeAddProject {
   width: 28px;
   height: 28px;
 }
@@ -425,4 +427,100 @@ button {
 .save {
   background: #007bff;
   color: white;
+}
+/* Css modal thêm thành viên */
+#modalAddContainer {
+  position: absolute;
+  width: 480px;
+  height: 415px;
+}
+.body-modal {
+  height: 85px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.headerAdd {
+  width: 180px;
+  height: 30px;
+  font-weight: 500;
+  font-size: 23.3px;
+  line-height: 30px;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#modalAddContainer {
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+.body-modalAdd {
+  width: 432px;
+  height: auto;
+  margin: 9px;
+  padding: 24px 15px;
+}
+.add-container {
+  width: 480px;
+  background-color: #ffff;
+  border-radius: 8px;
+}
+.header-modal {
+  padding: 15px 16px;
+  height: 63px;
+}
+.selectRole{
+  width: 432px;
+  height: 45px;
+  border: 1px solid #dddee0;
+  padding-bottom: 10px;
+}
+#emailEmployee {
+  width: 432px;
+  height: 44px;
+  border-radius: 8px;
+  gap: 8px;
+  border-width: 1px;
+  padding-top: 10px;
+  padding-right: 14px;
+  padding-bottom: 10px;
+  padding-left: 14px;
+  border: 1px solid #dddee0;
+}
+.btnSave {
+  width: 58px;
+  height: 37px;
+  background-color: #0d6efd;
+  color: #ffff;
+  border: 1px solid #0d6efd;
+  border-radius: 8px;
+  border-width: 1px;
+}
+.btnCancel {
+  width: 58px;
+  height: 37px;
+  border-radius: 8px;
+  background-color: #6c757d;
+  border: 1px solid #6c757d;
+  text-align: center;
+  color: #ffff;
+  border-width: 1px;
+}
+label {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  color: #344054;
+}
+#footer-modalAdd {
+  padding: 8px 24px;
 }

@@ -2,85 +2,34 @@ let currentPage = 1;
 let recordsPerPage = 5;
 
 
-let projectLocal = JSON.parse(localStorage.getItem("projects")) || [];
-let user = JSON.parse(localStorage.getItem("user")) || [];
-
-let projects = [
-  {
-    id: 1,
-    projectName: "Xây dựng website thương mại điện tử",
-    describe: "Dự án phát triển một nền tảng thương mại điện tử giúp doanh nghiệp bán hàng trực tuyến.",
-    members: [{ userId: 1, role: "Owner" }]
-  },
-  {
-    id: 2,
-    projectName: "Phát triển ứng dụng di động",
-    describe: "Dự án tạo ra một ứng dụng di động đa nền tảng giúp người dùng tiếp cận dịch vụ tiện ích nhanh chóng.",
-    members: [{ userId: 2, role: "Dev" }]
-  },
-  {
-    id: 3,
-    projectName: "Quản lý dữ liệu khách hàng",
-    describe: "Dự án xây dựng hệ thống lưu trữ và quản lý thông tin khách hàng hiệu quả.",
-    members: [{ userId: 3, role: "Tester" }]
-  },
-  {
-    id: 4,
-    projectName: "Xây dựng website thương mại điện tử",
-    describe: "Dự án phát triển một website thương mại điện tử chuyên nghiệp với giao diện thân thiện.",
-    members: [{ userId: 4, role: "Designer" }]
-  },
-  {
-    id: 5,
-    projectName: "Phát triển ứng dụng di động",
-    describe: "Ứng dụng di động hỗ trợ các chức năng tiện ích và nâng cao trải nghiệm người dùng.",
-    members: [{ userId: 5, role: "Manager" }]
-  },
-  {
-    id: 6,
-    projectName: "Quản lý dữ liệu khách hàng",
-    describe: "Hệ thống giúp doanh nghiệp quản lý thông tin khách hàng chính xác và bảo mật.",
-    members: [{ userId: 6, role: "Support" }]
-  },
-  {
-    id: 7,
-    projectName: "Quản lý dữ liệu khách hàng",
-    describe: "Hệ thống giúp doanh nghiệp quản lý thông tin khách hàng chính xác và bảo mật.",
-    members: [{ userId: 6, role: "Support" }]
-  },
-  {
-    id: 8,
-    projectName: "Quản lý dữ liệu khách hàng",
-    describe: "Hệ thống giúp doanh nghiệp quản lý thông tin khách hàng chính xác và bảo mật.",
-    members: [{ userId: 6, role: "Support" }]
-  },
-  {
-    id: 9,
-    projectName: "Quản lý dữ liệu khách hàng",
-    describe: "Hệ thống giúp doanh nghiệp quản lý thông tin khách hàng chính xác và bảo mật.",
-    members: [{ userId: 6, role: "Support" }]
-  },
-  {
-    id: 10,
-    projectName: "Quản lý dữ liệu khách hàng",
-    describe: "Hệ thống giúp doanh nghiệp quản lý thông tin khách hàng chính xác và bảo mật.",
-    members: [{ userId: 6, role: "Support" }]
-  },
-];
-
 // Fix: sử lí dữ liệu từ kiểu JSON thành mảng
-localStorage.setItem("projects", JSON.stringify(projects));
-let out = document.querySelector("#out").addEventListener("click",function(){
-  user[0].statur = false;
-  localStorage.setItem("user",JSON.stringify(user));
-})
-// Tìm kiếm xem có đang ở trạng thái đăng nhập hay không
-if (!user || user[0].statur == false) {
+let projectLocal = JSON.parse(localStorage.getItem("projects")) || [];
+let projects = JSON.parse(localStorage.getItem("projects")) || [];
+let user = JSON.parse(localStorage.getItem("user")) || [];
+// Xác định người dùng đang đăng nhập
+let currentUser = user.find(u => u.statur === true);
+
+// Kiểm tra nếu không có ai đăng nhập thì chuyển hướng về trang đăng nhập
+if (!currentUser) {
   window.location.href = "signIn.html";
 }
 
+// Đăng xuất người dùng
+document.querySelector("#out").addEventListener("click", function () {
+  let index = user.findIndex(u => u.statur === true);
+  if (index !== -1) {
+    user[index].statur = false;
+    localStorage.setItem("user", JSON.stringify(user));
+    window.location.href = "signIn.html";
+  }
+});
 
+// Hàm lưu dữ liệu lên trên local
+function saveLocalStorage(){
+  localStorage.setItem("projects", JSON.stringify(projects)); 
+};
 
+// Hàm hiển thị bảng dữ liệu
 function renderTable() {
   let tbody = document.querySelector("#tbody");
   tbody.innerHTML = ""; // dọn không bị lấy lại giá trị cột cũ
@@ -96,7 +45,7 @@ function renderTable() {
             <td>${element.projectName}</td>
             <td>
                 <div class="btn">
-                    <button class="btnFix">Sửa</button>
+                    <button class="btnFix" id="btnFix">Sửa</button>
                     <button class="btnDelete" id="btnDelete">Xoá</button>
                     <a href="./detailProject.html?task=${index}" class="btnDetail">Chi Tiết</a>
                 </div>
@@ -104,11 +53,11 @@ function renderTable() {
         </tr>
         `;
   });
-
-  renderPagination();
-  deleteElement();
   addProject();
+  deleteProject();
+  renderPagination();
 }
+
 // hàm phân trang thêm các số trang
 function renderPagination() {
   let totalPage = Math.ceil(projects.length / recordsPerPage);
@@ -138,25 +87,29 @@ function renderPagination() {
 // khu vực để chuyển trang table
 let btnPrev = document.querySelector("#btnPrev");
 let btnNext = document.querySelector("#btnNext");
-btnPrev.addEventListener("click", function () {
-  if (currentPage > 1) {
-    currentPage--;
-    renderTable();
-  }
-});
+if (btnPrev) {
+  btnPrev.addEventListener("click", function () {
+    if (currentPage > 1) {
+      currentPage--;
+      renderTable();
+    }
+  });
+}
 
-btnNext.addEventListener("click", function () {
-  if (currentPage < Math.ceil(projects.length / recordsPerPage)) {
-    currentPage++;
-    renderTable();
-  }
-});
+if (btnNext) {
+  btnNext.addEventListener("click", function () {
+    if (currentPage < Math.ceil(projects.length / recordsPerPage)) {
+      currentPage++;
+      renderTable();
+    }
+  });
+}
 
-// thẻ a
+// thẻ
 let links = document.querySelectorAll(".link");
 links.forEach(link => {
   link.addEventListener("click", function() {
-    link.classList.add("active");
+    link.classList.toggle("active");
   });
 });
 // đẩy dữ liệu ra ngoài màn hình
@@ -164,9 +117,8 @@ renderTable();
 
 
 
-
 // xoá dữ liệu cột
-function deleteElement() {
+function deleteProject() {
   let modal = document.querySelector("#modal-container");
   let btnDelete = document.querySelectorAll(".btnDelete");
   let btnConfirm = document.querySelector("#btnConfirm");
@@ -186,7 +138,7 @@ function deleteElement() {
   btnConfirm.addEventListener("click", function () {
     if (deleteIndex !== null) {
       projects.splice(deleteIndex, 1); // Xoá phần tử khỏi mảng
-      localStorage.setItem("projects", JSON.stringify(projects)); // Cập nhật lại localStorage
+      saveLocalStorage(); // Cập nhật lại localStorage
       modal.style.display = "none";
       renderTable(); // Render lại bảng
       deleteIndex = null; // Reset lại chỉ số xoá để tránh lỗi
@@ -197,20 +149,30 @@ function deleteElement() {
   btnCancel.addEventListener("click", function () {
     modal.style.display = "none";
   });
-
+  // khi nhấn icon close sẽ đóng modal
   closeBtn.addEventListener("click", function () {
     modal.style.display = "none";
   });
 }
-
+// Hàm sửa dự án
 function addProject(){
   let modal = document.querySelector("#modalAddContainer");
   let btnAdd = document.querySelector("#btnAdd");
   let btnCancel = document.querySelector("#btnCancel");
   let closeBtn = document.querySelector("#closeProject");
+  let btnFix = document.querySelectorAll(".btnFix");
+  let error = document.querySelector("#error");
+  let addIndex = null;
 
   btnAdd.addEventListener("click",function(){
     modal.style.display = "block";
+  });
+
+  btnFix.forEach((btn, index) => {
+    btn.addEventListener("click", function () {
+      addIndex = index; // Lưu lại index của phần tử cần xoá
+      modal.style.display = "block";
+    });
   });
 
   btnCancel.addEventListener("click", function () {
@@ -220,12 +182,28 @@ function addProject(){
   closeBtn.addEventListener("click", function () {
     modal.style.display = "none";
   });
+  document.querySelector("#btnSave").addEventListener("click", function () {
+    let nameProject = document.querySelector("#nameProject").value.trim();
+    let describes = document.querySelector("#describes").value.trim();
+
+    let findCategory = projects.find((element ) => element.projectName === nameProject);
+
+    if (findCategory) {
+      error.textContent = "Tên danh mục đã tồn tại";
+    } else {
+      error.textContent = "";
+      let newProject = {
+        id: projects.length + 1,
+        projectName: nameProject,
+        describe: describes,
+        members: [{ userId: projects.length + 1, role: "" }]
+      }
+      projects.push(newProject);
+      saveLocalStorage();
+      modal.style.display = "none";
+      renderTable();
+    }
+  });
 }
 
-
-
-
-
-
-
-
+renderTable();

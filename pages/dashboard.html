@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
     <link rel="stylesheet" href="../CSS/dashboard.css" />
+    <link rel="stylesheet" href="../CSS/reset.css" />
     <link rel="stylesheet" href="../CSS/base.css" />
     <link
       rel="shortcut icon"
@@ -19,7 +20,7 @@
           <div class="link-container">
             <a class="a link" href="./dashboard.html">Dự Án</a>
             <a class="a link" href="./myselfTask.html">Nhiệm Vụ Của Tôi</a>
-            <a class="a link " id="out" href="./register.html">Đăng Xuất</a>
+            <a class="a link" id="out" href="./signIn.html">Đăng Xuất</a>
           </div>
         </div>
       </header>
@@ -44,13 +45,19 @@
         </div>
         <div class="pagination">
           <button id="btnPrev">
-            <img class=" icon icon-left" src="../assets/icons/Chevron_Left_MD.png" alt="">
+            <img
+              class="icon icon-left"
+              src="../assets/icons/Chevron_Left_MD.png"
+              alt=""
+            />
           </button>
-          <span id="pages">
-    
-          </span>
+          <span id="pages"> </span>
           <button id="btnNext">
-            <img class=" icon icon-right" src="../assets/icons/chevron_right.png" alt="" />
+            <img
+              class="icon icon-right"
+              src="../assets/icons/chevron_right.png"
+              alt=""
+            />
           </button>
         </div>
       </div>
@@ -59,53 +66,70 @@
       </footer>
     </div>
     <!-- Model confirm xoá -->
-    <div style="display: none;" id="modal-container">
-     <div class="modal">
-      <div class="confirm-container">
-        <div class="header-modal">
-        <div><p class="textComfirm">Xác nhận xoá</p></div>
-         <div> <img class="close" id="close" src="../assets/icons/Close_MD.png" alt=""></div>
-        </div>
-        <hr>
-        <div class="body-modal">
-          <p class="text">Bạn chắc chắn muốn xoá trang này?</p>
-        </div>
-        <hr>
-        <br>
-        <div style="display: flex; gap: 23px; justify-content: flex-end;">
-          <button class=" btn btnCancel">Huỷ</button>
-          <button class=" btn btnConfirm" id="btnConfirm">Xoá</button>
+    <div class="overlay" style="display: none" id="modal-container">
+      <div class="modal">
+        <div class="confirm-container">
+          <div class="header-modal">
+            <div><p class="textComfirm">Xác nhận xoá</p></div>
+            <div>
+              <img
+                class="close"
+                id="close"
+                src="../assets/icons/Close_MD.png"
+                alt=""
+              />
+            </div>
+          </div>
+          <hr />
+          <div class="body-modal">
+            <p class="text">Bạn chắc chắn muốn xoá trang này?</p>
+          </div>
+          <hr />
+          <br />
+          <div style="display: flex; gap: 23px; justify-content: flex-end">
+            <button class="btn btnCancel">Huỷ</button>
+            <button class="btn btnConfirm" id="btnConfirm">Xoá</button>
+          </div>
         </div>
       </div>
-     </div>
     </div>
     <!-- Modal thêm dự án -->
-    <div style="display: none;" id="modalAddContainer">
-      <div class="modalAdd">
-       <div class="add-container">
-         <div class="header-modal">
-         <div><p class="headerAdd">Thêm/sửa dự án</p></div>
-          <div> <img class="close" id="closeProject" src="../assets/icons/Close_MD.png" alt=""></div>
-         </div>
-         <div class="hr"></div>
-         <div class="body-modal">
-          <form action="">
-            <label for="">Tên dự án</label>
-            <input id="nameProject" type="text">
-            <span class="error"></span>
-            <label for="">Mô tả dự án</label>
-            <textarea name="" id=""></textarea>
-          </form>
-         </div>
-         <div class="hr"></div>
-         <br>
-         <div style="display: flex; gap: 23px; justify-content: flex-end;">
-           <button class=" btn btnCancel" id="btnCancel">Huỷ</button>
-           <button class=" btn btnSave" id="btnSave">Lưu</button>
-         </div>
-       </div>
+    <div style="display: none" id="modalAddContainer">
+      <div class="modalAdd overlay">
+        <div class="add-container">
+          <div class="header-modal">
+            <div><p class="headerAdd">Thêm/sửa dự án</p></div>
+            <div>
+              <img
+                class="close"
+                id="closeProject"
+                src="../assets/icons/Close_MD.png"
+                alt=""
+              />
+            </div>
+          </div>
+          <hr class="hr"></hr>
+          <div class="body-modalAdd">
+            <form action="">
+              <label for="">Tên dự án</label>
+              <input id="nameProject" type="text" />
+              <span class="error" id="error"></span>
+              <label for="">Mô tả dự án</label>
+              <textarea name="" id="describes"></textarea>
+            </form>
+          </div>
+          <hr class="hr"></hr>
+          <br />
+          <div
+            id="footer-modalAdd"
+            style="display: flex; gap: 23px; justify-content: flex-end"
+          >
+            <button class="btn btnCancel" id="btnCancel">Huỷ</button>
+            <button class="btn btnSave" id="btnSave">Lưu</button>
+          </div>
+        </div>
       </div>
-     </div>
+    </div>
     <script src="../JS/dashboard.js"></script>
   </body>
 </html>
