@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link rel="stylesheet" href="../CSS/detailProject.css" />
+    <link rel="stylesheet" href="../CSS/base.css" />
+    <link
+      rel="shortcut icon"
+      href="https://learn.rikkeiacademy.com/favicon.ico.png"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="header-container">
+          <a class="h2Header" href="./dashboard.html">Quản Lí Dự Án</a>
+          <div class="link-container">
+            <a class="a link" href="./dashboard.html">Dự Án</a>
+            <a class="a link" href="./myselfTask.html">Nhiệm Vụ Của Tôi</a>
+            <a class="a link" id="out" href="./register.html">Đăng Xuất</a>
+          </div>
+        </div>
+      </header>
+      <div class="main-container">
+        <!-- phần đầu của body  -->
+       <div class="header-main">
+        <div class="header-left-main">
+            <h2 class="item-contents" id="item-contents"></h2>
+            <p class="describe" id="describe"></p>
+            <div><button class="btnAddTask">+ Thêm nhiệm vụ </button></div>
+        </div>
+        <div class="header-right-main">
+            <div class="addTask">
+                <h2>Thành viên</h2>
+                <input id="addEmploye" type="text" placeholder="+ Thêm thành viên">
+            </div>
+            <div class="tag">
+                <div class="box">
+                    <h3 class="logoName">HU</h3>
+                    <div class="box-name">
+                      <p id="name"><p>
+                      <p id="role">Project owner</p>
+                      </div>
+                </div>
+                <div class="box">
+                    <h3 class="logoName">LO</h3>
+                <div class="box-name">
+                      <p id="name">Lợi ải chỉa<p>
+                      <p id="role">Developer</p>
+                </div>
+                </div>
+                <div> <img class="menu" src="../assets/icons/menu.png" alt=""></div>
+            </div>
+            <div class="sortFilter">
+              <select name="" id="">
+                <option value="">sắp xếp theo</option>
+                <option value="">sắp xếp theo ngày tháng</option>
+                <option value="">sắp xếp theo độ ưu tiên</option>
+              </select>
+              <input id="inputSearch" type="text" placeholder="Tìm kiếm nhiện vụ">
+            </div>
+        </div>
+      </div>
+      <!-- phần body main -->
+       <div class="body-main">
+        <h2>Danh sách nhiệm vụ</h2>
+        <div class="task-table">
+          <div class="table-header">
+            <div class="header-cell task-name">Tên nhiệm Vụ</div>
+            <div class="header-cell person">Người Phụ Trách</div>
+            <div class="header-cell priority">Ưu Tiên</div>
+            <div class="header-cell start-date">Ngày Bắt Đầu</div>
+            <div class="header-cell deadline">Hạn Chót</div>
+            <div class="header-cell progress">Tiến độ</div>
+            <div class="header-cell actions">Hành động</div>
+          </div>
+  
+          <!-- task cần làm -->
+          <div class="task-group">
+            <div class="group-header">
+              <img id="toDo" class="icon" src="../assets/icons/Triangle.png" alt=""> To do
+            </div>
+            <div class="listToDo">
+             
+            </div>
+          </div>
+  
+          <!-- Đang triển khai -->
+          <div class="task-group">
+            <div class="group-header">
+              <img id="progress" class="icon" src="../assets/icons/Triangle.png" alt=""> In Progress
+            </div>
+            <div class="listProgress">
+              
+            </div>
+          </div>
+  
+          <!-- Chờ đợi -->
+          <div class="task-group">
+            <div class="group-header">
+              <img id="pending" class="icon" src="../assets/icons/Triangle.png" alt=""> Pending
+            </div>
+            <div class="listPending">
+              
+            </div>
+          </div>
+  
+          <!-- Hoàn thành -->
+          <div class="task-group">
+            <div class="group-header">
+              <img id="done" class="icon" src="../assets/icons/Triangle.png" alt=""> Done
+            </div>
+            <div class="listDone">
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <footer class="footer">
+        <p>&#169; Team management. All rights reserved</p>
+      </footer>
+    </div>
+    <!-- phần modal thêm, sửa nhiệm vụ -->
+    <div style="display: none;" class="modal-container">
+      <div class="modal">
+        <div class="header-modal">
+          <div><p class="headerAdd">Thêm/sửa nhiệm vụ</p></div>
+           <div> <img class="close" id="closeProject" src="../assets/icons/Close_MD.png" alt=""></div>
+          </div>
+        <form>
+            <div class="form-group">
+                <label for="task-name">Tên nhiệm vụ</label>
+                <input type="text" id="task-name" placeholder="Nhập tên nhiệm vụ">
+            </div>
+            <div class="form-group">
+                <label for="assignee">Người phụ trách</label>
+                <select id="assignee">
+                    <option>Chọn người phụ trách</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="status">Trạng thái</label>
+                <select id="status">
+                    <option>Chọn trạng thái nhiệm vụ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="start-date">Ngày bắt đầu</label>
+                <input type="date" id="start-date">
+            </div>
+            <div class="form-group">
+                <label for="due-date">Hạn cuối</label>
+                <input type="date" id="due-date">
+            </div>
+            <div class="form-group">
+                <label for="priority">Độ ưu tiên</label>
+                <select id="priority">
+                    <option>Chọn độ ưu tiên</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="progress">Tiến độ</label>
+                <select id="progress">
+                    <option>Chọn tiến độ</option>
+                </select>
+            </div>
+            <div class="button-group">
+                <button type="button" class="cancel">Hủy</button>
+                <button type="submit" class="save">Lưu</button>
+            </div>
+        </form>
+    </div>
+    </div>
+    <script src="../JS/detailProduct.js"></script>
+  </body>
+</html>

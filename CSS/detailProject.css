@@ -1,0 +1,428 @@
+/* phần css đầu */
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+  padding: 13px;
+  height: 40px;
+  padding: 0 100px;
+}
+a {
+  color: #ffff;
+  text-decoration: none;
+}
+/* class  được trỏ đến */
+.active {
+  color: #808384;
+  transition: all 0.3 linear;
+  text-decoration: none;
+  font-weight: 600;
+}
+header {
+  background-color: #212529;
+}
+h2 {
+  width: auto;
+  height: 30px;
+  font-weight: 400;
+  font-size: 19.74px;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #212529;
+}
+.h2Header {
+  width: auto;
+  height: 30px;
+  font-weight: 400;
+  font-size: 19.74px;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #ffff;
+}
+
+.link-container {
+  display: flex;
+  gap: 16px;
+}
+.footer {
+  width: auto;
+  height: 56px;
+  background-color: #212529;
+}
+h3 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+footer {
+  width: auto;
+  height: 24;
+  top: 16px;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 16.02px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  text-align: center;
+  padding: 16px 0;
+}
+.main-container {
+  width: 100%;
+  height: calc(100vh - 96px);
+  padding-top: 24px;
+  padding-left: 200px;
+  padding-right: 312px;
+}
+.header-main {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+.tag {
+  display: flex;
+  align-items: center;
+}
+.box {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  width: auto;
+}
+.item-contents {
+  font-weight: 500;
+  font-size: 23.54px;
+  line-height: 28.8px;
+  letter-spacing: 0px;
+}
+.decribe {
+  font-weight: 400;
+  font-size: 15.99px;
+  line-height: 24px;
+  padding-top: 16px;
+}
+#addEmploye {
+  padding: 9px;
+  width: 132px;
+  height: 31px;
+  border-radius: 4px;
+  border-width: 1px;
+  border: 1px solid #6c757d;
+}
+.logoName {
+  color: #ffff;
+  background-color: #0d6efd;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+}
+#name {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: #212529;
+}
+#role {
+  color: #aca3a3;
+}
+span {
+  color: #78909c;
+  font-weight: 600;
+  font-size: 13.65px;
+  line-height: 24px;
+  letter-spacing: 0px;
+}
+.menu {
+  width: 40px;
+  height: 42px;
+  border-radius: 32px;
+  background-color: #e2e3e5;
+  cursor: pointer;
+}
+.box-name {
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.header-left-main {
+  width: fit-content;
+  gap: 16px;
+}
+.btnAddTask {
+  margin-top: 94px;
+}
+.sortFilter {
+  display: flex;
+  gap: 16px;
+  margin-top: 28px;
+}
+.decribe {
+  height: 28px;
+  width: auto;
+}
+.addTask {
+  display: flex;
+  justify-content: space-between;
+}
+.header-right-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+select {
+  width: 150px;
+  height: 38px;
+  border-radius: 6px;
+  border-width: 1px;
+  border: 1px solid #dee2e6;
+}
+#inputSearch {
+  width: 220px;
+  height: 38px;
+  padding: 9px;
+  border-radius: 6px;
+  border-width: 1px;
+  color: #dee2e6;
+  border: 1px solid #dee2e6;
+}
+.btnAddTask {
+  width: 155px;
+  height: 38px;
+  border-radius: 6px;
+  border-width: 1px;
+  border: none;
+  background-color: #0d6efd;
+  color: #ffff;
+  cursor: pointer;
+}
+
+/* phần css thân */
+.body-main {
+  margin-top: 19px;
+  padding: 17px;
+  border-radius: 6px;
+  border-width: 1px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+  background-color: #ffff;
+}
+.icon {
+  width: 24px;
+  height: 24px;
+}
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-header {
+  display: flex;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+}
+
+.header-cell {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.task-name {
+  flex: 3;
+}
+
+.person {
+  flex: 2;
+}
+
+.priority,
+.start-date,
+.deadline,
+.progress {
+  flex: 1;
+  text-align: center;
+}
+
+.actions {
+  flex: 1;
+  text-align: center;
+}
+
+.task-group {
+  border-bottom: 1px solid #eee;
+}
+
+.group-header {
+  padding: 10px 15px;
+  background-color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.group-header i {
+  margin-right: 10px;
+}
+
+.group-content {
+  background-color: #fff;
+}
+
+.task-row {
+  display: flex;
+  border-bottom: 1px solid #eee;
+}
+
+.task-row:last-child {
+  border-bottom: none;
+}
+
+.cell {
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid gray;
+  border-left: 1px solid gray;
+  border-collapse: collapse;
+}
+
+.task-name {
+  flex: 3;
+}
+
+.person {
+  flex: 2;
+}
+
+.priority,
+.start-date,
+.deadline,
+.progress {
+  flex: 1;
+  justify-content: center;
+}
+
+.actions {
+  flex: 1;
+  justify-content: center;
+  gap: 5px;
+}
+.priority-badge,
+.progress-badge {
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  color: white;
+  text-align: center;
+}
+/*  màu của chế độ ưu tiên */
+.priority-badge.high {
+  background-color: #00bcd4;
+}
+
+.priority-badge.medium {
+  background-color: #ff9800;
+}
+
+.priority-badge.low {
+  background-color: #f44336;
+}
+/*  màu của tiến độ dự án */
+.progress-badge.in-progress {
+  background-color: #4caf50;
+}
+
+.progress-badge.on-time {
+  background-color: #ff9800;
+}
+
+.progress-badge.late {
+  background-color: #f44336;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 5px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+}
+
+.edit-btn {
+  background-color: #ffc107;
+}
+
+.delete-btn {
+  background-color: #f44336;
+}
+
+.edit-btn:hover {
+  background-color: #e0a800;
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+}
+/* CSS phần modal thêm sửa */
+.modal-container {
+}
+.header-modal {
+  width: 100%;
+  height: 30px;
+  font-weight: 500;
+  font-size: 23.3px;
+  line-height: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+#closeProject {
+  width: 28px;
+  height: 28px;
+}
+.modal {
+  position: absolute;
+  left: 30%;
+  bottom: 10%;
+  width: 400px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+.form-group {
+  margin-bottom: 15px;
+}
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.button-group {
+  display: flex;
+  justify-content: space-between;
+}
+button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.cancel {
+  background: #ccc;
+}
+.save {
+  background: #007bff;
+  color: white;
+}

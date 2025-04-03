@@ -1,0 +1,367 @@
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+  padding: 13px;
+  height: 40px;
+  padding: 0 100px;
+}
+a {
+  color: #ffff;
+  text-decoration: none;
+  font-size: 15px;
+}
+.hr{
+  width: 100%;
+  border-bottom: 1px solid gray;
+  color: #DEE2E6;
+}
+.active {
+  color: #808384;
+  transition: all 0.3 linear;
+  text-decoration: none;
+}
+header {
+  background-color: #212529;
+}
+h2 {
+  width: auto;
+  height: 30px;
+  font-weight: 400;
+  font-size: 19.74px;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #212529;
+}
+.h2Header {
+  width: auto;
+  height: 30px;
+  font-weight: 400;
+  font-size: 19.74px;
+  line-height: 30px;
+  letter-spacing: 0px;
+  color: #ffff;
+}
+
+.link-container {
+  display: flex;
+  gap: 16px;
+}
+.link:hover{
+  font-size: 16px;
+  color: #ada7a7;
+}
+.footer {
+  width: auto;
+  height: 56px;
+  background-color: #212529;
+}
+h3 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+.footerText {
+  width: auto;
+  height: 24;
+  top: 16px;
+  color: #ffff;
+  font-weight: 400;
+  font-size: 16.02px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  text-align: center;
+  padding: 16px 0;
+}
+.main-container {
+  width: auto;
+  height: calc(100vh - 96px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 200px;
+}
+.main {
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+  padding: 25px;
+  width: 100%;
+  height: calc(100vh - 120px);
+}
+.addProject {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+#btnAdd {
+  max-width: 150px;
+  height: 38px;
+  border-width: 1px;
+  border-radius: 6px;
+  padding: 7px 24px;
+  background-color: #0d6efd;
+  color: #ffff;
+  border: none;
+}
+.input {
+  padding-left: 13px;
+  width: 433px;
+  height: 38px;
+  border-width: 1px;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+}
+.table {
+  width: 100%;
+  border: 1px solid #dee2e6;
+  border-collapse: collapse;
+}
+.table tr th {
+  background-color: #212529;
+  color: #ffff;
+  padding: 12px 27px;
+}
+.table tr td {
+  border-left: 3px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  color: #212529;
+  padding: 6px 27px;
+}
+.table tr td:nth-child(1) {
+  border-left: 1px solid #dee2e6;
+  border-bottom: none;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  color: #212529;
+  padding: 6px 27px;
+}
+
+/* nút xoá và sang trang chi tiết */
+.btnFix {
+  background-color: #ffc107;
+  color: #000000;
+  border: none;
+  width: 61px;
+  height: 31px;
+  border-radius: 4px;
+  border-width: 1px;
+}
+.btnDelete {
+  background-color: #dc3545;
+  color: #ffff;
+  width: 41px;
+  height: 31px;
+  border-radius: 4px;
+  border-width: 1px;
+  border: none;
+}
+.btnConfirm{
+  background-color: #dc3545;
+  color: #ffff;
+  width: 41px;
+  height: 31px;
+  border-radius: 4px;
+  border-width: 1px;
+  border: none;
+}
+.btnCancel {
+  background-color: #6c757d;
+  color: #ffff;
+  width: 41px;
+  height: 31px;
+  border-radius: 4px;
+  border-width: 1px;
+  border: none;
+}
+.btnDetail {
+  background-color: #0d6efd;
+  color: #ffff;
+  border: none;
+  width: 61px;
+  height: 31px;
+  border-radius: 4px;
+  border-width: 1px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.close {
+  width: 28px;
+  height: 28px;
+  color: #818181;
+}
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  color: #000000;
+}
+.icon:focus {
+  color: #d9dfe4;
+}
+#btnNext {
+  width: 36px;
+  height: 38px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  border-width: 1px;
+  border: 1px solid #dee2e6;
+}
+#btnPrev {
+  width: 35px;
+  height: 38px;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-width: 1px;
+  border: 1px solid #dee2e6;
+}
+.number {
+  width: 36px;
+  height: 38px;
+  border-width: 1px;
+  background-color: #ffff;
+  color: #0d6efd;
+  border: 1px solid #dee2e6;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  margin-top: 25px;
+}
+.active {
+  background-color: #0d6efd;
+  color: #ffff;
+  border: none;
+}
+/* Modal delete */
+
+.modal-container{
+  background-color: #000000;
+}
+.confirm-container {
+  position: absolute;
+  padding: 16px;
+  left: 30%;
+  bottom: 50%;
+  width: 480px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+  background-color: #ffff;
+}
+.header-modal {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between;
+}
+.body-modal {
+  display: flex;
+  align-items: center;
+  gap: 31px;
+  height: 85px;
+}
+.textComfirm {
+  width: 150px;
+  height: 30px;
+  font-weight: 500;
+  font-size: 23.3px;
+  line-height: 30px;
+  letter-spacing: 0px;
+  vertical-align: middle;
+}
+.text{
+height: 63px;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+padding-top: 16px;
+}
+/* modal add Project */
+.modal-container{
+  background-color: #000000;
+}
+form{
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.headerAdd{
+  width: 180px;
+  height: 30px;
+  font-weight: 500;
+  font-size: 23.3px;
+  line-height: 30px;
+}
+#modalAddContainer{
+  position: absolute;
+  left: 30%;
+  bottom: 50%;
+  width: 480px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+  background-color: #ffff;
+}
+.body-modal{
+width: 432px;
+height: 202px;
+margin: 9px;
+}
+.header-modal{
+  padding: 15px 16px;
+}
+textarea{
+  height: 80px;
+}
+#nameProject{
+  width: 432px;
+height: 44px;
+border-radius: 8px;
+gap: 8px;
+border-width: 1px;
+padding-top: 10px;
+padding-right: 14px;
+padding-bottom: 10px;
+padding-left: 14px;
+}
+.btnSave{
+  width: 58px;
+height: 37px;
+background-color: #0D6EFD;
+color: #ffff;
+border: 1px solid #0D6EFD;
+border-radius: 8px;
+border-width: 1px;
+}
+.btnCancel{
+  width: 58px;
+height: 37px;
+border-radius: 8px;
+background-color: #6C757D;
+border: 1px solid #6C757D;
+color: #ffff;
+gap: 8px;
+border-width: 1px;
+padding-top: 10px;
+padding-right: 18px;
+padding-bottom: 10px;
+padding-left: 18px;
+}
+label{
+font-weight: 500;
+font-size: 16px;
+line-height: 20px;
+letter-spacing: 0%;
+color: #344054;
+}
