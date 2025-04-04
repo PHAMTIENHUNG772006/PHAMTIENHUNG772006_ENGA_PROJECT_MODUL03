@@ -2,6 +2,7 @@
 let form = document.querySelector("#form");
 
 let users = JSON.parse(localStorage.getItem("user")) || [];
+let userLogin = JSON.parse(localStorage.getItem("userLogin")) || [];
 
 form.addEventListener("submit", function (event) {
     event.preventDefault(); // Ngăn form gửi đi mặc định

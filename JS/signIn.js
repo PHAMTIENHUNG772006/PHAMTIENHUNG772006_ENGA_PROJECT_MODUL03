@@ -3,6 +3,7 @@ let form = document.querySelector("#form");
 
 // Lấy danh sách người dùng từ localStorage (hoặc rỗng nếu chưa có ai)
 let user = JSON.parse(localStorage.getItem("user")) || [];
+let userLogin = JSON.parse(localStorage.getItem("userLogin")) || [];
 
 form.addEventListener("submit", function (event) {
     event.preventDefault(); // Ngăn form gửi đi mặc định
@@ -39,17 +40,25 @@ form.addEventListener("submit", function (event) {
         
         
         // Tìm người dùng có email khớp
-        let foundUser = user.find(user => user.email == email);
+        let foundUser = user.find(user => user.email === email);
         console.log(foundUser);
         if (foundUser && foundUser.password === password) {
             foundUser.statur = true;
-            console.log(foundUser.signIn);
             localStorage.setItem("user", JSON.stringify(user));// lưu dữ liệu đã được cập nhật lên local
             // Chuyển hướng đến trang dashboard
             window.location.href = "dashboard.html";
         } else {
             alert("Email hoặc mật khẩu không đúng!");
         }
+        
+        let idUserLogin = foundUser.id;
+        console.log(idUserLogin);
+        let Login = {
+            email,
+            password,
+            idUser: idUserLogin,
+        }
+        localStorage.setItem("userLogin",JSON.stringify(Login));// lưu dữ liệu người đang đăng nhập lên local
     }
 });
 

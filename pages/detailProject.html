@@ -55,7 +55,7 @@
                 </div>
               </div>
               <div>
-                <img class="menu" src="../assets/icons/menu.png" alt="" />
+                <img class="menu" id="menuEmployee" src="../assets/icons/menu.png" alt="" />
               </div>
             </div>
             <div class="sortFilter">
@@ -149,7 +149,7 @@
       </footer>
     </div>
     <!-- phần modal thêm, sửa nhiệm vụ -->
-    <div style="display: none" class="modal-container" >
+    <div style="display: none" class="modal-container overlay" id="modalAddTask" >
       <div class="modal">
         <div class="header-modal">
           <div><p class="headerAdd">Thêm/sửa nhiệm vụ</p></div>
@@ -162,53 +162,60 @@
             />
           </div>
         </div>
-        <form>
-          <div class="form-group">
-            <label for="task-name">Tên nhiệm vụ</label>
-            <input type="text" id="task-name" placeholder="Nhập tên nhiệm vụ" />
+        <hr>
+        <div class="mainAdd ">
+          <div class="bodyForm">
+            <form>
+              <div class="form-group">
+                <label for="task-name">Tên nhiệm vụ</label>
+                <input type="text" id="task-name" placeholder="Nhập tên nhiệm vụ" />
+                <span class="errorNameTask"></span>
+              </div>
+              <div class="form-group">
+                <label for="assignee">Người phụ trách</label>
+                <select id="assignee">
+                  <option>Chọn người phụ trách</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="status">Trạng thái</label>
+                <select id="status">
+                  <option>Chọn trạng thái nhiệm vụ</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="start-date">Ngày bắt đầu</label>
+                <input type="date" id="start-date" />
+              </div>
+              <div class="form-group">
+                <label for="due-date">Hạn cuối</label>
+                <input type="date" id="due-date" />
+              </div>
+              <div class="form-group">
+                <label for="priority">Độ ưu tiên</label>
+                <select id="priority">
+                  <option>Chọn độ ưu tiên</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="progress">Tiến độ</label>
+                <select id="progress">
+                  <option>Chọn tiến độ</option>
+                </select>
+              </div>
+            </form>
           </div>
-          <div class="form-group">
-            <label for="assignee">Người phụ trách</label>
-            <select id="assignee">
-              <option>Chọn người phụ trách</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="status">Trạng thái</label>
-            <select id="status">
-              <option>Chọn trạng thái nhiệm vụ</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="start-date">Ngày bắt đầu</label>
-            <input type="date" id="start-date" />
-          </div>
-          <div class="form-group">
-            <label for="due-date">Hạn cuối</label>
-            <input type="date" id="due-date" />
-          </div>
-          <div class="form-group">
-            <label for="priority">Độ ưu tiên</label>
-            <select id="priority">
-              <option>Chọn độ ưu tiên</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="progress">Tiến độ</label>
-            <select id="progress">
-              <option>Chọn tiến độ</option>
-            </select>
-          </div>
-          <div class="button-group">
-            <button type="button" class="cancel">Hủy</button>
-            <button type="submit" class="save">Lưu</button>
-          </div>
-        </form>
+        </div>
+        <hr>
+        <div class="footerAdd">
+          <button type="button" class="cancel" id="btnCancel">Hủy</button>
+          <button type="submit" class="save" id="save">Lưu</button>
+        </div>
       </div>
     </div>
 
-    <!-- Modal thêm dự án -->
-    <div style="display: none" id="modalAddContainer" >
+    <!-- Modal thêm nhân viên vào dự án -->
+    <div style="display: none" id="modalAddEployee" >
       <div class="modalAdd overlay">
         <div class="add-container">
           <div class="header-modal">
@@ -246,6 +253,64 @@
           >
             <button class="btn btnCancel" id="btnCancel">Huỷ</button>
             <button class="btn btnSave" id="btnSave">Lưu</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal danh sách nhân viên -->
+    <div style="display: none" id="modalAddEployee" >
+      <div class="modalAdd overlay">
+        <div class="add-container">
+          <div class="header-modal">
+            <div><p class="headerAdd">Danh sách nhân viên</p></div>
+            <div>
+              <img
+                class="close"
+                id="closeAddProject"
+                src="../assets/icons/Close_MD.png"
+                alt=""
+              />
+            </div>
+          </div>
+          <hr class="hr"></hr>
+          <div class="bodyModalEmployee">
+           
+          </div>
+          <hr class="hr"></hr>
+          <br />
+          <div
+            id="footer-modalAdd"
+            style="display: flex; gap: 23px; justify-content: flex-end"
+          >
+           
+          </div>
+        </div>
+      </div>
+    </div>
+     <!-- Model confirm xoá -->
+     <div class="overlay" style="display: none" class="modalDelete">
+      <div class="modal">
+        <div class="confirm-container">
+          <div class="header-modal">
+            <div><p class="textComfirm">Xác nhận xoá</p></div>
+            <div>
+              <img
+                class="close"
+                id="close"
+                src="../assets/icons/Close_MD.png"
+                alt=""
+              />
+            </div>
+          </div>
+          <hr />
+          <div class="body-modal">
+            <p class="text">Bạn chắc chắn muốn xoá trang này?</p>
+          </div>
+          <hr />
+          <br />
+          <div style="display: flex; gap: 23px; justify-content: flex-end">
+            <button class="btn btnCancel">Huỷ</button>
+            <button class="btn btnConfirm" id="btnConfirm">Xoá</button>
           </div>
         </div>
       </div>

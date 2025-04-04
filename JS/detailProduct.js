@@ -56,8 +56,11 @@ let tasks = [
     }, 
 ]
 let user = JSON.parse(localStorage.getItem("user")) || [];
+let userLogin = JSON.parse(localStorage.getItem("userLogin")) || [];
 let taskLocal = JSON.parse(localStorage.getItem("tasks")) || [];
 let projectLocal = JSON.parse(localStorage.getItem("projects")) || [];
+console.log("userLogin :",userLogin);
+
 
 /// Xác định người dùng đang đăng nhập
 let currentUser = user.find(u => u.statur === true);
@@ -100,7 +103,6 @@ function renderHeader(){
   describe.textContent = `${projectLocal[taskId].describe}`
   projectOwner.textContent = `${user[taskId].fullname}`
   
-  console.log(projectOwner);
 }  
 
 let links = document.querySelectorAll(".link");
@@ -117,8 +119,17 @@ function renderToDo() {
     let toDolist = document.querySelector(".listToDo");
     toDolist.innerHTML = "";
     
-    toDo.addEventListener("click", function () {
-        
+   
+  toDo.addEventListener("click", function () {
+    toDo.classList.toggle("tranform");
+
+    // Nếu danh sách đang hiển thị -> Ẩn nó
+    if (toDolist.innerHTML.trim() !== "") {
+        toDolist.innerHTML = "";
+        return; // Dừng hàm ngay sau khi ẩn
+    }
+
+    // Nếu danh sách đang ẩn -> Hiển thị lại
         toDolist.innerHTML = tasks
             .filter(element => element.status === "To do")
             .map(element => `
@@ -128,14 +139,14 @@ function renderToDo() {
               <div class="cell priority">
                 <span class="${element.priority === "Thấp" ? "priority-badge low" : element.priority === "Trung bình" ? "priority-badge medium" : element.priority === "Cao" ? "priority-badge high" : ""}">${element.priority}</span>
               </div>
-              <div class="cell start-date">${element.asignDate}</div>
-              <div class="cell deadline">${element.dueDate}</div>
+              <div class="cell start-date date">${element.asignDate}</div>
+              <div class="cell deadline date">${element.dueDate}</div>
               <div class="cell progress">
                 <span class="progress-badge in-progress">${element.progress}</span>
               </div>
               <div class="cell actions">
                 <button class="edit-btn">Sửa</button>
-                <button class="delete-btn">Xóa</button>
+                <button class="delete-btn btnDelete">Xóa</button>
               </div>
             </div>
             `).join("");
@@ -146,8 +157,17 @@ function renderProgress() {
     let toDolist = document.querySelector(".listProgress");
     toDolist.innerHTML = "";
     
+  
     toDo.addEventListener("click", function () {
-        
+      toDo.classList.toggle("tranform");
+
+      // Nếu danh sách đang hiển thị -> Ẩn nó
+      if (toDolist.innerHTML.trim() !== "") {
+          toDolist.innerHTML = "";
+          return; // Dừng hàm ngay sau khi ẩn
+      }
+
+      // Nếu danh sách đang ẩn -> Hiển thị lại
         toDolist.innerHTML = tasks
             .filter(element => element.status === "Progress")
             .map(element => `
@@ -164,7 +184,7 @@ function renderProgress() {
               </div>
               <div class="cell actions">
                 <button class="edit-btn">Sửa</button>
-                <button class="delete-btn">Xóa</button>
+                <button class="delete-btn btnDelete" >Xóa</button>
               </div>
             </div>
             `).join("");
@@ -176,8 +196,17 @@ function renderPending() {
     let toDolist = document.querySelector(".listPending");
     toDolist.innerHTML = "";
     
-    toDo.addEventListener("click", function () {
-        
+   
+  toDo.addEventListener("click", function () {
+    toDo.classList.toggle("tranform");
+
+    // Nếu danh sách đang hiển thị -> Ẩn nó
+    if (toDolist.innerHTML.trim() !== "") {
+        toDolist.innerHTML = "";
+        return; // Dừng hàm ngay sau khi ẩn
+    }
+
+    // Nếu danh sách đang ẩn -> Hiển thị lại
         toDolist.innerHTML = tasks
             .filter(element => element.status === "Pending")
             .map(element => `
@@ -194,52 +223,72 @@ function renderPending() {
               </div>
               <div class="cell actions">
                 <button class="edit-btn">Sửa</button>
-                <button class="delete-btn">Xóa</button>
-              </div>
-            </div>
-            `).join("");
-    });
-}
-function renderDone() {
-    let toDo = document.querySelector("#done");
-    let toDolist = document.querySelector(".listDone");
-    toDolist.innerHTML = "";
-    
-    toDo.addEventListener("click", function () {
-        
-        toDolist.innerHTML = tasks
-            .filter(element => element.status === "Done")
-            .map(element => `
-               <div class="task-row">
-              <div class="cell task-name">${element.taskName}</div>
-              <div class="cell person">${user[taskId].fullname}</div>
-              <div class="cell priority">
-                <span  class="${element.priority === "Thấp" ? "priority-badge low" : element.priority === "Trung bình" ? "priority-badge medium" : element.priority === "Cao" ? "priority-badge high" : ""}">${element.priority}</span>
-              </div>
-              <div class="cell start-date">${element.asignDate}</div>
-              <div class="cell deadline">${element.dueDate}</div>
-              <div class="cell progress">
-                <span class="${element.progress === "Đúng tiến độ" ? "progress-badge in-progress" : element.progress === "Có rủi ro" ? "progress-badge on-time" : element.progress === "Trễ hạn" ? "progress-badge late" : ""}">${element.progress}</span>
-              </div>
-              <div class="cell actions">
-                <button class="edit-btn">Sửa</button>
-                <button class="delete-btn">Xóa</button>
+                <button class="delete-btn btnDelete">Xóa</button>
               </div>
             </div>
             `).join("");
     });
 }
 
+function renderDone() {
+  let toDo = document.querySelector("#done");
+  let toDolist = document.querySelector(".listDone");
+function renderEmployeee(){
+  let menu = document.querySelector("#menuEmployee");
+  menu.addEventListener("click",function(){
+    let bodyModalEmployee = document.querySelector("#bodyModalEmployee");
+
+  })
+}
+  toDo.addEventListener("click", function () {
+      toDo.classList.toggle("tranform");
+
+      // Nếu danh sách đang hiển thị -> Ẩn nó
+      if (toDolist.innerHTML.trim() !== "") {
+          toDolist.innerHTML = "";
+          return; // Dừng hàm ngay sau khi ẩn
+      }
+
+      // Nếu danh sách đang ẩn -> Hiển thị lại
+      toDolist.innerHTML = tasks
+          .filter(element => element.status === "Done")
+          .map(element => `
+             <div class="task-row">
+                <div class="cell task-name">${element.taskName}</div>
+                <div class="cell person">${user[element.taskId]?.fullname || "N/A"}</div>
+                <div class="cell priority">
+                  <span class="${element.priority === "Thấp" ? "priority-badge low" : element.priority === "Trung bình" ? "priority-badge medium" : element.priority === "Cao" ? "priority-badge high" : ""}">
+                    ${element.priority}
+                  </span>
+                </div>
+                <div class="cell start-date">${element.asignDate}</div>
+                <div class="cell deadline">${element.dueDate}</div>
+                <div class="cell progress">
+                  <span class="${element.progress === "Đúng tiến độ" ? "progress-badge in-progress" : element.progress === "Có rủi ro" ? "progress-badge on-time" : element.progress === "Trễ hạn" ? "progress-badge late" : ""}">
+                    ${element.progress}
+                  </span>
+                </div>
+                <div class="cell actions">
+                  <button class="edit-btn">Sửa</button>
+                  <button class="delete-btn btnDelete">Xóa</button>
+                </div>
+             </div>
+          `).join("");
+  });
+}
+
 function addEmployee(){
   let btnAddemployee = document.querySelector("#btnAddEmployee");
-  let modal = document.querySelector("#modalAddContainer");
+  let modal = document.querySelector("#modalAddEployee");
   let out = document.querySelector("#closeAddProject");
   let btnCancel = document.querySelector("#btnCancel");
   let save = document.querySelector("#btnSave");
   let error = document.querySelector("#error");
+
   btnAddemployee.addEventListener("click",function(){
     modal.style.display = "block";
   });
+  
   out.addEventListener("click",function(){
     modal.style.display = "none";
   });
@@ -257,7 +306,7 @@ function addEmployee(){
     if (foundUser) {
         foundUser.role = role; // Cập nhật role cho user
         localStorage.setItem("user", JSON.stringify(user)); // Lưu lại vào localStorage
-        error.textContent = "Cập nhật vai trò thành công!";
+        error.textContent = "Thêm nhân viên vào dự án thành công";
         error.style.color = "green";
 
         setTimeout(() => {
@@ -268,5 +317,45 @@ function addEmployee(){
         error.style.color = "red";
     }
 });
+
+
+
+
 }
+
+function addTask(){
+  let btnSave = document.querySelector("#save");
+  let closeProject = document.querySelector("#closeProject");
+  let btnAddTask = document.querySelector("#btnAddTask");
+  let modalAddEdit = document.querySelector("#modalAddTask");
+  let btnCancel = document.querySelector("#btnCancel")
+
+
+  btnAddTask.addEventListener("click", function(){
+    modalAddEdit.style.display = "block";
+  })
+
+  closeProject.addEventListener("click",function(){
+    modalAddEdit.style.display = "none";
+  });
+
+  btnCancel.addEventListener("click",function(){
+    modalAddEdit.style.display = "none";
+  });
+
+  btnSave.addEventListener("click", function(){
+    let nameProject = document.querySelector("#task-name").value.trim();
+  })
+}
+
+
+function deleteTask(){
+  let btnDelete = document.querySelectorAll(".btnDelete");
+  let modalDelete = document.querySelector(".modalDelete");
+  btnDelete.addEventListener("click",function(){
+    modalDelete.style.display = "block";
+  })
+}
+addTask();
 addEmployee();
+deleteTask();
