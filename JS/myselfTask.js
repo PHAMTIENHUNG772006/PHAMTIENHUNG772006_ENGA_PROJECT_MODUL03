@@ -9,6 +9,12 @@ let currentUser = user.find(u => u.statur === true);
 if (!currentUser) {
   window.location.href = "signIn.html";
 }
+// gắn sự kiện cho các link
+document.querySelectorAll(".link").forEach(link => {
+  link.addEventListener("click", function () {
+    link.classList.toggle("activeLink");
+  });
+});
 
 // Đăng xuất người dùng
 document.querySelector("#out").addEventListener("click", function () {

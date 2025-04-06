@@ -62,19 +62,20 @@ function renderTable() {
 
 // Phân trang
 function renderPagination() {
-  let totalPage = Math.ceil(projects.length / recordsPerPage);
+  let totalPage = Math.ceil(projects.length / recordsPerPage); // Tổng số trang được chia ra từ mảng object chia cho tổng số phần tử có thể xuất hiện
   let pagesDiv = document.querySelector("#pages");
   pagesDiv.innerHTML = "";
 
   for (let i = 1; i <= totalPage; i++) {
-    let btn = document.createElement("button");
-    btn.textContent = i;
-    btn.className = i === currentPage ? "active number" : "number";
-    btn.addEventListener("click", function () {
+    let btnNumber = document.createElement("button");
+    btnNumber.classList.toggle("btnNumber");
+    btnNumber.textContent = i;
+    btnNumber.className = i === currentPage ? "active number" : "number";
+    btnNumber.addEventListener("click", function () {
       currentPage = i;
       renderTable();
     });
-    pagesDiv.appendChild(btn);
+    pagesDiv.appendChild(btnNumber);
   }
 
   document.querySelector("#btnNext").disabled = currentPage === totalPage;
@@ -95,10 +96,10 @@ document.querySelector("#btnNext")?.addEventListener("click", function () {
   }
 });
 
-// Tabs
+// gắn sự kiện cho các link
 document.querySelectorAll(".link").forEach(link => {
   link.addEventListener("click", function () {
-    link.classList.toggle("active");
+    link.classList.toggle("activeLink");
   });
 });
 
@@ -111,8 +112,8 @@ function deleteProject() {
   let deleteIndex = null;
 
   document.querySelector("#tbody").addEventListener("click", function (event) {
-    if (event.target.classList.contains("btnDelete")) {
-      deleteIndex = event.target.dataset.index;
+    if (event.target.classList.contains("btnDelete")) {  // contains giúp kiểm tra xem key truyền vào có phải class hay không và trả về giá trị true / false
+      deleteIndex = event.target.dataset.index;// lấy địa chỉ của index được nhấn xoá
       modal.style.display = "block";
     }
   });
@@ -120,7 +121,7 @@ function deleteProject() {
   btnConfirm.addEventListener("click", function () {
     if (deleteIndex !== null) {
       let deletedProject = projects[deleteIndex];
-      let indexInAll = allProjects.findIndex(p => p.id === deletedProject.id);
+      let indexInAll = allProjects.findIndex(p => p.id === deletedProject.id);// lấy địa chỉ id của toàn bộ index các phần tử
       if (indexInAll !== -1) {
         allProjects.splice(indexInAll, 1);
       }
@@ -224,8 +225,45 @@ function addProject() {
     }
   });
 }
+function renderFilterProject() {
+  const inputSearch = document.querySelector("#inputSearch");
 
-// Khởi tạo
+  inputSearch.addEventListener("input", function () {
+    const keyword = inputSearch.value.trim().toLowerCase();
+    const tbody = document.querySelector("#tbody");
+    tbody.innerHTML = "";
+
+    // Nếu không có từ khoá, render lại toàn bộ
+    if (keyword === "") {
+      renderTable();
+      return;
+    }
+
+    // Lọc theo tên dự án (không phân biệt hoa thường)
+    let filtered = projects.filter(project =>
+      project.projectName.toLowerCase().includes(keyword)
+    );
+
+    filtered.forEach((element, index) => {
+      let originalIndex = projects.findIndex(p => p.id === element.id);
+      tbody.innerHTML += `
+        <tr>
+          <td>${element.id}</td>
+          <td>${element.projectName}</td>
+          <td>
+            <div class="btn">
+              <button class="btnFix" data-index="${originalIndex}">Sửa</button>
+              <button class="btnDelete" data-index="${originalIndex}">Xoá</button>
+              <a href="./detailProject.html?task=${originalIndex}" class="btnDetail">Chi Tiết</a>
+            </div>
+          </td>
+        </tr>
+      `;
+    });
+  });
+}
+
 renderTable();
-deleteProject();
 addProject();
+deleteProject();
+renderFilterProject();

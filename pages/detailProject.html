@@ -169,39 +169,58 @@
               <div class="form-group">
                 <label for="task-name">Tên nhiệm vụ</label>
                 <input type="text" id="task-name" placeholder="Nhập tên nhiệm vụ" />
-                <span class="errorNameTask"></span>
+                <span class="error" id="error-task-name"></span>
               </div>
               <div class="form-group">
                 <label for="assignee">Người phụ trách</label>
                 <select id="assignee">
-                  <option>Chọn người phụ trách</option>
+                  <option value="" disabled>Chọn người phụ trách</option>
+                  <option value="Lợi ải chỉa">Lợi ải chỉa</option>
+                  <option value="Huỳnh văn hải">Huỳnh văn hải</option>
+                  <option value="Nguyễn văn lợi">Nguyễn văn lợi</option>
                 </select>
+                <span class="error" id="assignee"></span>
               </div>
               <div class="form-group">
                 <label for="status">Trạng thái</label>
                 <select id="status">
                   <option>Chọn trạng thái nhiệm vụ</option>
+                  <option value="To do">To do</option>
+                  <option value="In progress">In progress</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Done">Done</option>
                 </select>
+                <span class="error" id="error-status"></span>
               </div>
               <div class="form-group">
                 <label for="start-date">Ngày bắt đầu</label>
-                <input type="date" id="start-date" />
+                <input type="date" id="startdate" />
+                <span class="error" id="error-startdate"></span>
               </div>
               <div class="form-group">
                 <label for="due-date">Hạn cuối</label>
-                <input type="date" id="due-date" />
+                <input type="date" id="duedate" />
+                <span class="error" id="error-duedate"></span>
               </div>
               <div class="form-group">
                 <label for="priority">Độ ưu tiên</label>
                 <select id="priority">
-                  <option>Chọn độ ưu tiên</option>
+                  <option disabled>Chọn độ ưu tiên</option>
+                  <option value="Cao">Cao</option>
+                  <option value="Trung bình">Trung bình</option>
+                  <option value="Thấp">Thấp</option>
                 </select>
+                <span class="error" id="error-priority"></span>
               </div>
               <div class="form-group">
-                <label for="progress">Tiến độ</label>
-                <select id="progress">
-                  <option>Chọn tiến độ</option>
+                <label for="progressTask">Tiến độ</label>
+                <select id="progressTask">
+                  <option disabled>Chọn tiến độ</option>
+                  <option value="Đúng tiến độ">Đúng tiến độ</option>
+                  <option value="Có rủi ro">Có rủi ro</option>
+                  <option value="Trễ hạn">Trễ hạn</option>
                 </select>
+                <span class="error" id="error-progress"></span>
               </div>
             </form>
           </div>
@@ -251,14 +270,14 @@
             id="footer-modalAdd"
             style="display: flex; gap: 23px; justify-content: flex-end"
           >
-            <button class="btn btnCancel" id="btnCancel">Huỷ</button>
+            <button class="btn btnCancel" id="btnCancelAdd">Huỷ</button>
             <button class="btn btnSave" id="btnSave">Lưu</button>
           </div>
         </div>
       </div>
     </div>
     <!-- Modal danh sách nhân viên -->
-    <div style="display: none" id="modalAddEployee" >
+    <div style="display: none" id="modalRenderEployee" >
       <div class="modalAdd overlay">
         <div class="add-container">
           <div class="header-modal">
@@ -266,7 +285,7 @@
             <div>
               <img
                 class="close"
-                id="closeAddProject"
+                id="closeRenderEmployee"
                 src="../assets/icons/Close_MD.png"
                 alt=""
               />
@@ -309,7 +328,7 @@
           <hr />
           <br />
           <div style="display: flex; gap: 23px; justify-content: flex-end">
-            <button class="btn btnCancel">Huỷ</button>
+            <button class="btn btnCancel" id="btnCancel">Huỷ</button>
             <button class="btn btnConfirm" id="btnConfirm">Xoá</button>
           </div>
         </div>
