@@ -33,277 +33,11 @@ document.querySelectorAll(".link").forEach(link => {
 const projectId = parseInt(window.location.search.split("?task=")[1]); // lấy địa chỉ của dự án lấy địa chỉ của danh mục dụ án
 
 let members = projectLocal[projectId].members; // láy mẳng members để đẩy giá trị nhân viên mới vào trong project
-
+addTask();
+addEmployee();
 renderEmployee();
 // lưu task lên liocal
 localStorage.setItem("tasks", JSON.stringify(tasks));
-
-function renderHeader() {
-  let nameProject = document.querySelector("#item-contents");
-  let describe = document.querySelector("#describe");
-  let projectOwner = document.querySelector("#name");
-  nameProject.textContent = `${projectLocal[projectId].projectName}`; // projectId là id của dự án cũng như là id của chủ dự án
-  describe.textContent = `${projectLocal[projectId].describe}`;
-  projectOwner.textContent = `${user[projectId].fullname}`;
-}
-
-function renderToDo() {
-  let toDo = document.querySelector("#toDo");
-  let toDolist = document.querySelector(".listToDo");
-  toDolist.innerHTML = "";
-
-  toDo.addEventListener("click", function () {
-    toDo.classList.toggle("tranform");
-
-    // Nếu danh sách đang hiển thị -> Ẩn nó
-    if (toDolist.innerHTML.trim() !== "") {
-      toDolist.innerHTML = "";
-      return; // Dừng hàm ngay sau khi ẩn
-    }
-
-    // Nếu danh sách đang ẩn -> Hiển thị lại
-    toDolist.innerHTML = tasks
-      .filter((element) => element.status === "To do")
-      .map(
-        (element) => `
-               <div class="task-row">
-              <div class="cell task-name">${element.taskName}</div>
-              <div class="cell person">${element.nameAssignee}</div>
-              <div class="cell priority">
-                <span class="${
-                  element.priority === "Thấp"
-                    ? "priority-badge low"
-                    : element.priority === "Trung bình"
-                    ? "priority-badge medium"
-                    : element.priority === "Cao"
-                    ? "priority-badge high"
-                    : ""
-                }">${element.priority}</span>
-              </div>
-              <div class="cell start-date date">${element.asignDate}</div>
-              <div class="cell deadline date">${element.dueDate}</div>
-              <div class="cell progress">
-                <span class="${
-                  element.progress === "Đúng tiến độ"
-                    ? "progress-badge in-progress"
-                    : element.progress === "Có rủi ro"
-                    ? "progress-badge on-time"
-                    : element.progress === "Trễ hạn"
-                    ? "progress-badge late"
-                    : ""
-                }">${
-                  element.progress
-                }</span>
-              </div>
-              <div class="cell actions">
-                <button class="edit-btn  fixTask">Sửa</button>
-                <button id=${element.id} class="delete-btn btnDelete">Xóa</button>
-              </div>
-            </div>
-            `
-      )
-      .join("");
-  });
-}
-
-
-function renderProgress() {
-  let toDo = document.querySelector("#progress");
-  let toDolist = document.querySelector(".listProgress");
-  toDolist.innerHTML = "";
-
-  toDo.addEventListener("click", function () {
-    toDo.classList.toggle("tranform");
-
-    // Nếu danh sách đang hiển thị -> Ẩn nó
-    if (toDolist.innerHTML.trim() !== "") {
-      toDolist.innerHTML = "";
-      return; // Dừng hàm ngay sau khi ẩn
-    }
-
-    // Nếu danh sách đang ẩn -> Hiển thị lại
-    toDolist.innerHTML = tasks
-      .filter((element) => element.status === "Progress" && element.projectId === userLogin.idUser)
-      .map(
-        (element) => `
-               <div class="task-row">
-              <div class="cell task-name">${element.taskName}</div>
-              <div class="cell person">${element.nameAssignee}</div>
-              <div class="cell priority">
-                <span  class="${
-                  element.priority === "Thấp"
-                    ? "priority-badge low"
-                    : element.priority === "Trung bình"
-                    ? "priority-badge medium"
-                    : element.priority === "Cao"
-                    ? "priority-badge high"
-                    : ""
-                }">${element.priority}</span>
-              </div>
-              <div class="cell start-date">${element.asignDate}</div>
-              <div class="cell deadline">${element.dueDate}</div>
-              <div class="cell progress">
-                <span class="${
-                  element.progress === "Đúng tiến độ"
-                    ? "progress-badge in-progress"
-                    : element.progress === "Có rủi ro"
-                    ? "progress-badge on-time"
-                    : element.progress === "Trễ hạn"
-                    ? "progress-badge late"
-                    : ""
-                }">${element.progress}</span>
-              </div>
-              <div class="cell actions">
-                <button class="edit-btn fixTask">Sửa</button>
-                <button class="delete-btn btnDelete" >Xóa</button>
-              </div>
-            </div>
-            `
-      )
-      .join("");
-  });
-}
-
-function renderPending() {
-  let toDo = document.querySelector("#pending");
-  let toDolist = document.querySelector(".listPending");
-  toDolist.innerHTML = "";
-
-  toDo.addEventListener("click", function () {
-    toDo.classList.toggle("tranform");
-
-    // Nếu danh sách đang hiển thị -> Ẩn nó
-    if (toDolist.innerHTML.trim() !== "") {
-      toDolist.innerHTML = "";
-      return; // Dừng hàm ngay sau khi ẩn
-    }
-
-    // Nếu danh sách đang ẩn -> Hiển thị lại
-    toDolist.innerHTML = tasks
-      .filter((element) => element.status === "Pending")
-      .map(
-        (element) => `
-               <div class="task-row">
-              <div class="cell task-name">${element.taskName}</div>
-              <div class="cell person">${element.nameAssignee}</div>
-              <div class="cell priority">
-                <span  class="${
-                  element.priority === "Thấp"
-                    ? "priority-badge low"
-                    : element.priority === "Trung bình"
-                    ? "priority-badge medium"
-                    : element.priority === "Cao"
-                    ? "priority-badge high"
-                    : ""
-                }">${element.priority}</span>
-              </div>
-              <div class="cell start-date">${element.asignDate}</div>
-              <div class="cell deadline">${element.dueDate}</div>
-              <div class="cell progress">
-                <span class="${
-                  element.progress === "Đúng tiến độ"
-                    ? "progress-badge in-progress"
-                    : element.progress === "Có rủi ro"
-                    ? "progress-badge on-time"
-                    : element.progress === "Trễ hạn"
-                    ? "progress-badge late"
-                    : ""
-                }">${element.progress}</span>
-              </div>
-              <div class="cell actions">
-                <button class="edit-btn fixTask">Sửa</button>
-                <button class="delete-btn btnDelete">Xóa</button>
-              </div>
-            </div>
-            `
-      )
-      .join("");
-  });
-}
-
-function renderDone() {
-  let toDo = document.querySelector("#done");
-  let toDolist = document.querySelector(".listDone");
-  toDo.addEventListener("click", function () {
-    toDo.classList.toggle("tranform");
-
-    // Nếu danh sách đang hiển thị -> Ẩn nó
-    if (toDolist.innerHTML.trim() !== "") {
-      toDolist.innerHTML = "";
-      return; // Dừng hàm ngay sau khi ẩn
-    }
-
-    // Nếu danh sách đang ẩn -> Hiển thị lại
-    toDolist.innerHTML = tasks
-      .filter((element) => element.status === "Done")
-      .map(
-        (element) => `
-             <div class="task-row">
-                <div class="cell task-name">${element.taskName}</div>
-                <div class="cell person">${element.nameAssignee}</div>
-                <div class="cell priority">
-                  <span class="${
-                    element.priority === "Thấp"
-                      ? "priority-badge low"
-                      : element.priority === "Trung bình"
-                      ? "priority-badge medium"
-                      : element.priority === "Cao"
-                      ? "priority-badge high"
-                      : ""
-                  }">
-                    ${element.priority}
-                  </span>
-                </div>
-                <div class="cell start-date">${element.asignDate}</div>
-                <div class="cell deadline">${element.dueDate}</div>
-                <div class="cell progress">
-                  <span class="${
-                    element.progress === "Đúng tiến độ"
-                      ? "progress-badge in-progress"
-                      : element.progress === "Có rủi ro"
-                      ? "progress-badge on-time"
-                      : element.progress === "Trễ hạn"
-                      ? "progress-badge late"
-                      : ""
-                  }">
-                    ${element.progress}
-                  </span>
-                </div>
-                <div class="cell actions">
-                  <button class="edit-btn fixTask">Sửa</button>
-                  <button class="delete-btn btnDelete">Xóa</button>
-                </div>
-             </div>
-          `
-      )
-      .join("");
-  });
-}
-
-
-function renderEmployee() {
-  let menu = document.querySelector("#menuEmployee");
-  let out = document.querySelector("#closeRenderEmployee");
-  let bodyModalEmployee = document.querySelector("#bodyModalEmployee")
-  menu.addEventListener("click", function () {
-    let bodyModalEmployee = document.querySelector("#modalRenderEployee");
-    bodyModalEmployee.style.display = "block"; 
-  });
-  out.addEventListener("click", function () {
-    let bodyModalEmployee = document.querySelector("#modalRenderEployee");
-    bodyModalEmployee.style.display = "none"; 
-  });
-
-  members.forEach((element) =>{
-      bodyModalEmployee = `
-              <div class="row">
-              <h3>${members.fullname}</h3>
-              <p>${members.id}</p>
-
-              </div>
-      `
-  })
-}
 
 function addEmployee() {
   let btnAddemployee = document.querySelector("#btnAddEmployee");
@@ -560,10 +294,279 @@ taskTable.addEventListener("click",function (e) {
 //   });
 // }
 // deleteTask();
+
+
+function renderHeader() {
+  let nameProject = document.querySelector("#item-contents");
+  let describe = document.querySelector("#describe");
+  let projectOwner = document.querySelector("#name");
+  nameProject.textContent = `${projectLocal[projectId].projectName}`; // projectId là id của dự án cũng như là id của chủ dự án
+  describe.textContent = `${projectLocal[projectId].describe}`;
+  projectOwner.textContent = `${user[projectId].fullname}`;
+}
+
+function renderToDo() {
+  let toDo = document.querySelector("#toDo");
+  let toDolist = document.querySelector(".listToDo");
+  toDolist.innerHTML = "";
+
+  toDo.addEventListener("click", function () {
+    toDo.classList.toggle("tranform");
+
+    // Nếu danh sách đang hiển thị -> Ẩn nó
+    if (toDolist.innerHTML.trim() !== "") {
+      toDolist.innerHTML = "";
+      return; // Dừng hàm ngay sau khi ẩn
+    }
+
+    // Nếu danh sách đang ẩn -> Hiển thị lại
+    toDolist.innerHTML = tasks
+      .filter((element) => element.status === "To do")
+      .map(
+        (element) => `
+               <div class="task-row">
+              <div class="cell task-name">${element.taskName}</div>
+              <div class="cell person">${element.nameAssignee}</div>
+              <div class="cell priority">
+                <span class="${
+                  element.priority === "Thấp"
+                    ? "priority-badge low"
+                    : element.priority === "Trung bình"
+                    ? "priority-badge medium"
+                    : element.priority === "Cao"
+                    ? "priority-badge high"
+                    : ""
+                }">${element.priority}</span>
+              </div>
+              <div class="cell start-date date">${element.asignDate}</div>
+              <div class="cell deadline date">${element.dueDate}</div>
+              <div class="cell progress">
+                <span class="${
+                  element.progress === "Đúng tiến độ"
+                    ? "progress-badge in-progress"
+                    : element.progress === "Có rủi ro"
+                    ? "progress-badge on-time"
+                    : element.progress === "Trễ hạn"
+                    ? "progress-badge late"
+                    : ""
+                }">${
+                  element.progress
+                }</span>
+              </div>
+              <div class="cell actions">
+                <button class="edit-btn  fixTask">Sửa</button>
+                <button id=${element.id} class="delete-btn btnDelete">Xóa</button>
+              </div>
+            </div>
+            `
+      )
+      .join("");
+  });
+}
+
+
+function renderProgress() {
+  let Progress = document.querySelector("#progress");
+  let listProgress = document.querySelector(".listProgress");
+  listProgress.innerHTML = "";
+
+  Progress.addEventListener("click", function () {
+    Progress.classList.toggle("tranform");
+
+    // Nếu danh sách đang hiển thị -> Ẩn nó
+    if (listProgress.innerHTML.trim() !== "") {
+      listProgress.innerHTML = "";
+      return; // Dừng hàm ngay sau khi ẩn
+    }
+
+    // Nếu danh sách đang ẩn -> Hiển thị lại
+    listProgress.innerHTML = tasks
+      .filter((element) => element.status === "Progress" && element.projectId === userLogin.idUser)
+      .map(
+        (element) => `
+               <div class="task-row">
+              <div class="cell task-name">${element.taskName}</div>
+              <div class="cell person">${element.nameAssignee}</div>
+              <div class="cell priority">
+                <span  class="${
+                  element.priority === "Thấp"
+                    ? "priority-badge low"
+                    : element.priority === "Trung bình"
+                    ? "priority-badge medium"
+                    : element.priority === "Cao"
+                    ? "priority-badge high"
+                    : ""
+                }">${element.priority}</span>
+              </div>
+              <div class="cell start-date">${element.asignDate}</div>
+              <div class="cell deadline">${element.dueDate}</div>
+              <div class="cell progress">
+                <span class="${
+                  element.progress === "Đúng tiến độ"
+                    ? "progress-badge in-progress"
+                    : element.progress === "Có rủi ro"
+                    ? "progress-badge on-time"
+                    : element.progress === "Trễ hạn"
+                    ? "progress-badge late"
+                    : ""
+                }">${element.progress}</span>
+              </div>
+              <div class="cell actions">
+                <button class="edit-btn fixTask">Sửa</button>
+                <button class="delete-btn btnDelete" >Xóa</button>
+              </div>
+            </div>
+            `
+      )
+      .join("");
+  });
+}
+
+function renderPending() {
+  let Pending = document.querySelector("#pending");
+  let listPending = document.querySelector(".listPending");
+  listPending.innerHTML = "";
+
+  Pending.addEventListener("click", function () {
+    Pending.classList.toggle("tranform");
+
+    // Nếu danh sách đang hiển thị -> Ẩn nó
+    if (listPending.innerHTML.trim() !== "") {
+      listPending.innerHTML = "";
+      return; // Dừng hàm ngay sau khi ẩn
+    }
+
+    // Nếu danh sách đang ẩn -> Hiển thị lại
+    listPending.innerHTML = tasks
+      .filter((element) => element.status === "Pending")
+      .map(
+        (element) => `
+               <div class="task-row">
+              <div class="cell task-name">${element.taskName}</div>
+              <div class="cell person">${element.nameAssignee}</div>
+              <div class="cell priority">
+                <span  class="${
+                  element.priority === "Thấp"
+                    ? "priority-badge low"
+                    : element.priority === "Trung bình"
+                    ? "priority-badge medium"
+                    : element.priority === "Cao"
+                    ? "priority-badge high"
+                    : ""
+                }">${element.priority}</span>
+              </div>
+              <div class="cell start-date">${element.asignDate}</div>
+              <div class="cell deadline">${element.dueDate}</div>
+              <div class="cell progress">
+                <span class="${
+                  element.progress === "Đúng tiến độ"
+                    ? "progress-badge in-progress"
+                    : element.progress === "Có rủi ro"
+                    ? "progress-badge on-time"
+                    : element.progress === "Trễ hạn"
+                    ? "progress-badge late"
+                    : ""
+                }">${element.progress}</span>
+              </div>
+              <div class="cell actions">
+                <button class="edit-btn fixTask">Sửa</button>
+                <button class="delete-btn btnDelete">Xóa</button>
+              </div>
+            </div>
+            `
+      )
+      .join("");
+  });
+}
+
+function renderDone() {
+  let Done = document.querySelector("#done");
+  let listPending = document.querySelector(".listPending");
+  Done.addEventListener("click", function () {
+    Done.classList.toggle("tranform");
+
+    // Nếu danh sách đang hiển thị -> Ẩn nó
+    if (listPending.innerHTML.trim() !== "") {
+      listPending.innerHTML = "";
+      return; // Dừng hàm ngay sau khi ẩn
+    }
+
+    // Nếu danh sách đang ẩn -> Hiển thị lại
+    listPending.innerHTML = tasks
+      .filter((element) => element.status === "Done")
+      .map(
+        (element) => `
+             <div class="task-row">
+                <div class="cell task-name">${element.taskName}</div>
+                <div class="cell person">${element.nameAssignee}</div>
+                <div class="cell priority">
+                  <span class="${
+                    element.priority === "Thấp"
+                      ? "priority-badge low"
+                      : element.priority === "Trung bình"
+                      ? "priority-badge medium"
+                      : element.priority === "Cao"
+                      ? "priority-badge high"
+                      : ""
+                  }">
+                    ${element.priority}
+                  </span>
+                </div>
+                <div class="cell start-date">${element.asignDate}</div>
+                <div class="cell deadline">${element.dueDate}</div>
+                <div class="cell progress">
+                  <span class="${
+                    element.progress === "Đúng tiến độ"
+                      ? "progress-badge in-progress"
+                      : element.progress === "Có rủi ro"
+                      ? "progress-badge on-time"
+                      : element.progress === "Trễ hạn"
+                      ? "progress-badge late"
+                      : ""
+                  }">
+                    ${element.progress}
+                  </span>
+                </div>
+                <div class="cell actions">
+                  <button class="edit-btn fixTask">Sửa</button>
+                  <button class="delete-btn btnDelete">Xóa</button>
+                </div>
+             </div>
+          `
+      )
+      .join("");
+  });
+}
+
+
+function renderEmployee() {
+  let menu = document.querySelector("#menuEmployee");
+  let out = document.querySelector("#closeRenderEmployee");
+  let bodyModalEmployee = document.querySelector("#bodyModalEmployee")
+  menu.addEventListener("click", function () {
+    let bodyModalEmployee = document.querySelector("#modalRenderEployee");
+    bodyModalEmployee.style.display = "block"; 
+  });
+  out.addEventListener("click", function () {
+    let bodyModalEmployee = document.querySelector("#modalRenderEployee");
+    bodyModalEmployee.style.display = "none"; 
+  });
+
+  members.forEach((element) =>{
+      bodyModalEmployee = `
+              <div class="row">
+              <h3>${members.fullname}</h3>
+              <p>${members.id}</p>
+
+              </div>
+      `
+  })
+}
+
+
+
 renderHeader();
 renderToDo();
 renderDone();
 renderProgress();
 renderPending();
-addTask();
-addEmployee();
