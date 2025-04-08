@@ -1,8 +1,8 @@
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let user = JSON.parse(localStorage.getItem("user")) || [];
 let userLogin = JSON.parse(localStorage.getItem("userLogin")) || [];
-let taskLocal = JSON.parse(localStorage.getItem("tasks")) || [];
 let projectLocal = JSON.parse(localStorage.getItem("projects")) || [];
+
 
 /// Xác định người dùng đang đăng nhập
 let currentUser = user.find((u) => u.statur === true);
@@ -32,13 +32,11 @@ document.querySelectorAll(".link").forEach(link => {
 
 const projectId = parseInt(window.location.search.split("?task=")[1]); // lấy địa chỉ của dự án lấy địa chỉ của danh mục dụ án
 
+let members = projectLocal[projectId].members; // láy mẳng members để đẩy giá trị nhân viên mới vào trong project
+
+renderEmployee();
 // lưu task lên liocal
 localStorage.setItem("tasks", JSON.stringify(tasks));
-renderHeader();
-renderDone();
-renderProgress();
-renderPending();
-renderToDo();
 
 function renderHeader() {
   let nameProject = document.querySelector("#item-contents");
@@ -70,7 +68,7 @@ function renderToDo() {
         (element) => `
                <div class="task-row">
               <div class="cell task-name">${element.taskName}</div>
-              <div class="cell person">${user[projectId].fullname}</div>
+              <div class="cell person">${element.nameAssignee}</div>
               <div class="cell priority">
                 <span class="${
                   element.priority === "Thấp"
@@ -85,13 +83,21 @@ function renderToDo() {
               <div class="cell start-date date">${element.asignDate}</div>
               <div class="cell deadline date">${element.dueDate}</div>
               <div class="cell progress">
-                <span class="progress-badge in-progress">${
+                <span class="${
+                  element.progress === "Đúng tiến độ"
+                    ? "progress-badge in-progress"
+                    : element.progress === "Có rủi ro"
+                    ? "progress-badge on-time"
+                    : element.progress === "Trễ hạn"
+                    ? "progress-badge late"
+                    : ""
+                }">${
                   element.progress
                 }</span>
               </div>
               <div class="cell actions">
                 <button class="edit-btn  fixTask">Sửa</button>
-                <button class="delete-btn btnDelete">Xóa</button>
+                <button id=${element.id} class="delete-btn btnDelete">Xóa</button>
               </div>
             </div>
             `
@@ -99,6 +105,8 @@ function renderToDo() {
       .join("");
   });
 }
+
+
 function renderProgress() {
   let toDo = document.querySelector("#progress");
   let toDolist = document.querySelector(".listProgress");
@@ -115,12 +123,12 @@ function renderProgress() {
 
     // Nếu danh sách đang ẩn -> Hiển thị lại
     toDolist.innerHTML = tasks
-      .filter((element) => element.status === "Progress")
+      .filter((element) => element.status === "Progress" && element.projectId === userLogin.idUser)
       .map(
         (element) => `
                <div class="task-row">
               <div class="cell task-name">${element.taskName}</div>
-              <div class="cell person">${user[projectId].fullname}</div>
+              <div class="cell person">${element.nameAssignee}</div>
               <div class="cell priority">
                 <span  class="${
                   element.priority === "Thấp"
@@ -177,7 +185,7 @@ function renderPending() {
         (element) => `
                <div class="task-row">
               <div class="cell task-name">${element.taskName}</div>
-              <div class="cell person">${user[projectId].fullname}</div>
+              <div class="cell person">${element.nameAssignee}</div>
               <div class="cell priority">
                 <span  class="${
                   element.priority === "Thấp"
@@ -232,7 +240,7 @@ function renderDone() {
         (element) => `
              <div class="task-row">
                 <div class="cell task-name">${element.taskName}</div>
-                <div class="cell person">${user[projectId].fullname}</div>
+                <div class="cell person">${element.nameAssignee}</div>
                 <div class="cell priority">
                   <span class="${
                     element.priority === "Thấp"
@@ -272,9 +280,11 @@ function renderDone() {
   });
 }
 
-function renderEmployeee() {
+
+function renderEmployee() {
   let menu = document.querySelector("#menuEmployee");
   let out = document.querySelector("#closeRenderEmployee");
+  let bodyModalEmployee = document.querySelector("#bodyModalEmployee")
   menu.addEventListener("click", function () {
     let bodyModalEmployee = document.querySelector("#modalRenderEployee");
     bodyModalEmployee.style.display = "block"; 
@@ -283,8 +293,17 @@ function renderEmployeee() {
     let bodyModalEmployee = document.querySelector("#modalRenderEployee");
     bodyModalEmployee.style.display = "none"; 
   });
+
+  members.forEach((element) =>{
+      bodyModalEmployee = `
+              <div class="row">
+              <h3>${members.fullname}</h3>
+              <p>${members.id}</p>
+
+              </div>
+      `
+  })
 }
-renderEmployeee();
 
 function addEmployee() {
   let btnAddemployee = document.querySelector("#btnAddEmployee");
@@ -308,10 +327,10 @@ function addEmployee() {
   save.addEventListener("click", function () {
     let email = document.querySelector("#emailEmployee").value.trim();
     let role = document.querySelector("#selectRole").value; // Lấy giá trị của select
-
+  
     // Tìm user có email khớp
     let foundUser = user.find((u) => u.email === email);
-
+  
     if (foundUser) {
       if (foundUser.role === role) {
         error.textContent = "Thành viên đã có vai trò này trong dự án!";
@@ -319,10 +338,24 @@ function addEmployee() {
         email.textContent = ""; // Xóa nội dung của ô nhập email
         role.textContent = ""; // Xóa nội dung của ô nhập vai trò
       } else {
-        foundUser.role = role;
-        localStorage.setItem("user", JSON.stringify(user));
+        let newEmployee = {
+          email,
+          role,
+          idEmployee: user.id,
+        };
+  
+        // Đẩy nhân viên mới vào mảng members của dự án hiện tại
+        members.push(newEmployee);
+  
+        // Cập nhật lại mảng members trong dự án trong projectLocal
+        projectLocal[projectId].members = members;
+  
+        // Cập nhật lại dữ liệu trong localStorage
+        localStorage.setItem("projects", JSON.stringify(projectLocal));
+  
+        // Thông báo thành công
         error.textContent = "Thêm nhân viên vào dự án thành công";
-        email.textContent= ""; // Xóa nội dung của ô nhập email
+        email.textContent = ""; // Xóa nội dung của ô nhập email
         role.textContent = ""; // Xóa nội dung của ô nhập vai trò
         error.style.color = "green";
       }
@@ -332,6 +365,35 @@ function addEmployee() {
     }
   });
 }
+function renderAssigneeOptions(members) {
+  const select = document.querySelector("#assignee");
+  select.innerHTML = '<option value="">-- Chọn nhân viên --</option>';
+
+  members.forEach((member) => {
+    let userfilter = user.find(u => u.email === member.email);
+    let name = userfilter ? userfilter.fullname : member.email;
+    let option = document.createElement("option");
+    option.value = member.email;
+    option.textContent = name;
+    select.appendChild(option);
+  });
+}
+renderAssigneeOptions(members);
+
+// function sortDuDate(){
+//   let sortFilter = document.querySelector("#sortFilter").value;
+//   sortFilter.addEventListener("click", function(){
+//       if(sortFilter === "date"){
+//         tasks.sort((a, b) => a.dueDate - b.dueDate);
+//       }else if(sortFilter === "priority"){
+//         tasks.sort((a, b) => a.priority - b.priority);
+//       }
+//   })
+  
+// }
+// sortDuDate();
+
+
 
 function addTask() {
   let btnSave = document.querySelector("#save");
@@ -339,7 +401,6 @@ function addTask() {
   let btnAddTask = document.querySelector("#btnAddTask");
   let modalAddEdit = document.querySelector("#modalAddTask");
   let btnCancel = document.querySelector("#btnCancel");
-  let selectRole = document.querySelector("#assignee");
   btnAddTask.addEventListener("click", function () {
     modalAddEdit.style.display = "block";
   });
@@ -368,6 +429,7 @@ function addTask() {
     // Lấy vùng hiển thị lỗi
     let errName = document.querySelector("#error-task-name");
     let errStart = document.querySelector("#error-startdate");
+    let errAsignee = document.querySelector("#errAssignee");
     let errDue = document.querySelector("#error-duedate");
     let errPriority = document.querySelector("#error-priority");
     let errProgress = document.querySelector("#error-progress");
@@ -384,7 +446,7 @@ function addTask() {
     }
 
     if (!assignee) {
-      errName.textContent = "Vui lòng chọn nhân viên được giao nhiệm vụ";
+      errAsignee.textContent = "Vui lòng chọn nhân viên được giao nhiệm vụ";
       isValid = false;
     }
 
@@ -425,10 +487,11 @@ function addTask() {
     if (!isValid) return;
     // Nếu hợp lệ thì tiếp tục thêm task
     let newTask = {
-      id: userLogin.userid,
+      id: Math.ceil(Math.random() * 10000),
       taskName: nameTask,
-      assigneeId: userLogin.idUser,
-      projectId: 1,
+      nameAssignee: assignee,
+      assigneeId: userLogin.idUser,// địa chỉ của người chủ project
+      projectId: userLogin.idUser,
       asignDate: convertStartDate,
       dueDate: convertDueDate,
       priority,
@@ -437,7 +500,8 @@ function addTask() {
     };
     tasks.push(newTask);
     localStorage.setItem("tasks", JSON.stringify(tasks));
-    // Reset input
+    
+    // Reset lại giá trị input
     nameTask.textContent = "";
     startdate.textContent  = "";
     duedate.textContent = "";
@@ -447,24 +511,59 @@ function addTask() {
     progress.textContent = "";
     modalAddEdit.style.display = "none"; // Đóng modal sau khi thêm task
   });
+  
 }
 
-// function deleteTask(){
-//   let btnDelete = document.querySelectorAll(".btnDelete");
-//   let modalDelete = document.querySelector(".modalDelete");
-//   btnDelete.addEventListener("click",function(){
-//     modalDelete.style.display = "block";
-//   })
-// }
-function editTask() {
-  let modalAddEdit = document.querySelector("#modalAddTask");
-  document.addEventListener("click", function (e) {
-    if (e.target.classList.contains("fixTask")) {// contains giúp kiểm tra xem key truyền vào có phải class hay không và trả về giá trị true / false
+
+
+let taskTable= document.getElementById("task-table")
+
+taskTable.addEventListener("click",function (e) {
+  if(!e.target.classList.contains("group-header")){
+    if(e.target.classList.contains('btnDelete')){
+      let taskDeleteId= e.target.id;
+      let findIndex = tasks.findIndex((e)=> e.id == taskDeleteId);
+      tasks.splice(findIndex,1)
+      localStorage.setItem("tasks",JSON.stringify(tasks));
+      renderToDo();
+    };
+    if(e.target.classList.contains('btnDelete')){
+      let taskDeleteId= e.target.id;
+      let findIndex = tasks.findIndex((e)=> e.id == taskDeleteId);
       modalAddEdit.style.display = "block";
-      // Tại đây bạn có thể lấy dữ liệu của task cần sửa để hiển thị vào form
-    }
-  });
-}
-editTask();
+      localStorage.setItem("tasks",JSON.stringify(tasks));
+      renderToDo();
+    };
+  };
+})
+
+
+// function editTask() {
+//   let modalAddEdit = document.querySelector("#modalAddTask");
+//   let nameTask = document.querySelector("#task-name").value.trim(); // Lấy tên task
+//   let duedate = document.querySelector("#duedate").value; // Lấy ngày kết thúc của task
+//   let startdate = document.querySelector("#startdate").value; // Lấy ngày bắt đầu của task
+//   let progress = document.querySelector("#progressTask").value; // Lấy tiến độ của task
+//   let priority = document.querySelector("#priority").value; // Lấy độ ưu tiên của task
+//   let status = document.querySelector("#status").value; // Lấy trạng thái của task
+//   let assignee = document.querySelector("#assignee").value; // Lấy tên nhân viên được giao nhiệm vụ
+//   let btnEdit = document.querySelector(".btnFix");
+//   // let foundTasks = tasks.find((task) => task.projectId === );
+//   btnEdit.addEventListener("click", function (event) {
+//     if (event.target.classList.contains("fixTask")) {// contains giúp kiểm tra xem key truyền vào có phải class hay không và trả về giá trị true / false
+//       editIndex = event.target.dataset.index;
+//       console.log(editIndex);
+//       let taskIndex = tasks[editIndex];
+//       modalAddEdit.style.display = "block";// Tại đây bạn có thể lấy dữ liệu của task cần sửa để hiển thị vào form
+//     }
+    
+//   });
+// }
+// deleteTask();
+renderHeader();
+renderToDo();
+renderDone();
+renderProgress();
+renderPending();
 addTask();
 addEmployee();

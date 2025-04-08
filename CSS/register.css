@@ -6,6 +6,9 @@
     color: #090914;
     margin-top: 105px;
   }
+  .container{
+    background-color: #F8F9FA;
+  }
   header{
     background-color: #090914;
     height: 50px;
@@ -30,7 +33,7 @@
     padding: 0 25px 0 25px;
     color: white;
     border: #e4e4e7;
-    background-color: white;
+    background-color: #ffff;
     justify-content: center;
     align-items: center;
 

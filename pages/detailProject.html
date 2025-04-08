@@ -42,7 +42,6 @@
                 <h3 class="logoName">HU</h3>
                 <div class="box-name">
                   <p id="name"></p>
-                  <p></p>
                   <p id="role">Project owner</p>
                 </div>
               </div>
@@ -50,7 +49,6 @@
                 <h3 class="logoName">LO</h3>
                 <div class="box-name">
                   <p id="">Lợi ải chỉa</p>
-                  <p></p>
                   <p id="role">Developer</p>
                 </div>
               </div>
@@ -59,10 +57,10 @@
               </div>
             </div>
             <div class="sortFilter">
-              <select name="" id="">
-                <option value="">sắp xếp theo</option>
-                <option value="">sắp xếp theo ngày tháng</option>
-                <option value="">sắp xếp theo độ ưu tiên</option>
+              <select name="" id="sortFilter">
+                <option value=""disabled>sắp xếp theo</option>
+                <option value="date">sắp xếp theo ngày tháng</option>
+                <option value="priority">sắp xếp theo độ ưu tiên</option>
               </select>
               <input
                 id="inputSearch"
@@ -75,7 +73,7 @@
         <!-- phần body main -->
         <div class="body-main">
           <h2>Danh sách nhiệm vụ</h2>
-          <div class="task-table">
+          <div id="task-table" class="task-table">
             <div class="table-header">
               <div class="header-cell task-name">Tên nhiệm Vụ</div>
               <div class="header-cell person">Người Phụ Trách</div>
@@ -174,10 +172,8 @@
               <div class="form-group">
                 <label for="assignee">Người phụ trách</label>
                 <select id="assignee">
-                  <option value="" disabled>Chọn người phụ trách</option>
-                  <option value="Lợi ải chỉa">Lợi ải chỉa</option>
-                  <option value="Huỳnh văn hải">Huỳnh văn hải</option>
-                  <option value="Nguyễn văn lợi">Nguyễn văn lợi</option>
+                 
+                
                 </select>
                 <span class="error" id="assignee"></span>
               </div>
@@ -277,11 +273,12 @@
       </div>
     </div>
     <!-- Modal danh sách nhân viên -->
-    <div style="display: none" id="modalRenderEployee" >
-      <div class="modalAdd overlay">
-        <div class="add-container">
+    <div style="display: none" class="modalRenderEployee overlay" id="modalRenderEployee" >
+     <div >
+      <div class="modalrender" style="background-color: #ffff">
+        <div class="render-container">
           <div class="header-modal">
-            <div><p class="headerAdd">Danh sách nhân viên</p></div>
+            <div><p class="headerrender">Thành viên</p></div>
             <div>
               <img
                 class="close"
@@ -292,22 +289,24 @@
             </div>
           </div>
           <hr class="hr"></hr>
-          <div class="bodyModalEmployee">
+          <div id="bodyModalEmployee">
            
           </div>
           <hr class="hr"></hr>
           <br />
           <div
-            id="footer-modalAdd"
+            id="footer-modalrenderEmployee"
             style="display: flex; gap: 23px; justify-content: flex-end"
           >
-           
+           <button>Đóng</button>
+           <button>Lưu</button>
           </div>
         </div>
       </div>
+     </div>
     </div>
      <!-- Model confirm xoá -->
-     <div class="overlay" style="display: none" class="modalDelete">
+     <div class="overlay" style="display: none" id="modalDelete">
       <div class="modal">
         <div class="confirm-container">
           <div class="header-modal">

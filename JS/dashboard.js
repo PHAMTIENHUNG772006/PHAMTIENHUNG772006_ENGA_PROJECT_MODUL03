@@ -14,14 +14,14 @@ if (!currentUser) {
 
 // Lọc các dự án mà user hiện tại tham gia
 let projects = allProjects.filter(project =>
-  project.members?.some(member => member.userId === userLogin.idUser)
+  project.members?.some(member => member.userId === userLogin.idUser)//kiểm tra xem có mảng members hay chưa  sẽ trả về null/undefile thay vì báo lỗi can not read
 );
 
 // Đăng xuất
 document.querySelector("#out").addEventListener("click", function () {
   let index = users.findIndex(user => user.statur === true);
   if (index !== -1) {
-    users[index].statur = false;
+    users[index].statur = false;// cập nhật trạng thái nếu như đăng xuất
     localStorage.setItem("user", JSON.stringify(users));
     window.location.href = "signIn.html";
   }
@@ -37,7 +37,7 @@ function renderTable() {
   let tbody = document.querySelector("#tbody");
   tbody.innerHTML = "";
 
-  let start = (currentPage - 1) * recordsPerPage;
+  let start = (currentPage - 1) * recordsPerPage; //Điểm bắt đầu của 
   let end = start + recordsPerPage;
   let paginatedItems = projects.slice(start, end);
 
@@ -56,7 +56,6 @@ function renderTable() {
       </tr>
     `;
   });
-
   renderPagination();
 }
 
@@ -113,19 +112,19 @@ function deleteProject() {
 
   document.querySelector("#tbody").addEventListener("click", function (event) {
     if (event.target.classList.contains("btnDelete")) {  // contains giúp kiểm tra xem key truyền vào có phải class hay không và trả về giá trị true / false
-      deleteIndex = event.target.dataset.index;// lấy địa chỉ của index được nhấn xoá
+      deleteIndex = event.target.dataset.index;// lấy địa chỉ của index được nhấn xoá từ dataset của ô delete được nhấn
       modal.style.display = "block";
     }
   });
 
   btnConfirm.addEventListener("click", function () {
     if (deleteIndex !== null) {
-      let deletedProject = projects[deleteIndex];
+      let deletedProject = projects[deleteIndex];//lấy giá trị của project cần xoá từ vị trí indexDelete
       let indexInAll = allProjects.findIndex(p => p.id === deletedProject.id);// lấy địa chỉ id của toàn bộ index các phần tử
       if (indexInAll !== -1) {
         allProjects.splice(indexInAll, 1);
       }
-      projects.splice(deleteIndex, 1);
+      projects.splice(deleteIndex, 1);//
       saveAllProjects();
       modal.style.display = "none";
       renderTable();
@@ -155,7 +154,7 @@ function addProject() {
   });
 
   document.querySelector("#tbody").addEventListener("click", function (event) {
-    if (event.target.classList.contains("btnFix")) {
+    if (event.target.classList.contains("btnFix")) {  // contains giúp kiểm tra xem key truyền vào có phải class hay không và trả về giá trị true / false
       editIndex = event.target.dataset.index;
       let project = projects[editIndex];
       document.querySelector("#nameProject").value = project.projectName;
@@ -169,7 +168,7 @@ function addProject() {
   closeBtn.addEventListener("click", () => (modal.style.display = "none"));
 
   btnSave.addEventListener("click", function () {
-    let name = document.querySelector("#nameProject").value.trim();
+    let name = document.querySelector("#nameProject").value.trim();// lấy giá trị của input Tên dự án cần sửa
     let description = document.querySelector("#describes").value.trim();
 
     if (!name) {
@@ -217,7 +216,7 @@ function addProject() {
 
       // Cập nhật danh sách dự án của user đăng nhập
       projects = allProjects.filter(project =>
-        project.members?.some(member => member.userId === userLogin.idUser)
+        project.members.some(member => member.userId === userLogin.idUser)
       );
 
       modal.style.display = "none";
@@ -226,7 +225,7 @@ function addProject() {
   });
 }
 function renderFilterProject() {
-  const inputSearch = document.querySelector("#inputSearch");
+  let inputSearch = document.querySelector("#searchProject");
 
   inputSearch.addEventListener("input", function () {
     const keyword = inputSearch.value.trim().toLowerCase();

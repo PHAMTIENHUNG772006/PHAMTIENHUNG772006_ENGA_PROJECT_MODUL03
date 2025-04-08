@@ -30,14 +30,12 @@ form.addEventListener("submit", function (event) {
         errors[1].textContent = "Mật khẩu không được để trống";
         hasError = true;
     } else if (!isStrongPassword(password)) {
-        errors[0].textContent = "Mật khẩu không đúng định dạng";
+        errors[1].textContent = "Mật khẩu không đủ mạnh";
         hasError = true; 
     }
 
     if (!hasError) {
-        console.log(email);
-        console.log(user);
-        
+       
         
         // Tìm người dùng có email khớp
         let foundUser = user.find(user => user.email === email);
@@ -48,7 +46,8 @@ form.addEventListener("submit", function (event) {
             // Chuyển hướng đến trang dashboard
             window.location.href = "dashboard.html";
         } else {
-            alert("Email hoặc mật khẩu không đúng!");
+            errors[1].textContent = "Email hoặc mật khẩu không đúng!";
+            errors[0].textContent = "Email hoặc mật khẩu không đúng!";
         }
         
         let idUserLogin = foundUser.id;
