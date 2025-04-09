@@ -21,7 +21,7 @@ a {
 header {
   background-color: #212529;
 }
-.link:hover{
+.link:hover {
   color: #c2bdbd;
   font-size: 17px;
 }
@@ -29,6 +29,9 @@ header {
   color: #b4aeae;
   font-weight: 600;
   font-size: 18px;
+}
+.red {
+  color: red;
 }
 h2 {
   width: auto;
@@ -139,7 +142,7 @@ footer {
   line-height: 24px;
   color: #212529;
 }
-#role {
+#roleEmployee {
   color: #aca3a3;
 }
 span {
@@ -239,6 +242,7 @@ span {
 .bodyModalEmployee {
   height: 100px;
 }
+
 .icon {
   width: 24px;
   height: 24px;
@@ -322,7 +326,11 @@ span {
   align-items: center;
   border-top: 1px solid #dee2e6;
   border-left: 1px solid #dee2e6;
+  color: #000000;
   border-collapse: collapse;
+}
+.date {
+  color: #0d6efd;
 }
 
 .task-name {
@@ -596,10 +604,14 @@ label {
   border-bottom-left-radius: 7px;
   border-top-width: 1px;
 }
-.header-modal{
+.containerShowEmployee {
+  display: flex;
+  justify-content: space-between;
+}
+.header-modal {
   padding: 16px 21px;
 }
-.modalrender{
+.modalrender {
   width: 598px;
   border-radius: 7px;
   background-color: #ffff;
@@ -607,15 +619,75 @@ label {
   left: 30%;
   top: 39px;
 }
-#footer-modalrenderEmployee{
+.listEmployee {
+  display: flex;
+  gap: 16px;
+}
+.contentHeader{
+  width: 120px;
+height: 24px;
+font-weight: 600;
+font-size: 24px;
+line-height: 24px;
+letter-spacing: 0px;
+text-align: center;
+
+}
+.headerrender{
+  width: 99px;
+height: 30px;
+font-weight: 400;
+font-size: 20px;
+line-height: 30px;
+letter-spacing: 0px;
+
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0px;
+}
+#footer-modalrenderEmployee {
   background-color: #ffff;
   padding: 16px 21px;
   border-radius: 7px;
 }
+.iconTrash {
+  width: 20px;
+  height: 20px;
+  top: 3.5px;
+  left: 178px;
+}
+.inputRole {
+  width: 148px;
+  height: 26px;
+  left: 14px;
+  border-width: 1px;
+  border-radius: 3px;
+  border: 1px solid #d0d5dd;
+}
 #bodyModalEmployee {
-  min-height: 100px;
-  background-color: #ffff;
   height: auto;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: #ffff;
+  padding: 16px 20px;
+}
+#listEmployeeRigth {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 .headerrender {
   font-weight: 400;
@@ -624,4 +696,65 @@ label {
   letter-spacing: 0px;
   color: #212529;
 }
+.btnCloseModalEmploye {
+  width: 64px;
+  height: 38px;
+  border-width: 1px;
+  border-radius: 6px;
+  color: #ffff;
+  background-color: #6c757d;
+}
+.btnSaveModalEmploye {
+  width: 54px;
+  height: 38px;
+  border-width: 1px;
+  border-radius: 6px;
+  background-color: #0d6efd;
+  color: #ffff;
+  border: none;
+}
+.nameMembers {
+  width: auto;
+  height: 20px;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 19.2px;
+  letter-spacing: 0px;
+  color: #212529;
+}
+.emailMembers {
+  width: 187px;
+  height: 21px;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 21px;
+  letter-spacing: 0px;
+}
+.roleMembers {
+  width: 187px;
+  height: 21px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0px;
+  color: #c1c1c3;
+}
 
+/* CSS modal xoá */
+.body-modal {
+  display: flex;
+  align-items: center;
+}
+.textDelete {
+  padding: 14px 22px;
+}
+.body-modal {
+  padding: 14px 22px;
+}
+#footer-modal-delte {
+  padding: 14px 22px;
+}
+.btnConfirm {
+  background-color: #f44336;
+  color: #ffff;
+}

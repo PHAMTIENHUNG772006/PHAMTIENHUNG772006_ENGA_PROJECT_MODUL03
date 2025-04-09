@@ -28,8 +28,12 @@
         <!-- phần đầu của body  -->
         <div class="header-main">
           <div class="header-left-main">
-            <h2 class="item-contents" id="item-contents"></h2>
-            <p class="describe" id="describe"></p>
+            <h2 class="item-contents" id="item-contents">
+
+            </h2>
+            <p class="describe" id="describe">
+
+            </p>
             <div><button class="btnAddTask" id="btnAddTask">+ Thêm nhiệm vụ</button></div>
           </div>
           <div class="header-right-main">
@@ -39,17 +43,29 @@
             </div>
             <div class="tag">
               <div class="box">
-                <h3 class="logoName">HU</h3>
+                <h3 id="logoName">
+                  <!-- logo tên chủ dự án -->
+                </h3>
                 <div class="box-name">
-                  <p id="name"></p>
+                  <p id="name">
+                    <!-- tên chủ dự án -->
+
+                  </p>
                   <p id="role">Project owner</p>
                 </div>
               </div>
               <div class="box">
-                <h3 class="logoName">LO</h3>
+                <h3 class="logoName logoEmployee"
+                id="logoEmployee">
+                  <!-- logo nhân viên -->
+                </h3>
                 <div class="box-name">
-                  <p id="">Lợi ải chỉa</p>
-                  <p id="role">Developer</p>
+                  <p id="nameEmployee">
+                    <!-- tên nhân viên dự án -->
+                  </p>
+                  <p id="roleEmployee">
+                    <!-- vị trí của nhân viên -->
+                  </p>
                 </div>
               </div>
               <div>
@@ -86,7 +102,7 @@
 
             <!-- task cần làm -->
             <div class="task-group">
-              <div class="group-header">
+              <div id="statusTodo" class="group-header">
                 <img
                   id="toDo"
                   class="icon"
@@ -95,12 +111,14 @@
                 />
                 To do
               </div>
-              <div class="listToDo"></div>
+              <div class="listToDo">
+
+              </div>
             </div>
 
             <!-- Đang triển khai -->
             <div class="task-group">
-              <div class="group-header">
+              <div id="statusProgress" class="group-header">
                 <img
                   id="progress"
                   class="icon"
@@ -109,12 +127,14 @@
                 />
                 In Progress
               </div>
-              <div class="listProgress"></div>
+              <div class="listProgress">
+
+              </div>
             </div>
 
             <!-- Chờ đợi -->
             <div class="task-group">
-              <div class="group-header">
+              <div id="statusPending" class="group-header">
                 <img
                   id="pending"
                   class="icon"
@@ -128,7 +148,7 @@
 
             <!-- Hoàn thành -->
             <div class="task-group">
-              <div class="group-header">
+              <div id="StarusDone" class="group-header">
                 <img
                   id="done"
                   class="icon"
@@ -172,8 +192,8 @@
               <div class="form-group">
                 <label for="assignee">Người phụ trách</label>
                 <select id="assignee">
-                 
-                
+
+
                 </select>
                 <span class="error" id="assignee"></span>
               </div>
@@ -190,7 +210,7 @@
               </div>
               <div class="form-group">
                 <label for="start-date">Ngày bắt đầu</label>
-                <input type="date" id="startdate" />
+                <input type="date" id="startDate" />
                 <span class="error" id="error-startdate"></span>
               </div>
               <div class="form-group">
@@ -210,7 +230,7 @@
               </div>
               <div class="form-group">
                 <label for="progressTask">Tiến độ</label>
-                <select id="progressTask">
+                <select id="progressTasks">
                   <option disabled>Chọn tiến độ</option>
                   <option value="Đúng tiến độ">Đúng tiến độ</option>
                   <option value="Có rủi ro">Có rủi ro</option>
@@ -224,7 +244,7 @@
         <hr>
         <div class="footerAdd">
           <button type="button" class="cancel" id="btnCancel">Hủy</button>
-          <button type="submit" class="save" id="save">Lưu</button>
+          <button type="submit" class="save" id="btnSaveTask">Lưu</button>
         </div>
       </div>
     </div>
@@ -249,7 +269,7 @@
             <form action="">
               <label for="">Email</label>
               <input id="emailEmployee" type="text" />
-              <span class="error" id="error"></span>
+              <span class="error" id="errorEmail"></span>
               <label for="">Vai trò</label>
               <select name="" id="selectRole" class="selectRole">
                 <option value="">--Lựa chọn--</option>
@@ -258,6 +278,7 @@
                 <option value="Reviewer">Reviewer</option>
                 <option value="Maneger">Maneger</option>
               </select>
+              <span class="error" id="errorRole"></span>
             </form>
           </div>
           <hr class="hr"></hr>
@@ -289,8 +310,12 @@
             </div>
           </div>
           <hr class="hr"></hr>
+          <div style="display: flex; justify-content: space-between; padding: 18px 97px;">
+            <h2 class="contentHeader">Thành viên</h2>
+            <h2 class="contentHeader">Vai trò</h2>
+          </div>
           <div id="bodyModalEmployee">
-           
+
           </div>
           <hr class="hr"></hr>
           <br />
@@ -298,13 +323,14 @@
             id="footer-modalrenderEmployee"
             style="display: flex; gap: 23px; justify-content: flex-end"
           >
-           <button>Đóng</button>
-           <button>Lưu</button>
+           <button class="btnCloseModalEmploye" id="btnCloseModalEmployee">Đóng</button>
+           <button class="btnSaveModalEmploye">Lưu</button>
           </div>
         </div>
       </div>
      </div>
     </div>
+
      <!-- Model confirm xoá -->
      <div class="overlay" style="display: none" id="modalDelete">
       <div class="modal">
@@ -314,7 +340,7 @@
             <div>
               <img
                 class="close"
-                id="close"
+                id="closeModalDelete"
                 src="../assets/icons/Close_MD.png"
                 alt=""
               />
@@ -326,9 +352,9 @@
           </div>
           <hr />
           <br />
-          <div style="display: flex; gap: 23px; justify-content: flex-end">
-            <button class="btn btnCancel" id="btnCancel">Huỷ</button>
-            <button class="btn btnConfirm" id="btnConfirm">Xoá</button>
+          <div id="footer-modal-delte" style="display: flex; gap: 23px; justify-content: flex-end">
+            <button class="btn btnCancel" id="btnCancelTask">Huỷ</button>
+            <button class="btn btnConfirm" id="btnConfirmEmploye">Xoá</button>
           </div>
         </div>
       </div>

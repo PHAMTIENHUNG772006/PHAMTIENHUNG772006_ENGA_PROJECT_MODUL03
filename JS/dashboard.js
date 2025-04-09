@@ -142,14 +142,16 @@ function addProject() {
   let btnCancel = document.querySelector("#btnCancel");
   let closeBtn = document.querySelector("#closeProject");
   let btnSave = document.querySelector("#btnSave");
-  let error = document.querySelector("#error");
+  let errorName = document.querySelector("#errorName");
+  let errorDescribe = document.querySelector("#errorDescribe")
   let editIndex = null;
 
   btnAdd.addEventListener("click", function () {
     modal.style.display = "block";
     document.querySelector("#nameProject").value = "";
     document.querySelector("#describes").value = "";
-    error.textContent = "";
+    errorName.textContent = "";
+    errorDescribe.textContent = "";
     editIndex = null;
   });
 
@@ -159,7 +161,8 @@ function addProject() {
       let project = projects[editIndex];
       document.querySelector("#nameProject").value = project.projectName;
       document.querySelector("#describes").value = project.describe;
-      error.textContent = "";
+      errorName.textContent = "";
+      errorDescribe.textContent = "";
       modal.style.display = "block";
     }
   });
@@ -171,9 +174,17 @@ function addProject() {
     let name = document.querySelector("#nameProject").value.trim();// lấy giá trị của input Tên dự án cần sửa
     let description = document.querySelector("#describes").value.trim();
 
+    if (name.length < 5 || name.length > 50) {
+      errorName.textContent = "Vui lòng nhập tên dự án có độ dài khoảng 5-50 kí tự";
+      errorName.classList = "red";
+    }
+    if (description.length < 5 || description.length > 50) {
+      errorDescribe.textContent = "Vui lòng nhập mô tả dự án có độ dài khoảng 5-50 kí tự";
+      errorDescribe.classList = "red";
+      return;
+    }
     if (!name) {
       error.textContent = "Vui lòng nhập tên dự án";
-      return;
     }
 
     if (editIndex !== null) {
@@ -182,7 +193,6 @@ function addProject() {
         error.textContent = "Tên dự án đã tồn tại";
         return;
       }
-
       // Cập nhật trong cả allProjects
       let project = projects[editIndex];
       let indexInAll = allProjects.findIndex(p => p.id === project.id);
@@ -198,7 +208,8 @@ function addProject() {
     } else {
       let duplicate = allProjects.find(p => p.projectName === name);
       if (duplicate) {
-        error.textContent = "Tên dự án đã tồn tại";
+        errorName.textContent = "Tên dự án đã tồn tại";
+        errorName.classList = "red";
         return;
       }
 
@@ -251,7 +262,7 @@ function renderFilterProject() {
           <td>${element.projectName}</td>
           <td>
             <div class="btn">
-              <button class="btnFix" data-index="${originalIndex}">Sửa</button>
+              <button id=${element.id} class="btnFix" data-index="${originalIndex}">Sửa</button>
               <button class="btnDelete" data-index="${originalIndex}">Xoá</button>
               <a href="./detailProject.html?task=${originalIndex}" class="btnDetail">Chi Tiết</a>
             </div>

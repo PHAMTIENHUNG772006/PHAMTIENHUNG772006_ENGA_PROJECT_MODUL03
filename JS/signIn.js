@@ -55,6 +55,7 @@ form.addEventListener("submit", function (event) {
         let Login = {
             email,
             password,
+            fullname: foundUser.fullname,
             idUser: idUserLogin,
         }
         localStorage.setItem("userLogin",JSON.stringify(Login));// lưu dữ liệu người đang đăng nhập lên local

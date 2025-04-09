@@ -6,7 +6,10 @@
   color: #090914;
   margin-top: 105px;
 }
-
+.container{
+  height: 100vh;
+  background-color: #f2f2f6;
+}
 header{
   background-color: #090914;
   height: 50px;
