@@ -28,7 +28,7 @@
         <!-- phần đầu của body  -->
         <div class="header-main">
           <div class="header-left-main">
-            <h2 class="item-contents" id="item-contents">
+            <h2 class="item-contents" id="nameProject">
 
             </h2>
             <p class="describe" id="describe">
@@ -88,84 +88,85 @@
         </div>
         <!-- phần body main -->
         <div class="body-main">
-          <h2>Danh sách nhiệm vụ</h2>
-          <div id="task-table" class="task-table">
-            <div class="table-header">
-              <div class="header-cell task-name">Tên nhiệm Vụ</div>
-              <div class="header-cell person">Người Phụ Trách</div>
-              <div class="header-cell priority">Ưu Tiên</div>
-              <div class="header-cell start-date">Ngày Bắt Đầu</div>
-              <div class="header-cell deadline">Hạn Chót</div>
-              <div class="header-cell progress">Tiến độ</div>
-              <div class="header-cell actions">Hành động</div>
-            </div>
+          <h2 class="h2HeaderMain">Danh sách nhiệm vụ</h2>
+          <table>
+            <thead>
+              <tr>
+                <th class="textth">Tên Nhiệm Vụ</th>
+                <th class="textth">Người Phụ Trách</th>
+                <th class="textth">Ưu Tiên</th>
+                <th class="textth">Ngày Bắt Đầu</th>
+                <th class="textth">Hạn Chót</th>
+                <th class="textth">Tiến độ</th>
+                <th class="textth">Hành động</th>
+              </tr>
+            </thead>
+          
+            <!-- TO DO SECTION -->
+            <tbody>
+              <tr class="section-header">
+                <td colspan="7"  >
+                 <div class="headerList">
+                  <img class="icon" id="iconToDo" src="../assets/icons/Triangle.png" alt="">
+                  <p class="nameList">To Do</p>
+                 </div>
+                  </td>
+              </tr>
+            </tbody>
+            <tbody id="listTodo" class="hidden tableTask">
+             
+            </tbody>
+          
+            <!-- IN PROGRESS -->
+            <tbody id="bodyInProgress">
+              <tr class="section-header">
+                <td colspan="7"  >
+                  <div class="headerList">
+                   <img class="icon" id="iconProgress" src="../assets/icons/Triangle.png" alt="">
+                   <p class="nameList">In Progress</p>
+                  </div>
+                   </td>
+              </tr>
+            </tbody>
+            <tbody id="listProgress">
+             
+            </tbody>
+          
+            <!-- PENDING -->
+            <tbody id="bodyPending">
+              <tr class="section-header" >
+                <td colspan="7"  >
+                  <div class="headerList">
+                   <img class="icon" id="iconPending" src="../assets/icons/Triangle.png" alt="">
+                   <p class="nameList">Pending</p>
+                  </div>
+                   </td>
+              </tr>
+            </tbody>
+            <tbody id="listPending" class="hidden tableTask">
 
-            <!-- task cần làm -->
-            <div class="task-group">
-              <div id="statusTodo" class="group-header">
-                <img
-                  id="toDo"
-                  class="icon"
-                  src="../assets/icons/Triangle.png"
-                  alt=""
-                />
-                To do
-              </div>
-              <div class="listToDo">
+            </tbody>
+          
+            <!-- DONE -->
+            <tbody id="bodyDone">
+              <tr class="section-header">
+                <td colspan="7"  >
+                  <div class="headerList">
+                   <img class="icon" id="iconDone" src="../assets/icons/Triangle.png" alt="">
+                   <p class="nameList">Done</p>
+                  </div>
+                  </td>
+              </tr>
+            </tbody>
+            <tbody id="listDone" class="hidden tableTask">
 
-              </div>
-            </div>
-
-            <!-- Đang triển khai -->
-            <div class="task-group">
-              <div id="statusProgress" class="group-header">
-                <img
-                  id="progress"
-                  class="icon"
-                  src="../assets/icons/Triangle.png"
-                  alt=""
-                />
-                In Progress
-              </div>
-              <div class="listProgress">
-
-              </div>
-            </div>
-
-            <!-- Chờ đợi -->
-            <div class="task-group">
-              <div id="statusPending" class="group-header">
-                <img
-                  id="pending"
-                  class="icon"
-                  src="../assets/icons/Triangle.png"
-                  alt=""
-                />
-                Pending
-              </div>
-              <div class="listPending"></div>
-            </div>
-
-            <!-- Hoàn thành -->
-            <div class="task-group">
-              <div id="StarusDone" class="group-header">
-                <img
-                  id="done"
-                  class="icon"
-                  src="../assets/icons/Triangle.png"
-                  alt=""
-                />
-                Done
-              </div>
-              <div class="listDone"></div>
-            </div>
-          </div>
-        </div>
+            </tbody>
+          </table>
       </div>
-      <footer class="footer">
-        <p>&#169; Team management. All rights reserved</p>
-      </footer>
     </div>
+    <footer class="footer">
+      <p>&#169; Team management. All rights reserved</p>
+    </footer>
     <!-- phần modal thêm, sửa nhiệm vụ -->
     <div style="display: none" class="modal-container overlay" id="modalAddTask" >
       <div class="modal">
@@ -200,7 +201,7 @@
               <div class="form-group">
                 <label for="status">Trạng thái</label>
                 <select id="status">
-                  <option>Chọn trạng thái nhiệm vụ</option>
+                  <option disabled>Chọn trạng thái nhiệm vụ</option>
                   <option value="To do">To do</option>
                   <option value="In progress">In progress</option>
                   <option value="Pending">Pending</option>
@@ -273,7 +274,6 @@
               <label for="">Vai trò</label>
               <select name="" id="selectRole" class="selectRole">
                 <option value="">--Lựa chọn--</option>
-                <option value="Project owner">Project owner</option>
                 <option value="Developer">Developer </option>
                 <option value="Reviewer">Reviewer</option>
                 <option value="Maneger">Maneger</option>
@@ -353,8 +353,8 @@
           <hr />
           <br />
           <div id="footer-modal-delte" style="display: flex; gap: 23px; justify-content: flex-end">
-            <button class="btn btnCancel" id="btnCancelTask">Huỷ</button>
-            <button class="btn btnConfirm" id="btnConfirmEmploye">Xoá</button>
+            <button class="btn btn-cancel  btnCancel" id="btnCancelTask">Huỷ</button>
+            <button class="btn btn-delete btnConfirmTask" id="btnConfirmEmployee">Xoá</button>
           </div>
         </div>
       </div>

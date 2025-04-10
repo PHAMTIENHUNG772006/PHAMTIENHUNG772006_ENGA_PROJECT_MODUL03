@@ -4,6 +4,11 @@ let form = document.querySelector("#form");
 let users = JSON.parse(localStorage.getItem("user")) || [];
 let userLogin = JSON.parse(localStorage.getItem("userLogin")) || [];
 
+// Nếu như người dùng đã đăng nhập rồi, thì chuyể hướng họ về trang trươc đó
+if (userLogin){
+    window.history.back()
+}
+
 form.addEventListener("submit", function (event) {
     event.preventDefault(); // Ngăn form gửi đi mặc định
     let email = document.querySelector("#inputEmail").value.trim();

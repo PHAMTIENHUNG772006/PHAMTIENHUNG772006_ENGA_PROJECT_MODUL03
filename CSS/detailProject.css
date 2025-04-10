@@ -51,6 +51,15 @@ h2 {
   letter-spacing: 0px;
   color: #ffff;
 }
+.h2HeaderMain{
+  width: auto;
+  height: 24px;
+  font-weight: 500;
+  font-size: 19.72px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  color: #212529;
+}
 
 .link-container {
   display: flex;
@@ -239,178 +248,135 @@ span {
 .tranform {
   transform: rotate(90deg);
 }
-.bodyModalEmployee {
-  height: 100px;
-}
-
-.icon {
-  width: 24px;
-  height: 24px;
-}
-.task-table {
+table {
   width: 100%;
   border-collapse: collapse;
+  top: 197px;
+  left: 12px;
+  border-radius: 6px;
+  border-width: 1px;
+}
+#listTodo {
+  display: none;
 }
 
-.table-header {
-  display: flex;
-  background-color: #f9f9f9;
-  border-bottom: 1px solid #ddd;
-  font-weight: bold;
+td {
+  border: 1px solid #ddd;
+  text-align: center;
+  padding: 8px;
+  background-color: #ffffff;
 }
-
-.header-cell {
-  padding: 12px 15px;
-  text-align: left;
-  width: 65px;
+th {
+  border: 1px solid #dfe0e1;
+  padding: 8px;
+  border-radius: 1px;
+  background-color: #f8f9fa;
+}
+.textth {
+  width: 97px;
+  height: 24px;
   font-weight: 800;
-  font-size: 15.58px;
-  text-align: center;
-  color: #000000;
-}
-
-.task-name {
-  flex: 3;
-}
-
-.person {
-  flex: 2;
-}
-
-.priority,
-.start-date,
-.deadline,
-.progress {
-  flex: 1;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0px;
   text-align: center;
 }
-
-.actions {
-  flex: 1;
-  text-align: center;
+tr {
+  height: 41px;
+  top: 1px;
+  left: 1px;
+  border-width: 1px;
 }
-
-.task-group {
-  border-bottom: 1px solid #eee;
-}
-
-.group-header {
-  padding: 10px 15px;
-  background-color: #fff;
-  cursor: pointer;
+.section-header {
   font-weight: bold;
-  display: flex;
-  align-items: center;
+  cursor: pointer;
+  background-color: #f9f9f9;
 }
-
-.group-header i {
-  margin-right: 10px;
-}
-
-.group-content {
-  background-color: #fff;
-}
-
-.task-row {
-  display: flex;
-  border-bottom: 1px solid #eee;
-}
-
-.task-row:last-child {
-  border-bottom: none;
-}
-
-.cell {
-  padding: 12px 15px;
-  display: flex;
-  align-items: center;
-  border-top: 1px solid #dee2e6;
-  border-left: 1px solid #dee2e6;
-  color: #000000;
-  border-collapse: collapse;
-}
-.date {
-  color: #0d6efd;
-}
-
-.task-name {
-  flex: 3;
-}
-
-.person {
-  flex: 2;
-}
-
-.priority,
-.start-date,
-.deadline,
-.progress {
-  flex: 1;
-  justify-content: center;
-}
-
-.actions {
-  flex: 1;
-  justify-content: center;
-  gap: 5px;
-}
-.priority-badge,
-.progress-badge {
-  padding: 5px 10px;
-  border-radius: 15px;
+.badge {
+  padding: 4px 8px;
+  border-radius: 8px;
   font-size: 12px;
-  color: white;
+  color: #ffff;
+}
+.badge-low {
+  background-color: #0DCAF0;
+}
+.badge-medium {
+  background-color: #FFA500;
+}
+.badge-higth {
+  background-color: #DC3545;
+}
+.badge-done {
+  background-color: #198754;
+}
+.date{
+  color: #0D6EFD;
+}
+.btnList{
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+}
+.nameTask{
+  width: 20%;
+}
+.btn {
+  width: 53px;
+  height: 33px;
   text-align: center;
-}
-/*  màu của chế độ ưu tiên */
-.priority-badge.high {
-  background-color: #00bcd4;
-}
-
-.priority-badge.medium {
-  background-color: #ff9800;
-}
-
-.priority-badge.low {
-  background-color: #f44336;
-}
-/*  màu của tiến độ dự án */
-.progress-badge.in-progress {
-  background-color: #4caf50;
-}
-
-.progress-badge.on-time {
-  background-color: #ff9800;
-}
-
-.progress-badge.late {
-  background-color: #f44336;
-}
-
-.edit-btn,
-.delete-btn {
-  padding: 5px 15px;
-  border: none;
   border-radius: 4px;
+  border-width: 1px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
   color: white;
-  font-weight: bold;
 }
-
-.edit-btn {
-  background-color: #ffc107;
+.btn-edit {
+  color: #ffff;
+  background-color: #FFC107;
 }
-
-.delete-btn {
-  background-color: #f44336;
+.btn-cancel,
+.btn-edit,
+.btn-cancel{
+  width: 53px;
+  height: 33px;
+  border-radius: 4px;
+  border-width: 1px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
-
-.edit-btn:hover {
-  background-color: #e0a800;
+.btnConfirmTask{
+  width: 53px;
+  height: 33px;
+  border-radius: 4px;
+  border-width: 1px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
-
-.delete-btn:hover {
-  background-color: #d32f2f;
+.btn-delete {
+  width: 53px;
+  height: 33px;
+  border-radius: 4px;
+  border-width: 1px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #ffff;
+  background-color: #DC3545;
+}
+.task-row {
+  background-color: #fff;
+}
+.hidden {
+  display: none;
 }
 /* CSS phần modal thêm sửa */
 .header-modal {
@@ -471,6 +437,10 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
+.btn {
+  display: flex;
+  gap: 16px;
+}
 .cancel {
   width: 58px;
   height: 37px;
@@ -495,6 +465,23 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+.headerList {
+  display: flex;
+  align-items: center;
+}
+.nameList {
+  width: auto;
+  height: 20px;
+  font-weight: 800;
+  font-size: 15.47px;
+  line-height: 20px;
+  letter-spacing: 0px;
 }
 
 /* Css modal thêm thành viên */
@@ -531,7 +518,7 @@ form {
   align-items: center;
   justify-content: center;
 }
-
+/* css modal thêm task */
 #modalAddContainer {
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
@@ -623,24 +610,22 @@ label {
   display: flex;
   gap: 16px;
 }
-.contentHeader{
+.contentHeader {
   width: 120px;
-height: 24px;
-font-weight: 600;
-font-size: 24px;
-line-height: 24px;
-letter-spacing: 0px;
-text-align: center;
-
+  height: 24px;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  text-align: center;
 }
-.headerrender{
+.headerrender {
   width: 99px;
-height: 30px;
-font-weight: 400;
-font-size: 20px;
-line-height: 30px;
-letter-spacing: 0px;
-
+  height: 30px;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: 0px;
 }
 .avatar {
   width: 40px;
