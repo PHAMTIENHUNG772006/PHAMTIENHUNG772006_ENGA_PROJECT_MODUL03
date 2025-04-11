@@ -51,10 +51,10 @@
                     <!-- tên chủ dự án -->
 
                   </p>
-                  <p id="role">Project owner</p>
+                  <p class="role">Project owner</p>
                 </div>
               </div>
-              <div class="box">
+              <div class="box" id="listLogoEmployee">
                 <h3 class="logoName logoEmployee"
                 id="logoEmployee">
                   <!-- logo nhân viên -->
@@ -63,7 +63,7 @@
                   <p id="nameEmployee">
                     <!-- tên nhân viên dự án -->
                   </p>
-                  <p id="roleEmployee">
+                  <p class="role" id="roleEmployee">
                     <!-- vị trí của nhân viên -->
                   </p>
                 </div>
@@ -93,18 +93,19 @@
             <thead>
               <tr>
                 <th class="textth">Tên Nhiệm Vụ</th>
-                <th class="textth">Độ ưu tiên</th>
-                <th class="textth">Trạng thái</th>
+                <th class="textth">Người Phụ Trách</th>
+                <th class="textth">Ưu Tiên</th>
                 <th class="textth">Ngày Bắt Đầu</th>
                 <th class="textth">Hạn Chót</th>
                 <th class="textth">Tiến độ</th>
+                <th class="textth">Hành động</th>
               </tr>
             </thead>
           
             <!-- TO DO SECTION -->
             <tbody>
               <tr class="section-header">
-                <td colspan="6"  >
+                <td colspan="7"  >
                  <div class="headerList">
                   <img class="icon" id="iconToDo" src="../assets/icons/Triangle.png" alt="">
                   <p class="nameList">To Do</p>
@@ -119,7 +120,7 @@
             <!-- IN PROGRESS -->
             <tbody id="bodyInProgress">
               <tr class="section-header">
-                <td colspan="6"  >
+                <td colspan="7"  >
                   <div class="headerList">
                    <img class="icon" id="iconProgress" src="../assets/icons/Triangle.png" alt="">
                    <p class="nameList">In Progress</p>
@@ -134,7 +135,7 @@
             <!-- PENDING -->
             <tbody id="bodyPending">
               <tr class="section-header" >
-                <td colspan="6"  >
+                <td colspan="7"  >
                   <div class="headerList">
                    <img class="icon" id="iconPending" src="../assets/icons/Triangle.png" alt="">
                    <p class="nameList">Pending</p>
@@ -232,7 +233,7 @@
                 <span class="error" id="error-priority"></span>
               </div>
               <div class="form-group">
-                <label for="progressTask">Tiến độ</label>
+                <label for="progressTasks">Tiến độ</label>
                 <select id="progressTasks">
                   <option disabled>Chọn tiến độ</option>
                   <option value="Đúng tiến độ">Đúng tiến độ</option>
@@ -342,7 +343,7 @@
             <div>
               <img
                 class="close"
-                id="closeModalDeleteTask"
+                id="closeModalEditStatur"
                 src="../assets/icons/Close_MD.png"
                 alt=""
               />
@@ -364,3 +365,4 @@
     <script src="../JS/detailProduct.js"></script>
   </body>
 </html>
+

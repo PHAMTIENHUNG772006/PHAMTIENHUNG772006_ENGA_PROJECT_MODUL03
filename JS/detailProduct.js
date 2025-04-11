@@ -16,7 +16,7 @@ let sectionState = {
 };
 
 let projectLocal = JSON.parse(localStorage.getItem("projects")) || [];
-const projectId = parseInt(window.location.search.split("?task=")[1]); //  lấy địa chỉ của danh mục dụ án
+let projectId = parseInt(window.location.search.split("?task=")[1]); //  lấy địa chỉ của danh mục dụ án
 let members = projectLocal[projectId].members; // lấy mảng members từ mảng projet
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let user = JSON.parse(localStorage.getItem("user")) || [];
@@ -41,23 +41,15 @@ document.querySelector("#out").addEventListener("click", function () {
 // gắn sự kiện cho các link
 document.querySelectorAll(".link").forEach((link) => {
   link.addEventListener("click", function () {
-    link.classList.toggle("activeLink");
+    link.classList.toggle("active");
   });
 });
-
-// Lấy danh sách các task từ localStorage
-function toggleList(status, listId) {
-  let list = document.querySelector(listId);
-  if (list.style.display === "table-row-group") {
-    list.style.display = "none";
-    sectionState[status] = false;
-  } else {
-    list.style.display = "table-row-group";
-    sectionState[status] = true;
-    renderTaskList(status, list);
-  }
-  localStorage.setItem("sectionState", JSON.stringify(sectionState));
-}
+let icon = document.querySelectorAll(".icon");
+icon.forEach((icon) => {
+  icon.addEventListener("click", function () {
+    icon.classList.toggle("tranform");
+  });
+});
 
 // Gán sự kiện cho các icon để mở/đóng danh sách task
 function setupToggleEvents() {
@@ -81,7 +73,9 @@ console.log(projectLocal[projectId].id);
 // Hàm render danh sách task theo trạng thái
 function renderTaskList(status, listElement) {
   listElement.innerHTML = "";
-  let filteredTasks = tasks.filter((t) => t.status === status && t.projectId === projectLocal[projectId].id);
+  let filteredTasks = tasks.filter(
+    (t) => t.status === status && t.projectId === projectLocal[projectId].id
+  );
   filteredTasks.forEach((task) => {
     let tr = document.createElement("tr");
     tr.innerHTML = `
@@ -132,6 +126,11 @@ let closeProject = document.querySelector("#closeProject");
 
 btnAddTask.addEventListener("click", function () {
   modalAddEdit.style.display = "block";
+  // XÓA TOÀN BỘ GIÁ TRỊ INPUT KHI MỞ LẠI FORM
+  resetForm();
+
+  // XÓA TOÀN BỘ LỖI
+  document.querySelectorAll(".red").forEach((e) => (e.textContent = ""));
 
   btnSave.addEventListener("click", function () {
     let nameTask = document.querySelector("#task-name").value.trim();
@@ -143,10 +142,10 @@ btnAddTask.addEventListener("click", function () {
     let progress = document.querySelector("#progressTasks").value;
 
     let convertStartDate = startdate
-      ? new Date(startdate).toLocaleDateString("vi-VN")
+      ? new Date(startdate).toLocaleDateString("vi-VN") // Chuyển đổi ngày tháng về dd/mm/yy
       : "";
     let convertDueDate = duedate
-      ? new Date(duedate).toLocaleDateString("vi-VN")
+      ? new Date(duedate).toLocaleDateString("vi-VN") // Chuyển đổi ngày tháng về dd/mm/yy
       : "";
     let errName = document.querySelector("#error-task-name");
     let errStart = document.querySelector("#error-startdate");
@@ -161,14 +160,21 @@ btnAddTask.addEventListener("click", function () {
 
     let isValid = true;
 
-
     if (!nameTask) {
       errName.textContent = "Vui lòng nhập tên task";
       errName.classList = "red";
       isValid = false;
-    }else if(nameTask.length < 5 || nameTask.length > 50){
+    } else if (nameTask.length < 5 || nameTask.length > 50) {
       errName.textContent = "Số lượng kí tự của bạn không đủ hoặc quá lớn";
       errName.classList.add("red");
+    }
+    let isDuplicate = tasks.some(
+      (task) => task.taskName.toLowerCase() === nameTask.toLowerCase() 
+    );
+    if (isDuplicate) {
+      errName.textContent = "Tên task đã tồn tại";
+      errName.classList = "red";
+      isValid = false;
     }
 
     if (!assignee) {
@@ -192,18 +198,21 @@ btnAddTask.addEventListener("click", function () {
     if (startdate && duedate) {
       let start = new Date(startdate);
       let end = new Date(duedate);
+      console.log(start, end);
+
       let today = new Date();
       today.setHours(0, 0, 0, 0);
       if (start > end) {
         errStart.textContent = "Ngày bắt đầu phải trước ngày kết thúc";
         errStart.classList = "red";
         isValid = false;
-      }else  if(start < today) {
-        errStart.textContent = "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại";
+      } else if (start < today) {
+        errStart.textContent =
+          "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại";
         errStart.classList = "red";
         isValid = false;
+      }
     }
-  }
 
     if (!priority) {
       errPriority.textContent = "Vui lòng chọn độ ưu tiên";
@@ -232,8 +241,8 @@ btnAddTask.addEventListener("click", function () {
         ? 3
         : ""; // lấy giá trị của tiến  độ để tiến hành sắp xếp
 
-    const userData = user.find((u) => u.fullname === assignee);
-    const assigneeId = userData?.id || null;
+    let userData = user.find((u) => u.fullname === assignee);
+    let assigneeId = userData?.id || null;
 
     if (
       !nameTask ||
@@ -253,6 +262,7 @@ btnAddTask.addEventListener("click", function () {
       nameAssignee: assignee,
       assigneeId,
       projectId: projectLocal[projectId].id,
+      projectName: projectLocal[projectId].projectName,
       status,
       asignDate: convertStartDate,
       dueDate: convertDueDate,
@@ -263,43 +273,31 @@ btnAddTask.addEventListener("click", function () {
 
     tasks.push(newTask);
     localStorage.setItem("tasks", JSON.stringify(tasks));
+    //reset lại giá trị ở các ô input trong form
+    resetForm();
     modalAddEdit.style.display = "none";
     refreshRenderedSections();
   });
 });
 
 closeProject.addEventListener("click", function () {
-  [errName, errStart, errDue, errPriority, errProgress, errStatus, errAssignee].forEach(
-    (e) => {
-      if (e) {
-        e.textContent = "";
-        e.classList.remove("red");
-      }
-    }
-  );
   modalAddEdit.style.display = "none";
 });
 
 btnCancel.addEventListener("click", function () {
-  [errName, errStart, errDue, errPriority, errProgress, errStatus, errAssignee].forEach(
-    (e) => {
-      if (e) {
-        e.textContent = "";
-        e.classList.remove("red");
-      }
-    }
-  );
   modalAddEdit.style.display = "none";
 });
-/**
- * Hàm chuyển năm tháng ngày về ngày tháng năm để render ra theo cấu trúc bài
- * @param {*} dateStr tham số của hàm
- * @returns trả về dd/mm/yy
- */
-function convertToInputDate(dateStr) {
-  let [day, month, year] = dateStr.split("/");
-  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+function resetForm() {
+  document.querySelector("#task-name").value = "";
+  document.querySelector("#assignee").value = "";
+  document.querySelector("#status").value = "";
+  document.querySelector("#startDate").value = "";
+  document.querySelector("#duedate").value = "";
+  document.querySelector("#priority").value = "";
+  document.querySelector("#progressTasks").value = "";
+  document.querySelectorAll(".red").forEach((e) => (e.textContent = ""));
 }
+
 // Xóa task
 function handleDelete(id) {
   let modalDelete = document.querySelector("#modalDelete");
@@ -332,10 +330,16 @@ function handleDelete(id) {
     modalDelete.style.display = "none";
   });
 }
+/**
+ * Hàm có nhiệm vụ xoá task
+ * @param {*} id là địa chỉ của task cần xoá thông qua id
+ * @returns trả về địa chỉ id của task cần xoá
+ * Author : Phạm Tiến Hưng
+ */
 function handleEditTask(id) {
   let btnSaveTask = document.querySelector("#btnSaveTask");
   let modalAddEdit = document.querySelector("#modalAddEditTask");
-  let task = tasks.find(t => t.id === id);
+  let task = tasks.find((t) => t.id === id);
   if (!task) return;
 
   modalAddEdit.style.display = "block";
@@ -344,7 +348,9 @@ function handleEditTask(id) {
   document.querySelector("#task-name").value = task.taskName;
   document.querySelector("#assignee").value = task.nameAssignee;
   document.querySelector("#status").value = task.status;
-  document.querySelector("#startDate").value = convertToInputDate(task.asignDate);
+  document.querySelector("#startDate").value = convertToInputDate(
+    task.asignDate
+  );
   document.querySelector("#duedate").value = convertToInputDate(task.dueDate);
   document.querySelector("#priority").value = task.priority;
   document.querySelector("#progressTasks").value = task.progress;
@@ -373,22 +379,28 @@ function handleEditTask(id) {
     let errAssignee = document.querySelector("#error-assignee"); // thêm nếu chưa có trong HTML
 
     // Reset lỗi
-    [errName, errStart, errDue, errPriority, errProgress, errStatus, errAssignee].forEach(
-      (e) => {
-        if (e) {
-          e.textContent = "";
-          e.classList.remove("red");
-        }
+    [
+      errName,
+      errStart,
+      errDue,
+      errPriority,
+      errProgress,
+      errStatus,
+      errAssignee,
+    ].forEach((e) => {
+      if (e) {
+        e.textContent = "";
+        e.classList.remove("red");
       }
-    );
+    });
 
     let isValid = true;
-    
+
     if (!taskName) {
       errName.textContent = "Vui lòng nhập tên task";
       errName.classList.add("red");
       isValid = false;
-    }else if(taskName.length < 5 || taskName.length > 50){
+    } else if (taskName.length < 5 || taskName.length > 50) {
       errName.textContent = "Số lượng kí tự của bạn không đủ hoặc quá lớn";
       errName.classList.add("red");
     }
@@ -436,7 +448,9 @@ function handleEditTask(id) {
     }
 
     // Kiểm tra trùng tên task (trừ task hiện tại)
-    let duplicate = tasks.find(t => t.taskName === taskName && t.id !== task.id);
+    let duplicate = tasks.find(
+      (t) => t.taskName === taskName && t.id !== task.id
+    );
     if (duplicate) {
       errName.textContent = "Tên task đã tồn tại";
       errName.classList.add("red");
@@ -453,22 +467,35 @@ function handleEditTask(id) {
     task.dueDate = new Date(dueDate).toLocaleDateString("vi-VN");
     task.priority = priority;
     task.progress = progress;
-    task.numbersTask = priority === "Thấp" ? 1 : priority === "Trung bình" ? 2 : 3;
-    [errName, errStart, errDue, errPriority, errProgress, errStatus, errAssignee].forEach(
-      (e) => {
-        if (e) {
-          e.textContent = "";
-          e.classList.remove("red");
-        }
+    task.numbersTask =
+      priority === "Thấp" ? 1 : priority === "Trung bình" ? 2 : 3;
+    [
+      errName,
+      errStart,
+      errDue,
+      errPriority,
+      errProgress,
+      errStatus,
+      errAssignee,
+    ].forEach((e) => {
+      if (e) {
+        e.textContent = "";
+        e.classList.remove("red");
       }
-    );
-    [taskName, nameAssignee, status, startDate, dueDate, priority, progress].forEach(
-      (task) => {
-        if (task) {
-          task.textContent = "";
-        }
+    });
+    [
+      taskName,
+      nameAssignee,
+      status,
+      startDate,
+      dueDate,
+      priority,
+      progress,
+    ].forEach((task) => {
+      if (task) {
+        task.textContent = "";
       }
-    );
+    });
     localStorage.setItem("tasks", JSON.stringify(tasks));
     modalAddEdit.style.display = "none";
     refreshRenderedSections();
@@ -477,28 +504,42 @@ function handleEditTask(id) {
 
 let currentEditIndex = null;
 
-  btnSave.addEventListener("click", function () {
-    if (currentEditIndex !== null) {
-      let task = tasks[currentEditIndex];
+btnSave.addEventListener("click", function () {
+  if (currentEditIndex !== null) {
+    let task = tasks[currentEditIndex];
 
-      task.taskName = document.querySelector("#task-name").value.trim();
-      task.nameAssignee = document.querySelector("#assignee").value;
-      task.status = document.querySelector("#status").value;
-      task.asignDate = new Date(
-        document.querySelector("#startDate").value
-      ).toLocaleDateString("vi-VN");
-      task.dueDate = new Date(
-        document.querySelector("#duedate").value
-      ).toLocaleDateString("vi-VN");
-      task.priority = document.querySelector("#priority").value;
-      task.progress = document.querySelector("#progressTasks").value;
+    task.taskName = document.querySelector("#task-name").value.trim();
+    task.nameAssignee = document.querySelector("#assignee").value;
+    task.status = document.querySelector("#status").value;
+    task.asignDate = new Date(
+      document.querySelector("#startDate").value
+    ).toLocaleDateString("vi-VN");
+    task.dueDate = new Date(
+      document.querySelector("#duedate").value
+    ).toLocaleDateString("vi-VN");
+    task.priority = document.querySelector("#priority").value;
+    task.progress = document.querySelector("#progressTasks").value;
 
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-      modalAddEdit.style.display = "none";
-      currentEditIndex = null;
-      refreshRenderedSections();
-    }
-  });
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    modalAddEdit.style.display = "none";
+    currentEditIndex = null;
+    refreshRenderedSections();
+  }
+});
+
+// Lấy danh sách các task từ localStorage
+function toggleList(status, listId) {
+  let list = document.querySelector(listId);
+  if (list.style.display === "table-row-group") {
+    list.style.display = "none";
+    sectionState[status] = false;
+  } else {
+    list.style.display = "table-row-group";
+    sectionState[status] = true;
+    renderTaskList(status, list);
+  }
+  localStorage.setItem("sectionState", JSON.stringify(sectionState));
+}
 // Hàm hiển thị danh sách task theo trạng thái
 function refreshRenderedSections() {
   Object.entries(sectionState).forEach(([status, isOpen]) => {
@@ -565,7 +606,15 @@ function renderAll() {
   renderHeader();
   refreshRenderedSections();
 }
-
+/**
+ * Hàm chuyển năm tháng ngày về ngày tháng năm để render ra theo cấu trúc bài
+ * @param {*} dateStr tham số của hàm
+ * @returns trả về yy/mm/dd để đẩy lên form sửa
+ */
+function convertToInputDate(dateStr) {
+  let [day, month, year] = dateStr.split("/");
+  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+}
 // Hàm sắp xếp danh sách task theo độ ưu tiên hoặc ngày
 function sortTask() {
   let sortFilterId = document.querySelector("#sortFilter");
@@ -639,14 +688,22 @@ function searchTask() {
       tr.innerHTML = `
         <td class="nameTask">${task.taskName}</td>
         <td>${task.nameAssignee}</td>
-        <td><span class="badge ${getPriorityClass(task.priority)}">${task.priority}</span></td>
+        <td><span class="badge ${getPriorityClass(task.priority)}">${
+        task.priority
+      }</span></td>
         <td class="date">${task.asignDate}</td>
         <td class="date">${task.dueDate}</td>
-        <td><span class="badge ${getStatusClass(task.progress)}">${task.progress}</span></td>
+        <td><span class="badge ${getStatusClass(task.progress)}">${
+        task.progress
+      }</span></td>
         <td>
           <div class="btnList">
-            <button onclick="handleEditTask(${task.id})" class="btn-edit">Sửa</button>
-            <button onclick="handleDelete(${task.id})" class="btn-delete btnDeleteTask">Xoá</button>
+            <button onclick="handleEditTask(${
+              task.id
+            })" class="btn-edit">Sửa</button>
+            <button onclick="handleDelete(${
+              task.id
+            })" class="btn-delete btnDeleteTask">Xoá</button>
           </div>
         </td>
       `;
@@ -669,8 +726,6 @@ function searchTask() {
     });
   });
 }
-
-
 
 function addEmployee() {
   let btnAddemployee = document.querySelector("#btnAddEmployee");
@@ -709,12 +764,12 @@ function addEmployee() {
     let foundUser = user.find((u) => u.email === email);
     let foundMember = members.find((u) => u.email === email);
 
-     //kiểm tra email đủ mạnh hay không
-     if(!isValidEmail(email)){
+    //kiểm tra email đủ mạnh hay không
+    if (!isValidEmail(email)) {
       errorEmail.style.color = "red";
       errorEmail.textContent = "Email không đúng định dạng";
     }
-    if(email.length < 5 || email.length > 50){
+    if (email.length < 5 || email.length > 50) {
       errorEmail.style.color = "red";
       errorEmail.textContent = "Email của bạn không đủ hoặc quá số lượng kí tự";
     }
@@ -754,13 +809,11 @@ function addEmployee() {
       errorEmail.textContent = "Thành viên không tồn tại";
       errorEmail.style.color = "red";
     }
-    
   });
-  
 }
 function isValidEmail(email) {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|vn)$/;
-    return emailRegex.test(email);
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|vn)$/;
+  return emailRegex.test(email);
 }
 function renderEmployee() {
   let menu = document.querySelector("#menuEmployee");
@@ -784,8 +837,8 @@ function renderEmployee() {
   });
 }
 
- // Hàm render danh sách nhân viên
- function renderEmployeeList() {
+// Hàm render danh sách nhân viên
+function renderEmployeeList() {
   let bodyModalEmployee = document.querySelector("#bodyModalEmployee");
   bodyModalEmployee.innerHTML = "";
 
@@ -819,30 +872,35 @@ function renderEmployee() {
       <option value="Reviewer">Reviewer</option>
       <option value="Maneger">Maneger</option>
       </select>
-      <img class="iconTrash" onclick="handleDeleteMembers(${
-          member.id
-        })"  id="iconTrash" src="../assets/icons/Trash.png"></img>
+      <img class="iconTrash" onclick="handleDeleteMembers(${member.id})"  id="iconTrash" src="../assets/icons/Trash.png"></img>
       </div>
      </div>
     `;
   });
 }
-
-function handleDeleteMembers(id){
+// if(members.length > 0){
+//   let logoEmployee = document.querySelector("#logoEmployee");
+//   let nameEmployee = document.querySelector("#nameEmployee");
+//   let roleEmployee = document.querySelector("#roleEmployee");
+//   logoEmployee.textContent = members[0].email.slice(0, 2).toUpperCase();
+//   nameEmployee.textContent = members[0].nameUser;
+//   roleEmployee.textContent = members[0].role;
+// }
+function handleDeleteMembers(id) {
   let btnSaveModalEmploye = document.querySelector("#btnSaveModalEmploye");
   if (id) {
     let idMemberDelete = id;
     let filterMembersDelete = members.filter((m) => m.id === idMemberDelete);
-    members.splice(filterMembersDelete,1);
-   console.log(filterMembersDelete);
-   renderEmployeeList();
+    members.splice(filterMembersDelete, 1);
+    console.log(filterMembersDelete);
+    renderEmployeeList();
 
-   btnSaveModalEmploye.addEventListener("click",function(){
-    localStorage.setItem("projects",JSON.stringify(members));
-   })
+    btnSaveModalEmploye.addEventListener("click", function () {
+      projectLocal[projectId].members = members;
+      localStorage.setItem("projects", JSON.stringify(projectLocal));
+    });
   }
 }
-
 
 // Hàm tạo màu sắc ngẫu nhiên
 function getRandomRgbColor() {

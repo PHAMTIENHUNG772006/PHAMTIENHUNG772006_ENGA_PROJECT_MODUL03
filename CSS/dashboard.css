@@ -4,7 +4,7 @@
   justify-content: space-between;
   color: #ffffff;
   height: 40px;
-  padding: 28px 100px;
+  padding: 28px 200px;
 }
 a {
   color: #ffff;
@@ -13,6 +13,9 @@ a {
 }
 .red {
   color: red;
+}
+footer{
+  color: #ffff;
 }
 .hr {
   width: 100%;

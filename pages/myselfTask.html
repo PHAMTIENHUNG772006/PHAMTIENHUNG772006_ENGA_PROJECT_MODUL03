@@ -29,10 +29,10 @@
         <div class="header-main">
           <h2 class="h2">Quản lý nhiệm vụ</h2>
           <div class="sortFilter">
-            <select name="" id="">
+            <select name="" id="sortFilters">
               <option value="" disabled>sắp xếp theo</option>
-              <option value="1">sắp xếp theo hạn chót</option>
-              <option value="">sắp xếp theo độ ưu tiên</option>
+              <option value="date">sắp xếp theo hạn chót</option>
+              <option value="priority">sắp xếp theo độ ưu tiên</option>
             </select>
             <input
               id="inputSearch"
@@ -47,58 +47,17 @@
             <thead>
               <tr>
                 <th class="textth">Tên Nhiệm Vụ</th>
-                <th class="textth">Người Phụ Trách</th>
-                <th class="textth">Ưu Tiên</th>
+                <th class="textth">Độ ưu tiên</th>
+                <th class="textth">Trạng thái</th>
                 <th class="textth">Ngày Bắt Đầu</th>
                 <th class="textth">Hạn Chót</th>
                 <th class="textth">Tiến độ</th>
-                <th class="textth">Hành động</th>
               </tr>
             </thead>
           
             <!-- Xây dựng website thương mại điện tử -->
-            <tbody>
-              <tr class="section-header">
-                <td colspan="7"  >
-                 <div class="headerList">
-                  <img class="icon" id="app" src="../assets/icons/Triangle.png" alt="">
-                  <p class="nameList">Xây dựng website thương mại điện tử</p>
-                 </div>
-                  </td>
-              </tr>
-            </tbody>
-            <tbody id="listApp" class="hidden tbody tableTask">
+            <tbody id="listTable">
              
-            </tbody>
-          
-            <!-- Phát triển ứng dụng di động -->
-            <tbody id="bodyInProgress">
-              <tr class="section-header">
-                <td colspan="7"  >
-                  <div class="headerList">
-                   <img class="icon" id="iconProgress" src="../assets/icons/Triangle.png" alt="">
-                   <p class="nameList" >Phát triển ứng dụng di động</p>
-                  </div>
-                   </td>
-              </tr>
-            </tbody>
-            <tbody id="listWeb">
-             
-            </tbody>
-          
-            <!-- Quản lý dữ liệu khách hàng -->
-            <tbody id="bodyPending">
-              <tr class="section-header" >
-                <td colspan="7"  >
-                  <div class="headerList">
-                   <img class="icon" id="maneger" src="../assets/icons/Triangle.png" alt="">
-                   <p class="nameList" >Quản lý dữ liệu khách hàng</p>
-                  </div>
-                   </td>
-              </tr>
-            </tbody>
-            <tbody id="listManeger" class="hidden tbody tableTask">
-
             </tbody>
             <tfoot>
 
@@ -109,6 +68,33 @@
       <footer class="footer">
         <p>&#169; Team management. All rights reserved</p>
       </footer>
+    </div>
+    <div class="overlay" style="display: none" id="modalEditStatur">
+      <div class="modal">
+        <div class="confirm-container">
+          <div class="header-modal">
+            <div><p class="textComfirm">Cập nhật trạng thái</p></div>
+            <div>
+              <img
+                class="close"
+                id="closeModalEditStatur"
+                src="../assets/icons/Close_MD.png"
+                alt=""
+              />
+            </div>
+          </div>
+          <hr />
+          <div class="body-modal">
+            <p class="text">Xác nhận cập nhật trạng thái nhiệm vụ</p>
+          </div>
+          <hr />
+          <br />
+          <div id="footer-modal-delte" style="display: flex; gap: 23px; justify-content: flex-end">
+            <button class="btn btn-cancel  btnCancel" id="btnCancelTask">Huỷ</button>
+            <button class="btn btn-delete btnConfirmTask" id="btnConfirm">Xoá</button>
+          </div>
+        </div>
+      </div>
     </div>
     <script src="../JS/myselfTask.js"></script>
   </body>

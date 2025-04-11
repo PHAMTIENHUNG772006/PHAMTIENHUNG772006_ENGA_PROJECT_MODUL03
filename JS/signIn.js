@@ -57,6 +57,7 @@ form.addEventListener("submit", function (event) {
             password,
             fullname: foundUser.fullname,
             idUser: idUserLogin,
+            statur: foundUser.statur,
         }
         localStorage.setItem("userLogin",JSON.stringify(Login));// lưu dữ liệu người đang đăng nhập lên local
     }
