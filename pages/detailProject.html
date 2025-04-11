@@ -75,7 +75,7 @@
             <div class="sortFilter">
               <select name="" id="sortFilter">
                 <option value=""disabled>sắp xếp theo</option>
-                <option value="date">sắp xếp theo ngày tháng</option>
+                <option value="date">sắp xếp theo hạn chót</option>
                 <option value="priority">sắp xếp theo độ ưu tiên</option>
               </select>
               <input
@@ -93,19 +93,18 @@
             <thead>
               <tr>
                 <th class="textth">Tên Nhiệm Vụ</th>
-                <th class="textth">Người Phụ Trách</th>
-                <th class="textth">Ưu Tiên</th>
+                <th class="textth">Độ ưu tiên</th>
+                <th class="textth">Trạng thái</th>
                 <th class="textth">Ngày Bắt Đầu</th>
                 <th class="textth">Hạn Chót</th>
                 <th class="textth">Tiến độ</th>
-                <th class="textth">Hành động</th>
               </tr>
             </thead>
           
             <!-- TO DO SECTION -->
             <tbody>
               <tr class="section-header">
-                <td colspan="7"  >
+                <td colspan="6"  >
                  <div class="headerList">
                   <img class="icon" id="iconToDo" src="../assets/icons/Triangle.png" alt="">
                   <p class="nameList">To Do</p>
@@ -113,14 +112,14 @@
                   </td>
               </tr>
             </tbody>
-            <tbody id="listTodo" class="hidden tableTask">
+            <tbody id="listTodo" class="hidden tbody tableTask">
              
             </tbody>
           
             <!-- IN PROGRESS -->
             <tbody id="bodyInProgress">
               <tr class="section-header">
-                <td colspan="7"  >
+                <td colspan="6"  >
                   <div class="headerList">
                    <img class="icon" id="iconProgress" src="../assets/icons/Triangle.png" alt="">
                    <p class="nameList">In Progress</p>
@@ -135,7 +134,7 @@
             <!-- PENDING -->
             <tbody id="bodyPending">
               <tr class="section-header" >
-                <td colspan="7"  >
+                <td colspan="6"  >
                   <div class="headerList">
                    <img class="icon" id="iconPending" src="../assets/icons/Triangle.png" alt="">
                    <p class="nameList">Pending</p>
@@ -143,7 +142,7 @@
                    </td>
               </tr>
             </tbody>
-            <tbody id="listPending" class="hidden tableTask">
+            <tbody id="listPending" class="hidden tbody tableTask">
 
             </tbody>
           
@@ -158,9 +157,12 @@
                   </td>
               </tr>
             </tbody>
-            <tbody id="listDone" class="hidden tableTask">
+            <tbody  id="listDone" class="hidden tbody tableTask">
 
             </tbody>
+            <tfoot>
+
+            </tfoot>
           </table>
       </div>
     </div>
@@ -168,7 +170,7 @@
       <p>&#169; Team management. All rights reserved</p>
     </footer>
     <!-- phần modal thêm, sửa nhiệm vụ -->
-    <div style="display: none" class="modal-container overlay" id="modalAddTask" >
+    <div style="display: none" class="modal-container overlay" id="modalAddEditTask" >
       <div class="modal">
         <div class="header-modal">
           <div><p class="headerAdd">Thêm/sửa nhiệm vụ</p></div>
@@ -324,7 +326,7 @@
             style="display: flex; gap: 23px; justify-content: flex-end"
           >
            <button class="btnCloseModalEmploye" id="btnCloseModalEmployee">Đóng</button>
-           <button class="btnSaveModalEmploye">Lưu</button>
+           <button id="btnSaveModalEmploye" class="btnSaveModalEmploye">Lưu</button>
           </div>
         </div>
       </div>
@@ -340,7 +342,7 @@
             <div>
               <img
                 class="close"
-                id="closeModalDelete"
+                id="closeModalDeleteTask"
                 src="../assets/icons/Close_MD.png"
                 alt=""
               />
@@ -354,7 +356,7 @@
           <br />
           <div id="footer-modal-delte" style="display: flex; gap: 23px; justify-content: flex-end">
             <button class="btn btn-cancel  btnCancel" id="btnCancelTask">Huỷ</button>
-            <button class="btn btn-delete btnConfirmTask" id="btnConfirmEmployee">Xoá</button>
+            <button class="btn btn-delete btnConfirmTask" id="btnConfirm">Xoá</button>
           </div>
         </div>
       </div>

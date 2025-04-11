@@ -48,7 +48,7 @@ function renderTable() {
         <td>${element.projectName}</td>
         <td>
           <div class="btn">
-            <button class="btnFix" data-index="${index}">Sửa</button>
+            <button class="btnEdit" data-index="${index}">Sửa</button>
             <button class="btnDelete" data-index="${index}">Xoá</button>
             <a href="./detailProject.html?task=${index}" class="btnDetail">Chi Tiết</a>
           </div>
@@ -156,9 +156,9 @@ function addProject() {
   });
 
   document.querySelector("#tbody").addEventListener("click", function (event) {
-    if (event.target.classList.contains("btnFix")) {  // contains giúp kiểm tra xem key truyền vào có phải class hay không và trả về giá trị true / false
+    if (event.target.classList.contains("btnEdit")) {  // contains giúp kiểm tra xem key truyền vào có phải class hay không và trả về giá trị true / false
       editIndex = event.target.dataset.index;
-      let project = projects[editIndex];
+      let project = projects[editIndex];// dự án tại vị trí được tìm thấy
       document.querySelector("#nameProject").value = project.projectName;
       document.querySelector("#describes").value = project.describe;
       errorName.textContent = "";
@@ -213,16 +213,16 @@ function addProject() {
         return;
       }
 
-      let newId = allProjects.length ? Math.max(...allProjects.map(p => p.id)) + 1 : 1;
 
       let newProject = {
-        id: newId,
+        id: projects.length + 1,
         projectName: name,
         describe: description,
         members: [{ userId: userLogin.idUser, role: "Project owner" }]
       };
 
       allProjects.push(newProject);
+      modal.style.display = "none";
       localStorage.setItem("projects", JSON.stringify(allProjects));
 
       // Cập nhật danh sách dự án của user đăng nhập
@@ -230,7 +230,6 @@ function addProject() {
         project.members.some(member => member.userId === userLogin.idUser)
       );
 
-      modal.style.display = "none";
       renderTable();
     }
   });
@@ -239,8 +238,8 @@ function renderFilterProject() {
   let inputSearch = document.querySelector("#searchProject");
 
   inputSearch.addEventListener("input", function () {
-    const keyword = inputSearch.value.trim().toLowerCase();
-    const tbody = document.querySelector("#tbody");
+    let keyword = inputSearch.value.trim().toLowerCase();
+    let tbody = document.querySelector("#tbody");
     tbody.innerHTML = "";
 
     // Nếu không có từ khoá, render lại toàn bộ

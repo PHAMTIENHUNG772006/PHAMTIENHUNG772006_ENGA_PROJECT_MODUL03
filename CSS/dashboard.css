@@ -6,20 +6,20 @@
   height: 40px;
   padding: 28px 100px;
 }
-a{
+a {
   color: #ffff;
   text-decoration: none;
   font-size: 15px;
 }
-.red{
+.red {
   color: red;
 }
-.hr{
+.hr {
   width: 100%;
-  border-bottom: 1px solid #DDDEE0;
-  color: #DEE2E6;
+  border-bottom: 1px solid #dddee0;
+  color: #dee2e6;
 }
-.link:hover{
+.link:hover {
   color: #c2bdbd;
   font-size: 17px;
 }
@@ -28,20 +28,20 @@ a{
   transition: all 0.3 linear;
   text-decoration: none;
 }
-.activeLink{
+.activeLink {
   color: #717272;
 }
 header {
   background-color: #212529;
 }
-.contentHeader{
+.contentHeader {
   width: 1246px;
-height: 28px;
-font-weight: 500;
-font-size: 23.59px;
-line-height: 28.8px;
-letter-spacing: 0px;
-color: #212529;
+  height: 28px;
+  font-weight: 500;
+  font-size: 23.59px;
+  line-height: 28.8px;
+  letter-spacing: 0px;
+  color: #212529;
 }
 h2 {
   width: auto;
@@ -61,14 +61,13 @@ h2 {
   letter-spacing: 0px;
   color: #ffff;
 }
-.listProject{
+.listProject {
   width: 1246px;
-height: 24px;
-font-weight: 500;
-font-size: 19.77px;
-line-height: 24px;
-letter-spacing: 0px;
-
+  height: 24px;
+  font-weight: 500;
+  font-size: 19.77px;
+  line-height: 24px;
+  letter-spacing: 0px;
 }
 .link-container {
   display: flex;
@@ -116,6 +115,21 @@ h3 {
   display: flex;
   justify-content: space-between;
   margin-top: 24px;
+  cursor: pointer;
+}
+.btnEdit:hover {
+  background-color: #e8b006;
+}
+.btnEdit {
+  width: 61px;
+  height: 31px;
+  top: 8px;
+  left: 27px;
+  border-radius: 4px;
+  border-width: 1px;
+  background-color: #ffc107;
+  border: none;
+  cursor: pointer;
 }
 #btnAdd {
   max-width: 150px;
@@ -126,6 +140,7 @@ h3 {
   background-color: #0d6efd;
   color: #ffff;
   border: none;
+  cursor: pointer;
 }
 #btnAdd:hover {
   background-color: #0850bd;
@@ -168,7 +183,7 @@ h3 {
 }
 
 /* nút xoá và sang trang chi tiết */
-.btnFix {
+.btnEdit{
   background-color: #ffc107;
   color: #000000;
   border: none;
@@ -176,6 +191,7 @@ h3 {
   height: 31px;
   border-radius: 4px;
   border-width: 1px;
+  cursor: pointer;
 }
 .btnDelete {
   background-color: #dc3545;
@@ -185,6 +201,7 @@ h3 {
   border-radius: 4px;
   border-width: 1px;
   border: none;
+  cursor: pointer;
 }
 
 .btnFix:hover {
@@ -197,7 +214,7 @@ h3 {
   transition: all 0.3s linear;
   color: #ffff;
 }
-.btnConfirm{
+.btnConfirm {
   background-color: #dc3545;
   color: #ffff;
   width: 58px;
@@ -277,7 +294,7 @@ h3 {
   color: #0d6efd;
   border: 1px solid #dee2e6;
 }
-.number:hover{
+.number:hover {
   background-color: #0759d4;
   transition: all 0.3s linear;
 }
@@ -294,7 +311,7 @@ h3 {
 }
 /* Modal delete */
 
-.modal-container{
+.modal-container {
   background-color: #000000;
 }
 .confirm-container {
@@ -320,9 +337,8 @@ h3 {
   gap: 31px;
   height: 65px;
   padding: 17px 12px;
-
 }
-.footerDelete{
+.footerDelete {
   padding: 17px 12px;
 }
 .textComfirm {
@@ -334,28 +350,27 @@ h3 {
   letter-spacing: 0px;
   vertical-align: middle;
 }
-.text{
-height: 63px;
-font-weight: 400;
-font-size: 16px;
-line-height: 24px;
-padding-top: 16px;
+.text {
+  height: 63px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  padding-top: 16px;
 }
 /* modal add Project */
-#modalAddContainer{
-
-width: 480px;
-height: 415px;
+#modalAddContainer {
+  width: 480px;
+  height: 415px;
 }
-.body-modal{
+.body-modal {
   height: 85px;
 }
-form{
+form {
   display: flex;
   flex-direction: column;
   gap: 9px;
 }
-.headerAdd{
+.headerAdd {
   width: 180px;
   height: 30px;
   font-weight: 500;
@@ -364,7 +379,7 @@ form{
 }
 
 .overlay {
-  position: fixed ;
+  position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
@@ -372,72 +387,71 @@ form{
   justify-content: center;
 }
 
-
-#modalAddContainer{
+#modalAddContainer {
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
-.body-modalAdd{
-width: 432px;
-height: auto;
-margin: 9px;
-padding: 24px 15px;
+.body-modalAdd {
+  width: 432px;
+  height: auto;
+  margin: 9px;
+  padding: 24px 15px;
 }
-.add-container{
+.add-container {
   width: 480px;
   background-color: #ffff;
   border-radius: 8px;
 }
-.header-modal{
+.header-modal {
   padding: 15px 16px;
 }
-textarea{
+textarea {
   width: 432px;
   height: 80px;
-  border: 1px solid #DDDEE0;
+  border: 1px solid #dddee0;
   padding-bottom: 10px;
 }
-#nameProject{
-width: 432px;
-height: 44px;
-border-radius: 8px;
-gap: 8px;
-border-width: 1px;
-padding-top: 10px;
-padding-right: 14px;
-padding-bottom: 10px;
-padding-left: 14px;
-border: 1px solid #DDDEE0;
+#nameProject {
+  width: 432px;
+  height: 44px;
+  border-radius: 8px;
+  gap: 8px;
+  border-width: 1px;
+  padding-top: 10px;
+  padding-right: 14px;
+  padding-bottom: 10px;
+  padding-left: 14px;
+  border: 1px solid #dddee0;
 }
-.btnSave{
+.btnSave {
   width: 58px;
-height: 37px;
-background-color: #0D6EFD;
-color: #ffff;
-border: 1px solid #0D6EFD;
-border-radius: 8px;
-border-width: 1px;
+  height: 37px;
+  background-color: #0d6efd;
+  color: #ffff;
+  border: 1px solid #0d6efd;
+  border-radius: 8px;
+  border-width: 1px;
 }
-.btnCancel{
+.btnCancel {
   width: 58px;
-height: 37px;
-border-radius: 8px;
-background-color: #6C757D;
-border: 1px solid #6C757D;
-color: #ffff;
-gap: 8px;
-border-width: 1px;
-padding-top: 10px;
-padding-right: 18px;
-padding-bottom: 10px;
-padding-left: 18px;
+  height: 37px;
+  border-radius: 8px;
+  background-color: #6c757d;
+  border: 1px solid #6c757d;
+  color: #ffff;
+  gap: 8px;
+  border-width: 1px;
+  padding-top: 10px;
+  padding-right: 18px;
+  padding-bottom: 10px;
+  padding-left: 18px;
 }
-label{
-font-weight: 500;
-font-size: 16px;
-line-height: 20px;
-letter-spacing: 0%;
-color: #344054;
+label {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  color: #344054;
 }
-#footer-modalAdd{
+#footer-modalAdd {
   padding: 8px 24px;
 }
