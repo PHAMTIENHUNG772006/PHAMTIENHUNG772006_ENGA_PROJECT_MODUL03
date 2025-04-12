@@ -220,7 +220,7 @@ function addProject() {
 
 
       let newProject = {
-        id: projects.length + 1,
+        id: Math.ceil(Math.random() * 100),
         projectName: name,
         describe: description,
         members: [{ userId: userLogin.idUser, role: "Project owner" }]

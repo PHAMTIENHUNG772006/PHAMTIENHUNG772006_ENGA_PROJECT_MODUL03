@@ -198,7 +198,6 @@ btnAddTask.addEventListener("click", function () {
     if (startdate && duedate) {
       let start = new Date(startdate);
       let end = new Date(duedate);
-      console.log(start, end);
 
       let today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -272,6 +271,8 @@ btnAddTask.addEventListener("click", function () {
     };
 
     tasks.push(newTask);
+    console.log(tasks);
+    
     localStorage.setItem("tasks", JSON.stringify(tasks));
     //reset lại giá trị ở các ô input trong form
     resetForm();
@@ -303,7 +304,7 @@ function handleDelete(id) {
   let modalDelete = document.querySelector("#modalDelete");
   let btnConfirmTask = document.querySelector("#btnConfirm");
   let btnCancelTask = document.querySelector("#btnCancelTask");
-  let closeModalDeleteTask = document.querySelector("#closeModalDeleteTask");
+  let closeModalDeleteTask = document.querySelector("#closeModalEditStatur");
   const taskLocals = JSON.parse(localStorage.getItem("tasks")) || [];
   modalDelete.style.display = "block";
   btnConfirmTask.addEventListener("click", function () {
@@ -569,7 +570,7 @@ function getPriorityClass(priority) {
     : priority === "Trung bình"
     ? "badge-medium"
     : priority === "Cao"
-    ? "badge-higth"
+    ? "badge-hight"
     : "";
 }
 
