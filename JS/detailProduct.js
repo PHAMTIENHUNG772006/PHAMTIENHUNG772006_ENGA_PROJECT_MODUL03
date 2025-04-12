@@ -654,7 +654,7 @@ function searchTask() {
 
     // Nếu không nhập gì, render lại toàn bộ
     if (keyword === "") {
-      refreshRenderedSections(); // gọi lại hàm render đầy đủ
+      renderAll(); // gọi lại hàm render đầy đủ
       return;
     }
 
@@ -664,16 +664,17 @@ function searchTask() {
     listPending.innerHTML = "";
     listDone.innerHTML = "";
 
-    // Lọc ra các task phù hợp với từ khoá
+    // Lọc ra các task phù hợp với từ khoá (tìm gần đúng)
     let filtered = tasks.filter((task) => {
       return (
         task.taskName.toLowerCase().includes(keyword) ||
         task.nameAssignee.toLowerCase().includes(keyword) ||
-        task.status.toLowerCase().includes(keyword) ||
         task.priority.toLowerCase().includes(keyword) ||
         task.progress.toLowerCase().includes(keyword)
       );
     });
+    console.log(filtered);
+    
 
     // Nếu không tìm thấy gì
     if (filtered.length === 0) {
@@ -689,22 +690,14 @@ function searchTask() {
       tr.innerHTML = `
         <td class="nameTask">${task.taskName}</td>
         <td>${task.nameAssignee}</td>
-        <td><span class="badge ${getPriorityClass(task.priority)}">${
-        task.priority
-      }</span></td>
+        <td><span class="badge ${getPriorityClass(task.priority)}">${task.priority}</span></td>
         <td class="date">${task.asignDate}</td>
         <td class="date">${task.dueDate}</td>
-        <td><span class="badge ${getStatusClass(task.progress)}">${
-        task.progress
-      }</span></td>
+        <td><span class="badge ${getStatusClass(task.progress)}">${task.progress}</span></td>
         <td>
           <div class="btnList">
-            <button onclick="handleEditTask(${
-              task.id
-            })" class="btn-edit">Sửa</button>
-            <button onclick="handleDelete(${
-              task.id
-            })" class="btn-delete btnDeleteTask">Xoá</button>
+            <button onclick="handleEditTask(${task.id})" class="btn-edit">Sửa</button>
+            <button onclick="handleDelete(${task.id})" class="btn-delete btnDeleteTask">Xoá</button>
           </div>
         </td>
       `;
@@ -714,7 +707,7 @@ function searchTask() {
         case "To do":
           listToDo.appendChild(tr);
           break;
-        case "In Progress":
+        case "In progress":
           listInProgress.appendChild(tr);
           break;
         case "Pending":
@@ -727,6 +720,7 @@ function searchTask() {
     });
   });
 }
+
 
 function addEmployee() {
   let btnAddemployee = document.querySelector("#btnAddEmployee");
@@ -773,6 +767,10 @@ function addEmployee() {
     if (email.length < 5 || email.length > 50) {
       errorEmail.style.color = "red";
       errorEmail.textContent = "Email của bạn không đủ hoặc quá số lượng kí tự";
+    }
+    if (!role) {
+      errorRole.textContent = "Vui lòng chọn vị trí nhân viên trong dự án";
+      errorRole.style.color = "red";
     }
 
     if (foundUser) {

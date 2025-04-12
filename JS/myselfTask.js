@@ -45,7 +45,7 @@ myTasks.forEach((task) => {
         tasks: [],
       });
     }
-    let projectObj = myProject.find((p) => p.projectId === project.id);
+    let projectObj = myProject.find((p) => p.projectId === project.id );
     projectObj.tasks.push(task);
   }
 });
@@ -169,7 +169,7 @@ function searchTask() {
     // Lọc task theo keyword
     let filtered = myTasks.filter((task) => {
       return (
-        task.taskName.toLowerCase().includes(keyword) 
+        task.taskName.toLowerCase().includes(keyword) && task.assigneeId === userLogin.idUser
       );
     });
     console.log(filtered);
