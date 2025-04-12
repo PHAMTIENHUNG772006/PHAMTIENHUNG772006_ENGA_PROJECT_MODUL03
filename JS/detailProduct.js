@@ -6,6 +6,15 @@ document.addEventListener("DOMContentLoaded", function () {
   addEmployee();
   setupToggleEvents(); // hàm mới bạn tách ở trên
 });
+// Đăng xuất
+let out = document.querySelector("#out");
+out.addEventListener("click", function () {
+  userLogin.statur = false;// cập nhật trạng thái nếu như đăng xuất
+  if (userLogin.statur === false) {
+    window.location.href = "signIn.html";
+  }
+  localStorage.setItem("userLogin", JSON.stringify(userLogin));
+});
 
 // Trang thái hiển thị danh sách các task trong dự án
 let sectionState = {
@@ -17,26 +26,17 @@ let sectionState = {
 
 let projectLocal = JSON.parse(localStorage.getItem("projects")) || [];
 let projectId = parseInt(window.location.search.split("?task=")[1]); //  lấy địa chỉ của danh mục dụ án
-let members = projectLocal[projectId].members; // lấy mảng members từ mảng projet
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-let user = JSON.parse(localStorage.getItem("user")) || [];
+let users = JSON.parse(localStorage.getItem("user")) || [];
 let userLogin = JSON.parse(localStorage.getItem("userLogin")) || [];
-let currentUser = user.find((u) => u.statur === true); // Xác định người dùng đang đăng nhập
-
-// Kiểm tra nếu không có ai đăng nhập thì chuyển hướng về trang đăng nhập
-if (!currentUser) {
+// Kiểm tra người dùng đang đăng nhập
+let currentUser = userLogin;
+if (currentUser.statur === false) {
   window.location.href = "signIn.html";
 }
 
-// Đăng xuất người dùng
-document.querySelector("#out").addEventListener("click", function () {
-  let index = user.findIndex((u) => u.statur === true);
-  if (index !== -1) {
-    user[index].statur = false;
-    localStorage.setItem("user", JSON.stringify(user));
-    window.location.href = "signIn.html";
-  }
-});
+
+let members = projectLocal[projectId].members; // lấy mảng members từ mảng projet
 
 // gắn sự kiện cho các link
 document.querySelectorAll(".link").forEach((link) => {
@@ -241,7 +241,7 @@ btnAddTask.addEventListener("click", function () {
         ? 3
         : ""; // lấy giá trị của tiến  độ để tiến hành sắp xếp
 
-    let userData = user.find((u) => u.fullname === assignee);
+    let userData = users.find((u) => u.fullname === assignee);
     let assigneeId = userData?.id || null;
 
     if (
@@ -590,7 +590,7 @@ function renderAssigneeOptions(members) {
   select.innerHTML = '<option value="">-- Chọn nhân viên --</option>';
 
   members.forEach((member) => {
-    let userfilter = user.find((u) => u.email === member.email);
+    let userfilter = users.find((u) => u.email === member.email);
     let name = userfilter ? userfilter.fullname : member.email;
     let option = document.createElement("option");
     option.value = name;
@@ -761,7 +761,7 @@ function addEmployee() {
     let email = emailInput.value.trim();
     let role = roleSelect.value;
 
-    let foundUser = user.find((u) => u.email === email);
+    let foundUser = users.find((u) => u.email === email);
     let foundMember = members.find((u) => u.email === email);
 
     //kiểm tra email đủ mạnh hay không

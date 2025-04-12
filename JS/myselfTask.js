@@ -4,8 +4,8 @@ let projects = JSON.parse(localStorage.getItem("projects")) || [];
 let userLogin = JSON.parse(localStorage.getItem("userLogin")) || {};
 
 // Kiểm tra đăng nhập
-let currentUser = users.find((u) => u.statur === true);
-if (!currentUser) {
+let currentUser = userLogin;
+if (currentUser.statur === false) {
   window.location.href = "signIn.html";
 }
 document.addEventListener("DOMContentLoaded", function () {
@@ -13,13 +13,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Đăng xuất
-document.querySelector("#out").addEventListener("click", function () {
-  let index = users.findIndex((u) => u.statur === true);
-  if (index !== -1) {
-    users[index].status = false;
-    localStorage.setItem("user", JSON.stringify(users));
+let out = document.querySelector("#out");
+out.addEventListener("click", function () {
+  userLogin.statur = false;// cập nhật trạng thái nếu như đăng xuất
+  if (userLogin.statur === false) {
     window.location.href = "signIn.html";
   }
+  localStorage.setItem("userLogin", JSON.stringify(userLogin));
 });
 //sự kiện của
 let icon = document.querySelectorAll(".icon");

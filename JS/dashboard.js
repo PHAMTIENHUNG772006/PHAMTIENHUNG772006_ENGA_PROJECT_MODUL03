@@ -6,26 +6,31 @@ let allProjects = JSON.parse(localStorage.getItem("projects")) || [];
 let users = JSON.parse(localStorage.getItem("user")) || [];
 let userLogin = JSON.parse(localStorage.getItem("userLogin")) || [];
 
+// Đăng xuất
+let out = document.querySelector("#out");
+
+out.addEventListener("click", function () {
+  userLogin.statur = false;// cập nhật trạng thái nếu như đăng xuất
+  if (userLogin.statur === false) {
+    window.location.href = "signIn.html";
+  }
+  localStorage.setItem("userLogin", JSON.stringify(userLogin));
+});
+
 // Kiểm tra người dùng đang đăng nhập
-let currentUser = users.find(user => user.statur === true);
-if (!currentUser) {
+let currentUser = userLogin;
+if (currentUser.statur === false) {
   window.location.href = "signIn.html";
 }
+
+
 
 // Lọc các dự án mà user hiện tại tham gia
 let projects = allProjects.filter(project =>
   project.members?.some(member => member.userId === userLogin.idUser)//kiểm tra xem có mảng members hay chưa  sẽ trả về null/undefile thay vì báo lỗi can not read
 );
 
-// Đăng xuất
-document.querySelector("#out").addEventListener("click", function () {
-  let index = users.findIndex(user => user.statur === true);
-  if (index !== -1) {
-    users[index].statur = false;// cập nhật trạng thái nếu như đăng xuất
-    localStorage.setItem("user", JSON.stringify(users));
-    window.location.href = "signIn.html";
-  }
-});
+
 
 // Lưu lại toàn bộ dữ liệu
 function saveAllProjects() {
