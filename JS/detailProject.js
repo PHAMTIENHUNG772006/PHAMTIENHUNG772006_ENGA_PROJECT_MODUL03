@@ -51,6 +51,46 @@ icon.forEach((icon) => {
   });
 });
 
+
+// Lấy danh sách các task từ localStorage
+function toggleList(status, listId) {
+  let list = document.querySelector(listId);
+  if (list.style.display === "table-row-group") {
+    list.style.display = "none";
+    sectionState[status] = false;
+  } else {
+    list.style.display = "table-row-group";
+    sectionState[status] = true;
+    renderTaskList(status, list);
+  }
+  localStorage.setItem("sectionState", JSON.stringify(sectionState));
+}
+// Hàm hiển thị danh sách task theo trạng thái
+/**
+ * hàm lấy ra các địa chỉ của các body list để tiến hành render
+ */
+function refreshRenderedSections() {
+  Object.entries(sectionState).forEach(([status, isOpen]) => {
+    const listId =
+      status === "To do"
+        ? "#listTodo"
+        : status === "In progress"
+        ? "#listProgress"
+        : status === "Pending"
+        ? "#listPending"
+        : "#listDone";
+      // truy cập vào các danh sách được render
+    const list = document.querySelector(listId);// lấy địa chỉ của body chuỗi đã được chọn đẻ render
+    if (isOpen) {// nếu như trang thái 
+      list.style.display = "table-row-group";
+      renderTaskList(status, list);
+    } else {
+      list.style.display = "none";
+    }
+  });
+}
+
+
 // Gán sự kiện cho các icon để mở/đóng danh sách task
 function setupToggleEvents() {
   document
@@ -117,7 +157,7 @@ function renderHeader() {
   projectOwner.textContent = `${userLogin.fullname}`;
 }
 
-//  THÊM TASK VÀO TRONG BẢNG
+//  THÊM TASK VÀO TRONG MẢNG
 let btnAddTask = document.querySelector("#btnAddTask");
 let modalAddEdit = document.querySelector("#modalAddEditTask");
 let btnSave = document.querySelector("#btnSaveTask");
@@ -298,6 +338,16 @@ function resetForm() {
   document.querySelector("#progressTasks").value = "";
   document.querySelectorAll(".red").forEach((e) => (e.textContent = ""));
 }
+function resetError(){
+   // Lấy phần tử hiển thị lỗi
+    document.querySelector("#error-task-name").textContent = "";
+    document.querySelector("#error-startdate").textContent = "";
+    document.querySelector("#error-duedate").textContent = "";
+    document.querySelector("#error-priority").textContent = "";
+    document.querySelector("#error-progress").textContent = "";
+    document.querySelector("#error-status").textContent = "";
+    document.querySelector("#error-assignee").textContent = ""; // thêm nếu chưa có trong HTML
+}
 
 // Xóa task
 function handleDelete(id) {
@@ -305,12 +355,12 @@ function handleDelete(id) {
   let btnConfirmTask = document.querySelector("#btnConfirm");
   let btnCancelTask = document.querySelector("#btnCancelTask");
   let closeModalDeleteTask = document.querySelector("#closeModalEditStatur");
-  const taskLocals = JSON.parse(localStorage.getItem("tasks")) || [];
+  let taskLocals = JSON.parse(localStorage.getItem("tasks")) || [];
   modalDelete.style.display = "block";
   btnConfirmTask.addEventListener("click", function () {
     if (id) {
       // Tìm task trong mảng tasks
-      const filterTasks = taskLocals.filter((task) => task.id !== id);
+      let filterTasks = taskLocals.filter((task) => task.id !== id);
 
       // Lưu dữ liệu lên local
       localStorage.setItem("tasks", JSON.stringify(filterTasks));
@@ -338,9 +388,10 @@ function handleDelete(id) {
  * Author : Phạm Tiến Hưng
  */
 function handleEditTask(id) {
+  resetError();
   let btnSaveTask = document.querySelector("#btnSaveTask");
   let modalAddEdit = document.querySelector("#modalAddEditTask");
-  let task = tasks.find((t) => t.id === id);
+  let task = tasks.find((t) => t.id === id);// tìm kiếm địa chỉ id của task được nhấn thông quá onclick
   if (!task) return;
 
   modalAddEdit.style.display = "block";
@@ -352,6 +403,8 @@ function handleEditTask(id) {
   document.querySelector("#startDate").value = convertToInputDate(
      task.asignDate
   );
+
+  // convert lại giá trị của priority value từ chữ sang số để đẩy lên form
   let numbersTask =
   task.priority === "Cao"
     ? "1"
@@ -477,8 +530,7 @@ function handleEditTask(id) {
     }
 
     if (!isValid) return;
-    console.log(numbersTask);
-    
+ 
 
     // Cập nhật lại task
     task.taskName = taskName;
@@ -502,19 +554,7 @@ function handleEditTask(id) {
         e.classList.remove("red");
       }
     });
-    [
-      taskName,
-      nameAssignee,
-      status,
-      startDate,
-      dueDate,
-      priority,
-      progress,
-    ].forEach((task) => {
-      if (task) {
-        task.textContent = "";
-      }
-    });
+   resetForm();
     localStorage.setItem("tasks", JSON.stringify(tasks));
     modalAddEdit.style.display = "none";
     refreshRenderedSections();
@@ -546,40 +586,6 @@ btnSave.addEventListener("click", function () {
   }
 });
 
-// Lấy danh sách các task từ localStorage
-function toggleList(status, listId) {
-  let list = document.querySelector(listId);
-  if (list.style.display === "table-row-group") {
-    list.style.display = "none";
-    sectionState[status] = false;
-  } else {
-    list.style.display = "table-row-group";
-    sectionState[status] = true;
-    renderTaskList(status, list);
-  }
-  localStorage.setItem("sectionState", JSON.stringify(sectionState));
-}
-// Hàm hiển thị danh sách task theo trạng thái
-function refreshRenderedSections() {
-  Object.entries(sectionState).forEach(([status, isOpen]) => {
-    const listId =
-      status === "To do"
-        ? "#listTodo"
-        : status === "In progress"
-        ? "#listProgress"
-        : status === "Pending"
-        ? "#listPending"
-        : "#listDone";
-
-    const list = document.querySelector(listId);
-    if (isOpen) {
-      list.style.display = "table-row-group";
-      renderTaskList(status, list);
-    } else {
-      list.style.display = "none";
-    }
-  });
-}
 
 // Lấy màu sắc cho độ ưu tiên
 function getPriorityClass(priority) {
@@ -610,7 +616,7 @@ function renderAssigneeOptions(members) {
 
   members.filter(e => e.role !== "Project owner").forEach((member) => {
     let userfilter = users.find((u) => u.email === member.email);
-    let name = userfilter ? userfilter.fullname : member.email;
+    let name = userfilter ? userfilter.fullname : member.email;//lấy giá trị name hoặc email để gán cho option khi chọn thêm người phụ trách vào task
     let option = document.createElement("option");
     option.value = name;
     option.textContent = name;
@@ -632,7 +638,7 @@ function renderAll() {
  */
 function convertToInputDate(dateStr) {
   let [day, month, year] = dateStr.split("/");
-  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;// thêm số không vào cuối nếu ngày, tháng chỉ là một số
 }
 // Hàm sắp xếp danh sách task theo độ ưu tiên hoặc ngày
 function sortTask() {
@@ -809,7 +815,7 @@ function addEmployee() {
 
         // Gán lại vào project hiện tại
         projectLocal[projectId].members = members;
-
+        renderEmployee();
         // Cập nhật localStorage
         localStorage.setItem("projects", JSON.stringify(projectLocal));
 
@@ -828,10 +834,12 @@ function addEmployee() {
     }
   });
 }
+
 function isValidEmail(email) {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|vn)$/;
   return emailRegex.test(email);
 }
+
 function renderEmployee() {
   let menu = document.querySelector("#menuEmployee");
   let out = document.querySelector("#closeRenderEmployee");
@@ -870,7 +878,7 @@ function renderEmployeeList() {
 
   filteredMembers.forEach((member) => {
     let initials = member.email.slice(0, 2).toUpperCase();
-    let bgColor = getRandomRgbColor(); // Gọi màu random 1 lần
+    let bgColor = getRandomRgbColor(); // Gọi màu random màu background 1 lần
 
     bodyModalEmployee.innerHTML += `
      <div class="containerShowEmployee">
@@ -884,10 +892,10 @@ function renderEmployeeList() {
         </div>
       </div>
       <div id="listEmployeeRigth">
-      <select class="selectRoleAgain">
-      <option value="Developer">Developer </option>
-      <option value="Reviewer">Reviewer</option>
-      <option value="Maneger">Maneger</option>
+      <select onclick="selectRoleAgain(${member.id})" class="selectRoleAgain" id="selectRoleAgain-${member.id}">
+      <option value="Developer" ${member.role === "Developer" ? "selected" : ""}>Developer</option>
+      <option value="Reviewer" ${member.role === "Reviewer" ? "selected" : ""}>Reviewer</option>
+      <option value="Maneger" ${member.role === "Maneger" ? "selected" : ""}>Maneger</option>
       </select>
       <img class="iconTrash" onclick="handleDeleteMembers(${member.id})"  id="iconTrash" src="../assets/icons/Trash.png"></img>
       </div>
@@ -899,10 +907,34 @@ if(members.length > 0){
   let logoEmployee = document.querySelector("#logoEmployee");
   let nameEmployee = document.querySelector("#nameEmployee");
   let roleEmployee = document.querySelector("#roleEmployee");
-  logoEmployee.textContent = members[1].email.slice(0, 2).toUpperCase();
-  nameEmployee.textContent = members[1].nameUser;
-  roleEmployee.textContent = members[1].role;
+  logoEmployee.textContent = members[0].email.slice(0, 2).toUpperCase();
+  roleEmployee.textContent = members[0].role;
+  nameEmployee.textContent = members[0].nameUser;
 }
+function selectRoleAgain(id) {
+  let selectNewRole = document.querySelector(`#selectRoleAgain-${id}`);
+  let newRole = selectNewRole.value;
+  let member = members.find((m) => m.id === id);// tìm địa chỉ của nhân viên có id trùng với id Phần tử được chọn
+  if (member) {// nếu có thì cập nhật lại giá trị
+    member.role = newRole;
+  }
+  let btnSaveModalEmploye = document.querySelector("#btnSaveModalEmploye");
+  btnSaveModalEmploye.addEventListener("click", function () {
+  projectLocal[projectId].members = members;// cập nhật lại mảng members qua projectId để cập nhật lại mảng projectLocal
+  if(members.length > 0){
+    let logoEmployee = document.querySelector("#logoEmployee");
+    let nameEmployee = document.querySelector("#nameEmployee");
+    let roleEmployee = document.querySelector("#roleEmployee");
+    logoEmployee.textContent = members[0].email.slice(0, 2).toUpperCase();
+    roleEmployee.textContent = members[0].role;
+    nameEmployee.textContent = members[0].nameUser;
+  }
+  localStorage.setItem("projects", JSON.stringify(projectLocal));
+  renderEmployeeList();
+});
+
+}
+
 function handleDeleteMembers(id) {
   let btnSaveModalEmploye = document.querySelector("#btnSaveModalEmploye");
   if (id) {
@@ -913,6 +945,7 @@ function handleDeleteMembers(id) {
 
     btnSaveModalEmploye.addEventListener("click", function () {
       projectLocal[projectId].members = members;
+      renderEmployeeList();
       localStorage.setItem("projects", JSON.stringify(projectLocal));
     });
   }

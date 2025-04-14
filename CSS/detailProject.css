@@ -413,7 +413,7 @@ tr {
 }
 .modal {
   position: absolute;
-  margin-top: 33px;
+  margin-top: 5px;
   left: 40%;
   width: 400px;
   background-color: #ffff;
