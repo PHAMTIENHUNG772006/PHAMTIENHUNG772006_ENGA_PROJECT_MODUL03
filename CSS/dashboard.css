@@ -11,7 +11,7 @@ a {
   text-decoration: none;
   font-size: 15px;
 }
-.red {
+#red {
   color: red;
 }
 footer{
@@ -388,6 +388,10 @@ form {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.noProject{
+  text-align: center;
+  color: red;
 }
 
 #modalAddContainer {

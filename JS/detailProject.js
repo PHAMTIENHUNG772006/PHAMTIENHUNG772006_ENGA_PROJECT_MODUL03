@@ -68,7 +68,7 @@ function setupToggleEvents() {
     .querySelector("#iconDone")
     .addEventListener("click", () => toggleList("Done", "#listDone"));
 }
-console.log(projectLocal[projectId].id);
+
 
 // Hàm render danh sách task theo trạng thái
 function renderTaskList(status, listElement) {
@@ -126,6 +126,7 @@ let closeProject = document.querySelector("#closeProject");
 
 btnAddTask.addEventListener("click", function () {
   modalAddEdit.style.display = "block";
+  renderAssigneeOptions(members);
   // XÓA TOÀN BỘ GIÁ TRỊ INPUT KHI MỞ LẠI FORM
   resetForm();
 
@@ -230,14 +231,14 @@ btnAddTask.addEventListener("click", function () {
       errStatus.classList = "red";
       isValid = false;
     }
-
+    
     let numbersTask =
-      priority === "Thấp"
-        ? 1
-        : priority === "Trung bình"
-        ? 2
-        : priority === "Cao"
-        ? 3
+      priority === "1"
+        ? "Cao"
+        : priority === "2"
+        ?  "Trung bình"
+        : priority === "3"
+        ? "Thấp"
         : ""; // lấy giá trị của tiến  độ để tiến hành sắp xếp
 
     let userData = users.find((u) => u.fullname === assignee);
@@ -265,14 +266,13 @@ btnAddTask.addEventListener("click", function () {
       status,
       asignDate: convertStartDate,
       dueDate: convertDueDate,
-      priority,
+      priority: numbersTask,
       progress,
-      numbersTask,
+
     };
 
     tasks.push(newTask);
-    console.log(tasks);
-    
+  
     localStorage.setItem("tasks", JSON.stringify(tasks));
     //reset lại giá trị ở các ô input trong form
     resetForm();
@@ -350,10 +350,19 @@ function handleEditTask(id) {
   document.querySelector("#assignee").value = task.nameAssignee;
   document.querySelector("#status").value = task.status;
   document.querySelector("#startDate").value = convertToInputDate(
-    task.asignDate
+     task.asignDate
   );
+  let numbersTask =
+  task.priority === "Cao"
+    ? "1"
+    : priority === "Trung bình"
+    ?  "2"
+    : priority === "Thấp"
+    ? "3"
+    : ""; // lấy giá trị của tiến  độ để tiến hành sắp xếp
+
   document.querySelector("#duedate").value = convertToInputDate(task.dueDate);
-  document.querySelector("#priority").value = task.priority;
+  document.querySelector("#priority").value = numbersTask;
   document.querySelector("#progressTasks").value = task.progress;
 
   // Gỡ các sự kiện trước đó nếu có
@@ -435,6 +444,15 @@ function handleEditTask(id) {
       errPriority.classList.add("red");
       isValid = false;
     }
+    let numbersTask =
+    priority === "1"
+      ? "Cao"
+      : priority === "2"
+      ?  "Trung bình"
+      : priority === "3"
+      ? "Thấp"
+      : ""; // lấy giá trị của tiến  độ để tiến hành sắp xếp
+
 
     if (!progress) {
       errProgress.textContent = "Vui lòng chọn tiến độ";
@@ -459,6 +477,8 @@ function handleEditTask(id) {
     }
 
     if (!isValid) return;
+    console.log(numbersTask);
+    
 
     // Cập nhật lại task
     task.taskName = taskName;
@@ -466,10 +486,8 @@ function handleEditTask(id) {
     task.status = status;
     task.asignDate = new Date(startDate).toLocaleDateString("vi-VN");
     task.dueDate = new Date(dueDate).toLocaleDateString("vi-VN");
-    task.priority = priority;
+    task.priority = numbersTask;
     task.progress = progress;
-    task.numbersTask =
-      priority === "Thấp" ? 1 : priority === "Trung bình" ? 2 : 3;
     [
       errName,
       errStart,
@@ -590,7 +608,7 @@ function renderAssigneeOptions(members) {
   const select = document.querySelector("#assignee");
   select.innerHTML = '<option value="">-- Chọn nhân viên --</option>';
 
-  members.forEach((member) => {
+  members.filter(e => e.role !== "Project owner").forEach((member) => {
     let userfilter = users.find((u) => u.email === member.email);
     let name = userfilter ? userfilter.fullname : member.email;
     let option = document.createElement("option");
@@ -621,25 +639,26 @@ function sortTask() {
   let sortFilterId = document.querySelector("#sortFilter");
   sortFilterId.addEventListener("click", function () {
     let sortFilterValue = document.querySelector("#sortFilter").value;
-    console.log(sortFilterValue);
 
     if (sortFilterValue === "priority") {
       tasks.sort((a, b) => a.numbersTask - b.numbersTask);
-      localStorage.setItem("tasks", JSON.stringify(tasks));
       renderAll();
     }
     if (sortFilterValue === "date") {
       tasks.sort((a, b) => {
         let dateA = new Date(convertToInputDate(a.dueDate));
         let dateB = new Date(convertToInputDate(b.dueDate));
-        return dateA - dateB;
+        return dateB - dateA;
       });
       renderAll();
-      localStorage.setItem("tasks", JSON.stringify(tasks));
     }
   });
 }
 searchTask();
+/**
+ * hàm tìm kiếm task
+ * trả về các task được tìm thấy tr
+ */
 function searchTask() {
   let inputSearch = document.querySelector("#inputSearch");
 
@@ -673,7 +692,6 @@ function searchTask() {
         task.progress.toLowerCase().includes(keyword)
       );
     });
-    console.log(filtered);
     
 
     // Nếu không tìm thấy gì
@@ -877,21 +895,20 @@ function renderEmployeeList() {
     `;
   });
 }
-// if(members.length > 0){
-//   let logoEmployee = document.querySelector("#logoEmployee");
-//   let nameEmployee = document.querySelector("#nameEmployee");
-//   let roleEmployee = document.querySelector("#roleEmployee");
-//   logoEmployee.textContent = members[0].email.slice(0, 2).toUpperCase();
-//   nameEmployee.textContent = members[0].nameUser;
-//   roleEmployee.textContent = members[0].role;
-// }
+if(members.length > 0){
+  let logoEmployee = document.querySelector("#logoEmployee");
+  let nameEmployee = document.querySelector("#nameEmployee");
+  let roleEmployee = document.querySelector("#roleEmployee");
+  logoEmployee.textContent = members[1].email.slice(0, 2).toUpperCase();
+  nameEmployee.textContent = members[1].nameUser;
+  roleEmployee.textContent = members[1].role;
+}
 function handleDeleteMembers(id) {
   let btnSaveModalEmploye = document.querySelector("#btnSaveModalEmploye");
   if (id) {
     let idMemberDelete = id;
     let filterMembersDelete = members.filter((m) => m.id === idMemberDelete);
     members.splice(filterMembersDelete, 1);
-    console.log(filterMembersDelete);
     renderEmployeeList();
 
     btnSaveModalEmploye.addEventListener("click", function () {

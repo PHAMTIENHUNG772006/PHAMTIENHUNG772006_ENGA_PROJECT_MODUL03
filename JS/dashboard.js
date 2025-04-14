@@ -27,7 +27,7 @@ if (currentUser.statur === false) {
 
 // Lọc các dự án mà user hiện tại tham gia
 let projects = allProjects.filter(project =>
-  project.members?.some(member => member.userId === userLogin.idUser)//kiểm tra xem có mảng members hay chưa  sẽ trả về null/undefile thay vì báo lỗi can not read
+  project.members?.some(member => member.id === userLogin.idUser)//kiểm tra xem có mảng members hay chưa  sẽ trả về null/undefile thay vì báo lỗi can not read
 );
 
 
@@ -223,7 +223,7 @@ function addProject() {
         id: Math.ceil(Math.random() * 100),
         projectName: name,
         describe: description,
-        members: [{ userId: userLogin.idUser, role: "Project owner" }]
+        members: [{ id: userLogin.idUser, role: "Project owner" }]
       };
 
       allProjects.push(newProject);
@@ -232,7 +232,7 @@ function addProject() {
 
       // Cập nhật danh sách dự án của user đăng nhập
       projects = allProjects.filter(project =>
-        project.members.some(member => member.userId === userLogin.idUser)
+        project.members.some(member => member.id === userLogin.idUser)
       );
 
       renderTable();
@@ -241,6 +241,7 @@ function addProject() {
 }
 function renderFilterProject() {
   let inputSearch = document.querySelector("#searchProject");
+  
 
   inputSearch.addEventListener("input", function () {
     let keyword = inputSearch.value.trim().toLowerCase();
@@ -258,6 +259,12 @@ function renderFilterProject() {
       project.projectName.toLowerCase().includes(keyword)
     );
 
+    if (filtered.length === 0) {
+      tbody.innerHTML = `<tr><td id="red" class="noProject" colspan="7">Không tìm thấy Project phù hợp</td></tr>`
+      tbody.classList = "red";
+      return;
+    }
+
     filtered.forEach((element, index) => {
       let originalIndex = projects.findIndex(p => p.id === element.id);
       tbody.innerHTML += `
@@ -266,7 +273,7 @@ function renderFilterProject() {
           <td>${element.projectName}</td>
           <td>
             <div class="btn">
-              <button id=${element.id} class="btnFix" data-index="${originalIndex}">Sửa</button>
+              <button id=${element.id} class="btnEdit" data-index="${originalIndex}">Sửa</button>
               <button class="btnDelete" data-index="${originalIndex}">Xoá</button>
               <a href="./detailProject.html?task=${originalIndex}" class="btnDetail">Chi Tiết</a>
             </div>

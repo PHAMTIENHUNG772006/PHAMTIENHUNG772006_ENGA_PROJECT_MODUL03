@@ -39,7 +39,6 @@ form.addEventListener("submit", function (event) {
         
         // Tìm người dùng có email khớp
         let foundUser = user.find(user => user.email === email);
-        console.log(foundUser);
         if (foundUser && foundUser.password === password) {
             foundUser.statur = true;
             localStorage.setItem("user", JSON.stringify(user));// lưu dữ liệu đã được cập nhật lên local
@@ -51,7 +50,6 @@ form.addEventListener("submit", function (event) {
         }
         
         let idUserLogin = foundUser.id;
-        console.log(idUserLogin);
         let Login = {
             email,
             password,

@@ -2,6 +2,7 @@ let users = JSON.parse(localStorage.getItem("user")) || [];
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let projects = JSON.parse(localStorage.getItem("projects")) || [];
 let userLogin = JSON.parse(localStorage.getItem("userLogin")) || {};
+let currentProject = 0;
 
 // Kiểm tra đăng nhập
 let currentUser = userLogin;
@@ -10,6 +11,7 @@ if (currentUser.statur === false) {
 }
 document.addEventListener("DOMContentLoaded", function () {
   renderAllMyTask();
+  sortTask();
 });
 
 // Đăng xuất
@@ -45,7 +47,7 @@ myTasks.forEach((task) => {
         tasks: [],
       });
     }
-    let projectObj = myProject.find((p) => p.projectId === project.id );
+    let projectObj = myProject.find((p) => p.projectId === project.id);
     projectObj.tasks.push(task);
   }
 });
@@ -126,31 +128,43 @@ function convertToInputDate(dateStr) {
   return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
 }
 
+
+
+
 function sortTask() {
   let sortFilterId = document.querySelector("#sortFilters");
-
-  sortFilterId.addEventListener("click", function () {
+  sortFilterId.addEventListener("change", function () {
     let sortFilterValue = sortFilterId.value;
-    console.log(sortFilterValue);
 
     if (sortFilterValue === "priority") {
-      tasks.sort((a, b) => a.numbersTask - b.numbersTask);
-      renderAllMyTask();
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-    }
-    if (sortFilterValue === "date") {
-      tasks.sort((a, b) => {
-        let dateA = new Date(convertToInputDate(a.dueDate));
-        let dateB = new Date(convertToInputDate(b.dueDate));
-        return dateA - dateB;
+      myProject.forEach((project) => {
+        project.tasks.sort((a, b) => {
+          const priorityValue = {
+            "Thấp": 1,
+            "Trung bình": 2,
+            "Cao": 3,
+          };
+          return priorityValue[b.priority] - priorityValue[a.priority];
+        });
       });
       renderAllMyTask();
-      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+
+    if (sortFilterValue === "date") {
+      myProject.forEach((project) => {
+        project.tasks.sort((a, b) => {
+          let dateA = new Date(convertToInputDate(a.dueDate));
+          let dateB = new Date(convertToInputDate(b.dueDate));
+          return dateB - dateA;
+        });
+      });
+      renderAllMyTask();
     }
   });
 }
 
 sortTask();
+
 
 searchTask();
 function searchTask() {
@@ -169,7 +183,8 @@ function searchTask() {
     // Lọc task theo keyword
     let filtered = myTasks.filter((task) => {
       return (
-        task.taskName.toLowerCase().includes(keyword) && task.assigneeId === userLogin.idUser
+        task.taskName.toLowerCase().includes(keyword) &&
+        task.assigneeId === userLogin.idUser
       );
     });
     console.log(filtered);
@@ -177,7 +192,7 @@ function searchTask() {
 
     if (filtered.length === 0) {
       listTable.innerHTML =
-        "<tr><td colspan='6'>Không tìm thấy kết quả</td></tr>";
+        `<tr><td id="red"  colspan ='6'>Không tìm thấy kết quả</td></tr>`;
       return;
     }
 
@@ -189,16 +204,13 @@ function searchTask() {
       }
       groupedByProject[task.projectId].push(task);
     });
-    console.log(groupedByProject);
-    
+   
 
     // Render theo từng nhóm project
     for (let projectId in groupedByProject) {
-      console.log(projectId);
-      
+     
       let project = projects.find((p) => p.id === projectId);
-      console.log(project);
-      
+     
       let projectName = project ? project.projectName : "Dự án không xác định";
 
       listTable.innerHTML += `
